@@ -20,7 +20,7 @@ export default function Home() {
       <section style={{ borderBottom: "1px solid var(--border)", background: "radial-gradient(1200px 400px at 20% -10%, #16202f, transparent)" }}>
         <div className="container-x" style={{ padding: "40px 24px 32px" }}>
           <div style={{ fontSize: 12.5, letterSpacing: 1.5, textTransform: "uppercase", color: "var(--accent)", fontWeight: 700 }}>
-            De novo molecular atlas
+            CoronaryAtlas · de novo molecular map
           </div>
           <h1 style={{ fontSize: 34, fontWeight: 800, margin: "8px 0 6px", lineHeight: 1.1 }}>
             The Type&nbsp;1 Myocardial Infarction Pathway

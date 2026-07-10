@@ -1,6 +1,6 @@
-# Type 1 MI Pathway Atlas
+# CoronaryAtlas
 
-A standalone Next.js app presenting a **de novo** molecular atlas of the Type 1
+**CoronaryAtlas** — a standalone Next.js app presenting a **de novo** molecular atlas of the Type 1
 (atherothrombotic) myocardial-infarction pathway. Every molecule is placed within
 the step of the atherothrombotic cascade where it acts, and each is clickable to an
 evidence page listing its supporting literature, clinical trials, omics datasets,

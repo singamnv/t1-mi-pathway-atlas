@@ -2,7 +2,7 @@ import Header from "@/components/Header";
 import DiscriminationTable from "@/components/DiscriminationTable";
 import { getDiscrimination, getDiscriminationMeta } from "@/lib/data";
 
-export const metadata = { title: "T1 vs T2 Discrimination — AMI Atlas" };
+export const metadata = { title: "T1 vs T2 Discrimination" };
 
 export default function DiscriminationPage() {
   const rows = getDiscrimination();

@@ -2,7 +2,7 @@ import Header from "@/components/Header";
 import DxUtility from "@/components/DxUtility";
 import { getDxUtility } from "@/lib/data";
 
-export const metadata = { title: "Type-I MI Diagnostic Utility — AMI Atlas" };
+export const metadata = { title: "Type-I MI Diagnostic Utility" };
 
 export default function DiagnosticPage() {
   const rows = getDxUtility();

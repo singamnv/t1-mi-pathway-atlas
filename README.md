@@ -1,6 +1,6 @@
-# Type I MI Pathway Atlas
+# CoronaryAtlas
 
-A standalone, de novo molecular atlas of the **Type I (atherothrombotic) myocardial
+**CoronaryAtlas** — a standalone, de novo molecular atlas of the **Type I (atherothrombotic) myocardial
 infarction** pathway, with an interactive Next.js frontend for exploring biomarkers,
 Type-I-vs-Type-II discrimination scoring, diagnostic utility, and assay feasibility.
 

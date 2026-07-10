@@ -2,9 +2,16 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Type 1 MI Pathway Atlas",
+  title: {
+    default: "CoronaryAtlas — Type 1 MI molecular atlas",
+    template: "%s — CoronaryAtlas",
+  },
   description:
-    "De novo molecular atlas of the Type 1 (atherothrombotic) myocardial infarction pathway — every molecule placed in its cascade step with linked evidence.",
+    "CoronaryAtlas: a de novo molecular atlas of the Type 1 (atherothrombotic) myocardial infarction pathway — every molecule placed in its cascade step with linked evidence.",
+  icons: {
+    icon: "/icon.svg",
+    apple: "/logo.svg",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
