@@ -2,16 +2,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Header from "@/components/Header";
 import { getAllMolIds, getEvidence, getPathway, getDiscriminationFor, getDiscriminationDetail, getAssayFor } from "@/lib/data";
+import { STEP_COLOR as stepColor } from "@/lib/stepColors";
 
 export function generateStaticParams() {
   return getAllMolIds().map((molId) => ({ molId }));
 }
-
-const stepColor: Record<string, string> = {
-  s1_lipid: "#f2c14e", s2_inflammation: "#ef6f6c", s3_rupture: "#d7263d",
-  s4_endothelial: "#4cc9f0", s5_platelet: "#b388eb", s6_thromboxane: "#f79d65",
-  s7_coagulation: "#e63946", s8_injury: "#ff8fa3", s0_systemic: "#7d8ca3",
-};
 
 export default async function MoleculePage({ params }: { params: Promise<{ molId: string }> }) {
   const { molId } = await params;
@@ -179,7 +174,7 @@ function Panel({ title, children }: { title: string; children: React.ReactNode }
 }
 function Row({ label, value, color }: { label: string; value: string; color?: string }) {
   return (
-    <div style={{ display: "flex", justifyContent: "space-between", gap: 12, padding: "4px 0", fontSize: 13, borderBottom: "1px solid #ffffff08" }}>
+    <div style={{ display: "flex", justifyContent: "space-between", gap: 12, padding: "4px 0", fontSize: 13, borderBottom: "1px solid var(--hairline)" }}>
       <span style={{ color: "var(--muted)" }}>{label}</span>
       <span style={{ fontWeight: 600, color: color ?? "var(--text)", textAlign: "right" }}>{value}</span>
     </div>
@@ -208,7 +203,7 @@ const ASSAY_FLAG: Record<string, { label: string; color: string }> = {
 function AssayPanel({ a }: { a: import("@/lib/data").AssayProfile }) {
   const flag = ASSAY_FLAG[a.specificity_flag] ?? ASSAY_FLAG.class_default;
   const Field = ({ label, value }: { label: string; value: React.ReactNode }) => (
-    <div style={{ padding: "7px 0", borderBottom: "1px solid #ffffff08" }}>
+    <div style={{ padding: "7px 0", borderBottom: "1px solid var(--hairline)" }}>
       <div style={{ fontSize: 11, color: "var(--muted)", textTransform: "uppercase", letterSpacing: 0.4, marginBottom: 2 }}>{label}</div>
       <div style={{ fontSize: 13.5, color: "var(--text)" }}>{value}</div>
     </div>
@@ -245,7 +240,7 @@ const CONF_ORDER = [
 /* eslint-disable @typescript-eslint/no-explicit-any */
 function DiscPanel({ disc, detail }: { disc: any; detail: any }) {
   const bar = (v: number | null, color: string) => (
-    <div style={{ flex: 1, height: 7, background: "#ffffff10", borderRadius: 4, overflow: "hidden" }}>
+    <div style={{ flex: 1, height: 7, background: "var(--track)", borderRadius: 4, overflow: "hidden" }}>
       {v != null && <div style={{ width: `${Math.max(0, Math.min(100, v))}%`, height: "100%", background: color }} />}
     </div>
   );

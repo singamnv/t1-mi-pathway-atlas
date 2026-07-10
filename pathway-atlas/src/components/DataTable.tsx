@@ -2,15 +2,11 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { MoleculeSlim } from "@/lib/types";
+import { STEP_COLOR } from "@/lib/stepColors";
 
 interface StepOpt { id: string; short: string; }
 type SortKey = "name" | "gene_symbol" | "mol_type" | "pathway_step" | "n_references" | "n_trials" | "step_confidence";
 
-const STEP_COLOR: Record<string, string> = {
-  s1_lipid: "#e0a92b", s2_inflammation: "#e05a55", s3_rupture: "#c01a30",
-  s4_endothelial: "#2fa8d8", s5_platelet: "#9d6fdb", s6_thromboxane: "#e07c3e",
-  s7_coagulation: "#d12836", s8_injury: "#e06a86", s0_systemic: "#6b7a90",
-};
 const confRank: Record<string, number> = { high: 3, medium: 2, low: 1 };
 
 export default function DataTable({ molecules, steps }: { molecules: MoleculeSlim[]; steps: StepOpt[] }) {
@@ -113,8 +109,8 @@ export default function DataTable({ molecules, steps }: { molecules: MoleculeSli
               {shown.map((m) => (
                 <tr key={m.mol_id}
                     onClick={() => router.push(`/molecule/${m.mol_id}`)}
-                    style={{ cursor: "pointer", borderBottom: "1px solid #ffffff08" }}
-                    onMouseEnter={(e) => (e.currentTarget.style.background = "#ffffff08")}
+                    style={{ cursor: "pointer", borderBottom: "1px solid var(--hairline)" }}
+                    onMouseEnter={(e) => (e.currentTarget.style.background = "var(--row-hover)")}
                     onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}>
                   <td style={{ padding: "8px 12px", fontWeight: 600 }}>{m.name}</td>
                   <td style={{ padding: "8px 12px", fontFamily: "ui-monospace, monospace", color: "var(--muted)", fontSize: 12 }}>{m.gene_symbol ?? "—"}</td>
@@ -131,8 +127,8 @@ export default function DataTable({ molecules, steps }: { molecules: MoleculeSli
                   <td style={{ padding: "8px 12px", textAlign: "right", color: m.n_trials ? "var(--text)" : "var(--muted)" }}>{m.n_trials || "—"}</td>
                   <td style={{ padding: "8px 12px", color: "var(--muted)", fontSize: 12 }}>{m.step_confidence}</td>
                   <td style={{ padding: "8px 12px", textAlign: "center", whiteSpace: "nowrap" }}>
-                    {m.druggable && <span title="Druggable" style={{ color: "#ff8fa3" }}>◆</span>}
-                    {m.has_genetic && <span title="Genetic evidence" style={{ color: "#43d17a", marginLeft: 4 }}>✦</span>}
+                    {m.druggable && <span title="Druggable" style={{ color: "#be185d" }}>◆</span>}
+                    {m.has_genetic && <span title="Genetic evidence" style={{ color: "#15803d", marginLeft: 4 }}>✦</span>}
                   </td>
                 </tr>
               ))}

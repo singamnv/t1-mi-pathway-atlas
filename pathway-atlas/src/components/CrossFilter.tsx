@@ -52,14 +52,14 @@ export default function CrossFilter({ mols, stepShort }: { mols: Mol[]; stepShor
   if (cls) chips.push({ label: `Class: ${cls}`, val: cls, clear: () => setCls(null) });
   if (ev) chips.push({ label: `Evidence: ${ev}`, val: ev, clear: () => setEv(null) });
 
-  const tt = { contentStyle: { background: "#0d1117", border: "1px solid var(--border)", borderRadius: 8, fontSize: 12 }, itemStyle: { color: "var(--text)" }, cursor: { fill: "#ffffff08" } };
+  const tt = { contentStyle: { background: "var(--panel)", border: "1px solid var(--border)", borderRadius: 8, fontSize: 12 }, itemStyle: { color: "var(--text)" }, cursor: { fill: "var(--track)" } };
   const panel: React.CSSProperties = { background: "var(--panel-2)", border: "1px solid var(--border)", borderRadius: 10, padding: "12px 14px" };
   const ptitle: React.CSSProperties = { fontSize: 12, fontWeight: 700, color: "var(--muted)", marginBottom: 8, textTransform: "uppercase", letterSpacing: 0.4 };
 
   const MiniBar = ({ data, onPick, active }: { data: { k: string; label: string; n: number; color: string }[]; onPick: (k: string) => void; active: string | null }) => (
     <ResponsiveContainer width="100%" height={Math.max(150, data.length * 26)}>
       <BarChart data={data} layout="vertical" margin={{ left: 4, right: 30 }}>
-        <CartesianGrid stroke="#ffffff10" horizontal={false} />
+        <CartesianGrid stroke="var(--grid)" horizontal={false} />
         <XAxis type="number" tick={{ fontSize: 9.5, fill: "#8b98a9" }} />
         <YAxis type="category" dataKey="label" width={116} tick={{ fontSize: 10, fill: "#8b98a9" }} interval={0} />
         <Tooltip {...tt} />

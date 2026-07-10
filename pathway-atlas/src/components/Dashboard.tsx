@@ -19,7 +19,7 @@ const TYPE_COLOR: Record<string, string> = {
 const card: React.CSSProperties = {
   background: "var(--panel)", border: "1px solid var(--border)", borderRadius: 14, padding: "16px 18px",
 };
-const tipStyle = { background: "#0d1420", border: "1px solid #26304180", borderRadius: 8, fontSize: 12, color: "#e6edf3" };
+const tipStyle = { background: "var(--panel)", border: "1px solid var(--border)", borderRadius: 8, fontSize: 12, color: "var(--text)" };
 
 function CardTitle({ children, sub }: { children: React.ReactNode; sub?: string }) {
   return (
@@ -55,7 +55,7 @@ export default function Dashboard({ stats }: { stats: Stats }) {
             <CartesianGrid strokeDasharray="3 3" stroke="#26304140" vertical={false} />
             <XAxis dataKey="name" tick={{ fill: "#8b98a9", fontSize: 11 }} angle={-25} textAnchor="end" interval={0} height={60} />
             <YAxis tick={{ fill: "#8b98a9", fontSize: 11 }} />
-            <Tooltip contentStyle={tipStyle} cursor={{ fill: "#ffffff08" }} />
+            <Tooltip contentStyle={tipStyle} cursor={{ fill: "var(--track)" }} />
             <Bar dataKey="molecules" radius={[4, 4, 0, 0]} cursor="pointer"
                  onClick={(d: { step_id?: string }) => d.step_id && router.push(`/step/${d.step_id}`)}>
               {stepData.map((d) => <Cell key={d.step_id} fill={STEP_COLOR[d.step_id]} />)}
@@ -78,7 +78,7 @@ export default function Dashboard({ stats }: { stats: Stats }) {
             <CartesianGrid strokeDasharray="3 3" stroke="#26304140" vertical={false} />
             <XAxis dataKey="name" tick={{ fill: "#8b98a9", fontSize: 10 }} angle={-30} textAnchor="end" interval={0} height={64} />
             <YAxis tick={{ fill: "#8b98a9", fontSize: 11 }} />
-            <Tooltip contentStyle={tipStyle} cursor={{ fill: "#ffffff08" }} />
+            <Tooltip contentStyle={tipStyle} cursor={{ fill: "var(--track)" }} />
             <Legend wrapperStyle={{ fontSize: 11 }} />
             <Bar dataKey="literature" stackId="a" fill="#4cc9f0" />
             <Bar dataKey="trials" stackId="a" fill="#f2c14e" />
@@ -113,9 +113,9 @@ export default function Dashboard({ stats }: { stats: Stats }) {
         <ResponsiveContainer width="100%" height={180}>
           <BarChart data={confData} layout="vertical" margin={{ top: 4, right: 30, bottom: 4, left: 60 }}>
             <XAxis type="number" tick={{ fill: "#8b98a9", fontSize: 11 }} />
-            <YAxis type="category" dataKey="name" tick={{ fill: "#e6edf3", fontSize: 12 }} width={60} />
-            <Tooltip contentStyle={tipStyle} cursor={{ fill: "#ffffff08" }} />
-            <Bar dataKey="value" radius={[0, 4, 4, 0]} label={{ fill: "#e6edf3", fontSize: 11, position: "right" }}>
+            <YAxis type="category" dataKey="name" tick={{ fill: "var(--text)", fontSize: 12 }} width={60} />
+            <Tooltip contentStyle={tipStyle} cursor={{ fill: "var(--track)" }} />
+            <Bar dataKey="value" radius={[0, 4, 4, 0]} label={{ fill: "var(--text)", fontSize: 11, position: "right" }}>
               {confData.map((d) => <Cell key={d.name} fill={confColor[d.name]} />)}
             </Bar>
           </BarChart>

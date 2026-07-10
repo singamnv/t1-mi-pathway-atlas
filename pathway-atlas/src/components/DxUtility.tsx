@@ -118,7 +118,7 @@ export default function DxUtility({ rows }: { rows: DxRecord[] }) {
               style={{ display: "flex", alignItems: "center", gap: 10, padding: "3px 0", cursor: "pointer", fontSize: 12.5 }}>
               <span style={{ width: 18, color: "var(--muted)", textAlign: "right" }}>{i + 1}</span>
               <span style={{ width: 180, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{r.name}</span>
-              <div style={{ flex: 1, height: 14, background: "#ffffff08", borderRadius: 4, overflow: "hidden" }}>
+              <div style={{ flex: 1, height: 14, background: "var(--track)", borderRadius: 4, overflow: "hidden" }}>
                 <div style={{ width: `${(r.score / maxScore) * 100}%`, height: "100%", background: "linear-gradient(90deg,#4cc9f0,#43d17a)" }} />
               </div>
               <span style={{ width: 34, textAlign: "right", fontWeight: 700 }}>{r.score.toFixed(0)}</span>
@@ -140,8 +140,8 @@ export default function DxUtility({ rows }: { rows: DxRecord[] }) {
               <tbody>
                 {filtered.slice(0, limit).map((r, i) => (
                   <tr key={r.mol_id} onClick={() => router.push(`/molecule/${r.mol_id}`)}
-                    style={{ cursor: "pointer", borderBottom: "1px solid #ffffff08" }}
-                    onMouseEnter={(e) => (e.currentTarget.style.background = "#ffffff08")}
+                    style={{ cursor: "pointer", borderBottom: "1px solid var(--hairline)" }}
+                    onMouseEnter={(e) => (e.currentTarget.style.background = "var(--row-hover)")}
                     onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}>
                     <td style={{ padding: "7px 9px", textAlign: "right", color: "var(--muted)" }}>{i + 1}</td>
                     <td style={{ padding: "7px 9px", fontWeight: 600 }}>{r.name}{r.gene && <span style={{ color: "var(--muted)", fontWeight: 400, fontSize: 11, marginLeft: 5, fontFamily: "ui-monospace,monospace" }}>{r.gene}</span>}</td>

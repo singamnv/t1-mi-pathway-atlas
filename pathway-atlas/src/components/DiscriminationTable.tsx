@@ -18,7 +18,7 @@ function classColor(c: string) { return CLASS_COLOR[c] ?? "#8b98a9"; }
 
 function scoreCell(v: number | null, kind: "R" | "C" | "spec" | "T1DI" | "plain" = "plain") {
   if (v === null || v === undefined) return <span style={{ color: "#4b5563" }}>—</span>;
-  let color = "#e6edf3";
+  let color = "var(--text)";
   if (kind === "R") color = "#4cc9f0";
   else if (kind === "C") color = "#f2854e";
   else if (kind === "spec") color = v > 0 ? "#43d17a" : v < 0 ? "#f2854e" : "#8b98a9";
@@ -122,8 +122,8 @@ export default function DiscriminationTable({ rows }: { rows: DiscRecord[] }) {
             <tbody>
               {shown.map((r) => (
                 <tr key={r.mol_id} onClick={() => router.push(`/molecule/${r.mol_id}`)}
-                    style={{ cursor: "pointer", borderBottom: "1px solid #ffffff08" }}
-                    onMouseEnter={(e) => (e.currentTarget.style.background = "#ffffff08")}
+                    style={{ cursor: "pointer", borderBottom: "1px solid var(--hairline)" }}
+                    onMouseEnter={(e) => (e.currentTarget.style.background = "var(--row-hover)")}
                     onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}>
                   <td style={{ padding: "8px 12px", fontWeight: 600 }}>
                     {r.name}

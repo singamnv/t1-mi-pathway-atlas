@@ -46,7 +46,7 @@ export default function DashboardAnalytics({ a }: { a: A }) {
     return byClass;
   }, [a.scatter_RC, scTier]);
 
-  const tt = (label: string) => ({ contentStyle: { background: "#0d1117", border: "1px solid var(--border)", borderRadius: 8, fontSize: 12 }, labelStyle: { color: "var(--muted)" }, itemStyle: { color: "var(--text)" }, cursor: { fill: "#ffffff08" } });
+  const tt = (label: string) => ({ contentStyle: { background: "var(--panel)", border: "1px solid var(--border)", borderRadius: 8, fontSize: 12 }, labelStyle: { color: "var(--muted)" }, itemStyle: { color: "var(--text)" }, cursor: { fill: "var(--track)" } });
 
   return (
     <div>
@@ -61,10 +61,10 @@ export default function DashboardAnalytics({ a }: { a: A }) {
         </div>
         <ResponsiveContainer width="100%" height={420}>
           <ScatterChart margin={{ top: 12, right: 20, bottom: 40, left: 10 }}>
-            <CartesianGrid stroke="#ffffff10" />
+            <CartesianGrid stroke="var(--grid)" />
             <ReferenceArea x1={50} x2={100} y1={0} y2={33} fill="#43d17a" fillOpacity={0.06} />
-            <ReferenceLine x={50} stroke="#ffffff22" strokeDasharray="4 4" />
-            <ReferenceLine y={50} stroke="#ffffff22" strokeDasharray="4 4" />
+            <ReferenceLine x={50} stroke="var(--gridline)" strokeDasharray="4 4" />
+            <ReferenceLine y={50} stroke="var(--gridline)" strokeDasharray="4 4" />
             <XAxis type="number" dataKey="R" name="Rupture (R)" domain={[0, 100]} tick={{ fontSize: 11, fill: "#8b98a9" }} label={{ value: "Rupture / Type-I responsiveness (R) →", position: "bottom", fill: "#8b98a9", fontSize: 12 }} />
             <YAxis type="number" dataKey="C" name="Confounder (C)" domain={[0, 100]} tick={{ fontSize: 11, fill: "#8b98a9" }} label={{ value: "Confounder / Type-II responsiveness (C) →", angle: -90, position: "insideLeft", fill: "#8b98a9", fontSize: 12 }} />
             <ZAxis type="number" dataKey="npmids" range={[24, 260]} name="PMIDs" />
@@ -72,7 +72,7 @@ export default function DashboardAnalytics({ a }: { a: A }) {
               content={({ payload }) => {
                 if (!payload || !payload.length) return null;
                 const p = payload[0].payload as A["scatter_RC"][0];
-                return <div style={{ background: "#0d1117", border: "1px solid var(--border)", borderRadius: 8, fontSize: 12, padding: "7px 10px" }}>
+                return <div style={{ background: "var(--panel)", border: "1px solid var(--border)", borderRadius: 8, fontSize: 12, padding: "7px 10px" }}>
                   <div style={{ fontWeight: 700 }}>{p.n}</div>
                   <div style={{ color: "var(--muted)" }}>R={p.R} · C={p.C} · {p.npmids} PMIDs</div>
                   <div style={{ color: CLASS_COLOR[p.cls] }}>{p.cls}</div>
@@ -93,7 +93,7 @@ export default function DashboardAnalytics({ a }: { a: A }) {
           note="How each cascade step's molecules distribute across T1-vs-T2 classes. Hover for counts.">
           <ResponsiveContainer width="100%" height={340}>
             <BarChart data={a.step_class} layout="vertical" margin={{ left: 8, right: 12 }}>
-              <CartesianGrid stroke="#ffffff10" horizontal={false} />
+              <CartesianGrid stroke="var(--grid)" horizontal={false} />
               <XAxis type="number" tick={{ fontSize: 10, fill: "#8b98a9" }} />
               <YAxis type="category" dataKey="step" width={104} tick={{ fontSize: 10, fill: "#8b98a9" }} />
               <Tooltip {...tt("")} />
@@ -107,7 +107,7 @@ export default function DashboardAnalytics({ a }: { a: A }) {
           note="How many of the 1,969 molecules carry each kind of scored evidence. The steep drop to direct T1-vs-T2 studies (D) is the core data gap.">
           <ResponsiveContainer width="100%" height={340}>
             <BarChart data={a.coverage_axes} layout="vertical" margin={{ left: 8, right: 30 }}>
-              <CartesianGrid stroke="#ffffff10" horizontal={false} />
+              <CartesianGrid stroke="var(--grid)" horizontal={false} />
               <XAxis type="number" domain={[0, 2000]} tick={{ fontSize: 10, fill: "#8b98a9" }} />
               <YAxis type="category" dataKey="axis" width={150} tick={{ fontSize: 10, fill: "#8b98a9" }} />
               <Tooltip {...tt("")} />
@@ -123,7 +123,7 @@ export default function DashboardAnalytics({ a }: { a: A }) {
           note="Molecules with each evidence type at each step (literature, trials, omics, genetic, druggable).">
           <ResponsiveContainer width="100%" height={340}>
             <BarChart data={a.evidence_by_step} layout="vertical" margin={{ left: 8, right: 12 }}>
-              <CartesianGrid stroke="#ffffff10" horizontal={false} />
+              <CartesianGrid stroke="var(--grid)" horizontal={false} />
               <XAxis type="number" tick={{ fontSize: 10, fill: "#8b98a9" }} />
               <YAxis type="category" dataKey="step" width={104} tick={{ fontSize: 10, fill: "#8b98a9" }} />
               <Tooltip {...tt("")} />
@@ -138,7 +138,7 @@ export default function DashboardAnalytics({ a }: { a: A }) {
           note="How the whole catalog would be measured — dominated by immunoassay, with mass-spec/NMR for metabolites & lipids.">
           <ResponsiveContainer width="100%" height={340}>
             <BarChart data={a.assay_methods} layout="vertical" margin={{ left: 8, right: 30 }}>
-              <CartesianGrid stroke="#ffffff10" horizontal={false} />
+              <CartesianGrid stroke="var(--grid)" horizontal={false} />
               <XAxis type="number" tick={{ fontSize: 10, fill: "#8b98a9" }} />
               <YAxis type="category" dataKey="method" width={130} tick={{ fontSize: 10, fill: "#8b98a9" }} />
               <Tooltip {...tt("")} />
@@ -154,7 +154,7 @@ export default function DashboardAnalytics({ a }: { a: A }) {
           note="Primary blood-collection tube per marker (color-coded phlebotomy standard). K2-EDTA whole-blood entries are the gene-locus/genotyping records.">
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={a.assay_tubes} layout="vertical" margin={{ left: 8, right: 30 }}>
-              <CartesianGrid stroke="#ffffff10" horizontal={false} />
+              <CartesianGrid stroke="var(--grid)" horizontal={false} />
               <XAxis type="number" tick={{ fontSize: 10, fill: "#8b98a9" }} />
               <YAxis type="category" dataKey="tube" width={150} tick={{ fontSize: 9.5, fill: "#8b98a9" }} />
               <Tooltip {...tt("")} />
@@ -168,7 +168,7 @@ export default function DashboardAnalytics({ a }: { a: A }) {
           note="Whether each marker's assay profile is a specific validated clinical assay, a specialized reference method, or a class-level default inferred from analyte type.">
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={a.assay_flag} margin={{ left: 8, right: 12, bottom: 10 }}>
-              <CartesianGrid stroke="#ffffff10" vertical={false} />
+              <CartesianGrid stroke="var(--grid)" vertical={false} />
               <XAxis dataKey="flag" tick={{ fontSize: 10, fill: "#8b98a9" }} />
               <YAxis tick={{ fontSize: 10, fill: "#8b98a9" }} />
               <Tooltip {...tt("")} />
@@ -191,7 +191,7 @@ export default function DashboardAnalytics({ a }: { a: A }) {
         note="How often each mechanistic concept appears across all 1,969 curated mechanism descriptions — the biology the catalog is built on.">
         <ResponsiveContainer width="100%" height={Math.max(320, a.mech_kw.length * 16)}>
           <BarChart data={a.mech_kw} layout="vertical" margin={{ left: 8, right: 34 }}>
-            <CartesianGrid stroke="#ffffff10" horizontal={false} />
+            <CartesianGrid stroke="var(--grid)" horizontal={false} />
             <XAxis type="number" tick={{ fontSize: 10, fill: "#8b98a9" }} />
             <YAxis type="category" dataKey="kw" width={168} tick={{ fontSize: 10, fill: "#8b98a9" }} interval={0} />
             <Tooltip {...tt("")} />
@@ -205,10 +205,10 @@ export default function DashboardAnalytics({ a }: { a: A }) {
         note="Highest Type-I Discrimination Index among Tier-1 markers. Click a row to open the molecule. Color = class.">
         {a.t1di_top.map((d, i) => (
           <div key={d.id} onClick={() => router.push(`/molecule/${d.id}`)}
-            style={{ display: "flex", alignItems: "center", gap: 10, padding: "4px 0", cursor: "pointer", fontSize: 12.5, borderBottom: "1px solid #ffffff08" }}>
+            style={{ display: "flex", alignItems: "center", gap: 10, padding: "4px 0", cursor: "pointer", fontSize: 12.5, borderBottom: "1px solid var(--hairline)" }}>
             <span style={{ width: 18, color: "var(--muted)", textAlign: "right" }}>{i + 1}</span>
             <span style={{ width: 210, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{d.n}</span>
-            <div style={{ flex: 1, height: 13, background: "#ffffff08", borderRadius: 4, overflow: "hidden" }}>
+            <div style={{ flex: 1, height: 13, background: "var(--track)", borderRadius: 4, overflow: "hidden" }}>
               <div style={{ width: `${d.T1DI}%`, height: "100%", background: CLASS_COLOR[d.cls] ?? "#4cc9f0" }} />
             </div>
             <span style={{ width: 34, textAlign: "right", fontWeight: 700 }}>{d.T1DI.toFixed(0)}</span>
@@ -243,7 +243,7 @@ function EvidenceUpset({ upset, setsize }: { upset: { combo: string[]; label: st
           {upset.map((u) => {
             const on = u.combo.includes(s);
             return <div key={u.label + s} style={{ width: colW, display: "flex", justifyContent: "center" }}>
-              <span style={{ width: 13, height: 13, borderRadius: "50%", background: on ? "#43d17a" : "#2a3441" }} />
+              <span style={{ width: 13, height: 13, borderRadius: "50%", background: on ? "#43d17a" : "#cbd5e1" }} />
             </div>;
           })}
         </div>

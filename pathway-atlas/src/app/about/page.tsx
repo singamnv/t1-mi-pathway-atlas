@@ -34,9 +34,9 @@ export default function AboutPage() {
         <P>
           The 260-molecule catalog referenced here is <b>not prior work by others</b> — it was <b>our own first attempt</b>,
           built the day before this project. That earlier build was <b>abandoned</b> because its approach was not leading to
-          the right answer (the analysis had gone down the wrong path), so this project was restarted from scratch with a
-          clean de novo harvest. The comparison below is therefore an internal sanity check against our own discarded draft,
-          <b> not</b> a reuse of external prior art.
+          the right answer (the analysis had gone down the wrong path), so this project was started fresh with a clean de novo
+          harvest. The comparison below is therefore an internal sanity check against our own discarded draft, <b>not</b> a
+          reuse of external prior art.
         </P>
         <P>
           As that cross-check, the de novo catalog ({d.denovo_catalog_size?.toLocaleString()} molecules) was compared to the
@@ -82,7 +82,7 @@ function Figure({ src, caption }: { src: string; caption: string }) {
   return (
     <figure style={{ margin: "0 0 22px" }}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={src} alt={caption} style={{ width: "100%", borderRadius: 12, border: "1px solid var(--border)", background: "#0a0e14" }} />
+      <img src={src} alt={caption} style={{ width: "100%", borderRadius: 12, border: "1px solid var(--border)", background: "var(--panel-2)" }} />
       <figcaption style={{ fontSize: 12, color: "var(--muted)", marginTop: 6, lineHeight: 1.4 }}>{caption}</figcaption>
     </figure>
   );

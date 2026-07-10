@@ -1,20 +1,58 @@
 @import "tailwindcss";
 
+/*
+ * Claude Design "Pathway Atlas" system — cool blue-grey light theme, indigo primary.
+ * The whole app is driven by these variables (existing names kept), so re-theming
+ * flows from here. Hue is reserved for the 8 cascade steps + evidence types.
+ */
 :root {
-  --bg: #0a0e14;
-  --panel: #121822;
-  --panel-2: #1a2230;
-  --border: #26304180;
-  --text: #e6edf3;
-  --muted: #8b98a9;
-  --accent: #ff5a5f;
+  --bg: #f7f9fd;          /* page canvas */
+  --bg-warm: #faf9f5;     /* hero warm wash */
+  --panel: #ffffff;       /* cards, surfaces */
+  --panel-2: #f0f3f9;     /* inputs, subtle fills, hover */
+  --panel-3: #eef2f9;     /* nested fills */
+  --border: #e2e8f4;      /* hairline borders */
+  --border-2: #dbe3ef;    /* stronger edges */
+  --text: #0b1220;        /* display / primary text */
+  --text-2: #31405c;      /* body text */
+  --muted: #64748b;       /* secondary text */
+  --muted-2: #8a97ad;     /* faint labels */
+  --muted-3: #9aa6bb;     /* faintest */
+
+  --accent: #6366f1;      /* indigo primary */
+  --accent-2: #22d3ee;    /* cyan */
+  --accent-grad: linear-gradient(135deg, #6366f1, #22d3ee);
+
+  /* table/chart helpers (names kept from prior theme) */
+  --row-hover: #f2f5fb;
+  --hairline: #eef2f9;
+  --track: rgba(11, 18, 32, 0.06);
+  --grid: rgba(11, 18, 32, 0.07);
+  --gridline: rgba(11, 18, 32, 0.14);
+
+  /* elevation */
+  --shadow-sm: 0 1px 2px rgba(30, 41, 90, 0.06);
+  --shadow-card: 0 18px 44px -30px rgba(30, 41, 90, 0.5), inset 0 1px 0 #fff;
+  --shadow-float: 0 30px 70px -40px rgba(30, 41, 90, 0.4), inset 0 1px 0 #fff;
+
+  /* radius scale */
+  --r-pill: 100px;
+  --r-lg: 16px;
+  --r-md: 12px;
+  --r-sm: 10px;
+
+  /* font stacks — reference the next/font-injected --font-* vars (set on <html>) with fallbacks */
+  --ff-body: var(--font-body), system-ui, -apple-system, sans-serif;
+  --ff-display: var(--font-display), var(--ff-body);
+  --ff-mono: var(--font-mono), ui-monospace, monospace;
 }
 
 html, body {
   background: var(--bg);
-  color: var(--text);
-  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: var(--text-2);
+  font-family: var(--ff-body);
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 * { box-sizing: border-box; }
@@ -22,13 +60,39 @@ a { color: inherit; text-decoration: none; }
 
 .container-x { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
 
-/* pathway step accent colors */
-.step-s1_lipid      { --c: #f2c14e; }
-.step-s2_inflammation { --c: #ef6f6c; }
-.step-s3_rupture    { --c: #d7263d; }
-.step-s4_endothelial { --c: #4cc9f0; }
-.step-s5_platelet   { --c: #b388eb; }
-.step-s6_thromboxane { --c: #f79d65; }
-.step-s7_coagulation { --c: #e63946; }
-.step-s8_injury     { --c: #ff8fa3; }
-.step-s0_systemic   { --c: #7d8ca3; }
+/* mono kicker/label helper */
+.mono-kicker {
+  font-family: var(--ff-mono);
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.font-display { font-family: var(--ff-display); }
+.font-mono { font-family: var(--ff-mono); }
+
+/* pathway step accent colors — the design's canonical per-step hues */
+.step-s1_lipid        { --c: #f5b13d; }
+.step-s2_inflammation { --c: #ff6b6b; }
+.step-s3_rupture      { --c: #f43f5e; }
+.step-s4_endothelial  { --c: #22d3ee; }
+.step-s5_platelet     { --c: #a78bfa; }
+.step-s6_thromboxane  { --c: #fb923c; }
+.step-s7_coagulation  { --c: #ef4444; }
+.step-s8_injury       { --c: #f472b6; }
+.step-s0_systemic     { --c: #8a97ad; }
+
+/* motion */
+@keyframes flow { to { background-position: 200% 0; } }
+@keyframes glowring {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.35); }
+  50% { box-shadow: 0 0 0 8px rgba(99, 102, 241, 0); }
+}
+@keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+@keyframes blink { 50% { opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+.react-flow__attribution { display: none; }

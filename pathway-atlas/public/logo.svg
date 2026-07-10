@@ -1,32 +1,25 @@
 <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CoronaryAtlas logo">
   <defs>
     <linearGradient id="ca-tile" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#ff6b70"/>
-      <stop offset="1" stop-color="#ec4a4f"/>
+      <stop offset="0" stop-color="#6366f1"/>
+      <stop offset="1" stop-color="#22d3ee"/>
     </linearGradient>
   </defs>
   <rect width="64" height="64" rx="15" fill="url(#ca-tile)"/>
-  <!-- Left coronary tree, dark on accent. Left main descends then bifurcates into LAD (right/down) and LCx (left), each with a side branch. Tapered strokes for a vascular feel. -->
-  <g stroke="#0a0e14" fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <!-- left main trunk (thick) -->
+  <!-- Left coronary tree: left main -> LAD + LCx + side branches, biomarker nodes at tips -->
+  <g stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
     <path d="M23 13 C 25 20, 27 24, 29 28" stroke-width="6"/>
-    <!-- LAD: sweeps down-right -->
     <path d="M29 28 C 33 34, 36 41, 37 51" stroke-width="5"/>
-    <!-- LCx: sweeps down-left -->
     <path d="M29 28 C 24 32, 20 37, 17 45" stroke-width="5"/>
-    <!-- diagonal branch off LAD -->
     <path d="M33 34.5 C 38 34, 43 33, 47 30" stroke-width="3.6"/>
-    <!-- obtuse marginal off LCx -->
     <path d="M22.5 34.5 C 20 30, 16 27, 12 26" stroke-width="3.6"/>
   </g>
-  <!-- distal biomarker nodes -->
-  <g fill="#0a0e14">
+  <g fill="#ffffff">
     <circle cx="37" cy="51" r="3"/>
     <circle cx="17" cy="45" r="3"/>
     <circle cx="47" cy="30" r="2.6"/>
     <circle cx="12" cy="26" r="2.6"/>
   </g>
-  <!-- aortic origin -->
-  <circle cx="23" cy="13" r="3.4" fill="#0a0e14"/>
+  <circle cx="23" cy="13" r="3.4" fill="#ffffff"/>
   <circle cx="23" cy="13" r="1.4" fill="url(#ca-tile)"/>
 </svg>
