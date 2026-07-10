@@ -1,0 +1,32 @@
+{
+  "molecule_record": {
+    "mol_id": "normalized slug (lowercased, gene-symbol preferred), unique key",
+    "name": "canonical display name",
+    "aliases": "list[str] \u2014 synonyms, abbreviations",
+    "gene_symbol": "HGNC symbol if protein/gene, else null",
+    "uniprot": "UniProt accession if known, else null",
+    "molecule_type": "protein | gene | metabolite | lipid | lipoprotein | rna | peptide | ratio | cell | other",
+    "pathway_step": "primary step_id from pathway_model",
+    "pathway_step_secondary": "optional list[str] of secondary step_ids",
+    "step_evidence": "curated | mechanism_inferred | anchor",
+    "step_confidence": "high | medium | low",
+    "mechanism": "one-line mechanistic role in Type 1 MI",
+    "mi_type_focus": "list[str] tags: type1_atherothrombotic, type1_vs_type2, type2, ACS_general, STEMI, NSTEMI, unspecified_AMI",
+    "provenance": {
+      "literature": "n mentions",
+      "omics": "n datasets",
+      "trials": "n",
+      "genetic": "OpenTargets score",
+      "catalog_prior": "bool present in old 260 catalog"
+    },
+    "evidence_counts": {
+      "n_references": "int",
+      "n_trials": "int",
+      "n_omics": "int"
+    },
+    "druggable": "bool",
+    "chembl_target_id": "str|null",
+    "n_known_drugs": "int",
+    "sources": "list[str] of harvest tracks that found it: pubmed, openalex, geo, pride, clinicaltrials, opentargets, bionemo"
+  }
+}

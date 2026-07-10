@@ -1,0 +1,206 @@
+{
+  "title": "Type 1 MI \u2014 atherothrombotic cascade",
+  "subtype": "Type 1 (atherothrombotic) myocardial infarction: plaque rupture/erosion \u2192 coronary thrombosis \u2192 myocardial injury",
+  "description": "Ordered biological steps from lipid retention in the arterial wall through plaque destabilization, luminal thrombosis, and the shared myocardial-injury endpoint. Molecules are placed at the step where their mechanistic role is strongest. An off-pathway/systemic bucket holds molecules that are markers of MI but act on a separate axis (Type 2 supply\u2013demand, generic acute-phase, renal/hemodynamic, cardiomyocyte-injury-only).",
+  "steps": [
+    {
+      "step_id": "s1_lipid",
+      "order": 1,
+      "name": "Lipid retention & oxidation",
+      "short": "Lipid entry/oxidation",
+      "icon": "droplet",
+      "description": "ApoB-lipoprotein retention in the subendothelial intima and their oxidative modification \u2014 the initiating substrate of atherogenesis.",
+      "anchors": [
+        "LDL",
+        "Lipoprotein(a)",
+        "oxidized LDL",
+        "ApoB"
+      ],
+      "n_molecules": 256,
+      "n_druggable": 83,
+      "n_with_trials": 20
+    },
+    {
+      "step_id": "s2_inflammation",
+      "order": 2,
+      "name": "Plaque inflammation",
+      "short": "Vascular inflammation",
+      "icon": "flame",
+      "description": "Monocyte/macrophage recruitment and vascular inflammation that destabilize the atherosclerotic plaque; includes leukocyte adhesion, cytokines, and oxidative enzymes.",
+      "anchors": [
+        "hs-CRP",
+        "IL-6",
+        "MPO",
+        "Lp-PLA2",
+        "PTX3",
+        "neopterin"
+      ],
+      "n_molecules": 473,
+      "n_druggable": 286,
+      "n_with_trials": 16
+    },
+    {
+      "step_id": "s3_rupture",
+      "order": 3,
+      "name": "Fibrous-cap degradation & rupture",
+      "short": "Cap degradation / rupture",
+      "icon": "crack",
+      "description": "Matrix-metalloproteinase-driven degradation of the fibrous cap extracellular matrix, cap thinning and rupture exposing the thrombogenic lipid core.",
+      "anchors": [
+        "MMP-9",
+        "MMP-2",
+        "PAPP-A",
+        "TIMP-1"
+      ],
+      "n_molecules": 79,
+      "n_druggable": 64,
+      "n_with_trials": 0
+    },
+    {
+      "step_id": "s4_endothelial",
+      "order": 4,
+      "name": "Endothelial activation & erosion",
+      "short": "Endothelial activation/erosion",
+      "icon": "wall",
+      "description": "Endothelial dysfunction, activation and superficial erosion (the non-rupture mechanism of Type 1 MI), exposing subendothelial collagen/von Willebrand factor and adhesion molecules.",
+      "anchors": [
+        "vWF",
+        "sICAM-1",
+        "sVCAM-1",
+        "E-selectin",
+        "ADAMTS13"
+      ],
+      "n_molecules": 135,
+      "n_druggable": 87,
+      "n_with_trials": 10
+    },
+    {
+      "step_id": "s5_platelet",
+      "order": 5,
+      "name": "Platelet adhesion & activation",
+      "short": "Platelet activation",
+      "icon": "platelet",
+      "description": "Platelet tethering to exposed collagen/vWF, activation, \u03b1-granule release and platelet\u2013leukocyte crosstalk at the injured surface.",
+      "anchors": [
+        "P-selectin",
+        "sCD40L",
+        "PF4",
+        "\u03b2-thromboglobulin",
+        "GPVI",
+        "platelet-monocyte aggregates"
+      ],
+      "n_molecules": 231,
+      "n_druggable": 137,
+      "n_with_trials": 12
+    },
+    {
+      "step_id": "s6_thromboxane",
+      "order": 6,
+      "name": "Thromboxane amplification",
+      "short": "Thromboxane / COX-1",
+      "icon": "amplify",
+      "description": "COX-1/thromboxane-A2 generation amplifying platelet recruitment and aggregation (the aspirin-sensitive step).",
+      "anchors": [
+        "11-dehydro-thromboxane B2",
+        "thromboxane B2"
+      ],
+      "n_molecules": 15,
+      "n_druggable": 4,
+      "n_with_trials": 1
+    },
+    {
+      "step_id": "s7_coagulation",
+      "order": 7,
+      "name": "Coagulation & thrombus formation",
+      "short": "Coagulation / thrombus",
+      "icon": "clot",
+      "description": "Tissue-factor-triggered coagulation, thrombin generation and fibrin polymerization forming the occlusive coronary thrombus; fibrinolytic turnover markers.",
+      "anchors": [
+        "Fibrinogen",
+        "D-dimer",
+        "thrombin-antithrombin",
+        "F1+2",
+        "tissue factor",
+        "PAI-1"
+      ],
+      "n_molecules": 91,
+      "n_druggable": 38,
+      "n_with_trials": 5
+    },
+    {
+      "step_id": "s8_injury",
+      "order": 8,
+      "name": "Myocardial injury (shared endpoint)",
+      "short": "Myocardial injury",
+      "icon": "heart",
+      "description": "Cardiomyocyte ischemia and necrosis \u2014 the shared endpoint that troponin measures for both MI types; includes early-release injury markers.",
+      "anchors": [
+        "cardiac troponin",
+        "H-FABP",
+        "CK-MB",
+        "myoglobin",
+        "copeptin"
+      ],
+      "n_molecules": 254,
+      "n_druggable": 84,
+      "n_with_trials": 9
+    },
+    {
+      "step_id": "s0_systemic",
+      "order": 9,
+      "name": "Off-pathway / systemic markers",
+      "short": "Systemic / off-pathway",
+      "icon": "dots",
+      "description": "Molecules associated with MI but acting on a separate axis: Type 2 supply\u2013demand (natriuretic peptides, lactate), renal/hemodynamic stress, generic acute-phase, or neurohormonal \u2014 shown for completeness, not placed on the atherothrombotic cascade.",
+      "anchors": [
+        "NT-proBNP",
+        "BNP",
+        "lactate",
+        "cystatin C",
+        "galectin-3",
+        "ST2"
+      ],
+      "n_molecules": 435,
+      "n_druggable": 107,
+      "n_with_trials": 17
+    }
+  ],
+  "edges": [
+    [
+      "s1_lipid",
+      "s2_inflammation"
+    ],
+    [
+      "s2_inflammation",
+      "s3_rupture"
+    ],
+    [
+      "s3_rupture",
+      "s5_platelet"
+    ],
+    [
+      "s2_inflammation",
+      "s4_endothelial"
+    ],
+    [
+      "s4_endothelial",
+      "s5_platelet"
+    ],
+    [
+      "s5_platelet",
+      "s6_thromboxane"
+    ],
+    [
+      "s6_thromboxane",
+      "s7_coagulation"
+    ],
+    [
+      "s5_platelet",
+      "s7_coagulation"
+    ],
+    [
+      "s7_coagulation",
+      "s8_injury"
+    ]
+  ]
+}

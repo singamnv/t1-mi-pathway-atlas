@@ -1,0 +1,10 @@
+# Node / Next.js
+node_modules/
+.next/
+out/
+.npm-cache/
+*.log
+.server.log
+.chrome-profile/
+.DS_Store
+.env*
