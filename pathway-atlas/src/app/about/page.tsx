@@ -30,15 +30,23 @@ export default function AboutPage() {
           <li><b>Pathway placement.</b> Each molecule was assigned a primary cascade step with a confidence and a one-line rationale, synthesized from its harvested roles.</li>
         </ol>
 
-        <H>Coverage vs. the prior 260-molecule catalog</H>
+        <H>Coverage vs. our own earlier (abandoned) 260-molecule attempt</H>
         <P>
-          As a cross-check, the de novo catalog ({d.denovo_catalog_size?.toLocaleString()} molecules) was compared to a prior
-          260-molecule AMI biomarker catalog. A robust name/gene match re-found <b>{d.old_refound}/{d.old_catalog_size} ({d.old_refound_pct}%)</b> of
-          prior entries, and added <b>{d.denovo_new_vs_old?.toLocaleString()}</b> molecules the prior catalog did not contain.
+          The 260-molecule catalog referenced here is <b>not prior work by others</b> — it was <b>our own first attempt</b>,
+          built the day before this project. That earlier build was <b>abandoned</b> because its approach was not leading to
+          the right answer (the analysis had gone down the wrong path), so this project was restarted from scratch with a
+          clean de novo harvest. The comparison below is therefore an internal sanity check against our own discarded draft,
+          <b> not</b> a reuse of external prior art.
         </P>
         <P>
-          The {d.old_only_total} prior entries not matched are <b>all miRNA / lncRNA isoforms</b> the prior catalog
-          enumerates at finer granularity (e.g. miR-133a-3p, consolidated to miR-133 here) — the same molecules are
+          As that cross-check, the de novo catalog ({d.denovo_catalog_size?.toLocaleString()} molecules) was compared to the
+          abandoned 260-molecule draft. A robust name/gene match re-found <b>{d.old_refound}/{d.old_catalog_size} ({d.old_refound_pct}%)</b> of
+          the earlier entries, and added <b>{d.denovo_new_vs_old?.toLocaleString()}</b> molecules that draft did not contain —
+          confirming the fresh build is a strict superset of what we had before, arrived at by a sounder method.
+        </P>
+        <P>
+          The {d.old_only_total} earlier-draft entries not matched are <b>all miRNA / lncRNA isoforms</b> that draft
+          enumerated at finer granularity (e.g. miR-133a-3p, consolidated to miR-133 here) — the same molecules are
           present at family level. There are <b>no non-miRNA absences</b>: the one genuine protein miss (Gas6) has been
           harvested and added, and TMAO is present as Trimethylamine N-oxide. Matching uses gene symbol, normalized name,
           and full name-word containment, so entries like PAPP-A→PAPPA, PlGF→PGF, SORT1, PHACTR1, APOE and SAA1 are
