@@ -1,0 +1,9 @@
+{
+  "name": "coronaryatlas-contact-backend",
+  "version": "1.0.0",
+  "description": "AWS Lambda that verifies Cloudflare Turnstile and emails CoronaryAtlas contact submissions via SES.",
+  "type": "module",
+  "main": "index.mjs",
+  "private": true,
+  "engines": { "node": ">=18" }
+}
