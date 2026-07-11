@@ -17,17 +17,22 @@ export default function Hero({ nMolecules }: { nMolecules: number }) {
           className="font-display"
           style={{ fontSize: "clamp(34px, 5vw, 58px)", fontWeight: 700, lineHeight: 1.04, letterSpacing: "-1.4px", margin: "16px 0 18px", color: "var(--text)", maxWidth: 900 }}
         >
-          The Type&nbsp;I MI biomarker landscape, mapped to{" "}
+          The Type&nbsp;I MI biomarker landscape — each molecule mapped to{" "}
           <span style={{ background: "var(--accent-grad)", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
-            its step in the atherothrombotic cascade
+            its step in the atherothrombotic pathway
           </span>
           .
         </h1>
-        <p style={{ maxWidth: 660, color: "var(--muted)", fontSize: 16.5, lineHeight: 1.55 }}>
+        <p style={{ maxWidth: 720, color: "var(--muted)", fontSize: 16.5, lineHeight: 1.6 }}>
           CoronaryAtlas places{" "}
           <b style={{ color: "var(--text-2)", fontVariantNumeric: "tabular-nums" }}>{nMolecules.toLocaleString()} molecules</b>{" "}
-          into the step of the atherothrombotic cascade where they act — surfaced by a ground-up harvest of the
-          primary literature, omics repositories, clinical trials and human genetics, each with its evidence linked.
+          into the step of the atherothrombotic pathway where they act. The goal is to mine the Type&nbsp;I MI pathway
+          for markers that sharpen <b style={{ color: "var(--text-2)" }}>diagnosis</b> and{" "}
+          <b style={{ color: "var(--text-2)" }}>therapeutics</b>, help{" "}
+          <b style={{ color: "var(--text-2)" }}>differentiate Type&nbsp;I from Type&nbsp;II MI</b>, and build{" "}
+          <b style={{ color: "var(--text-2)" }}>risk profiles for prediction and prevention</b> — each candidate
+          surfaced by a ground-up harvest of the primary literature, omics repositories, clinical trials and human
+          genetics, with its evidence linked.
         </p>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 30 }}>
           <a
