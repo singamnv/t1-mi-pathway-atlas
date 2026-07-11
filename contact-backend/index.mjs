@@ -2,7 +2,7 @@
 //
 // Receives a JSON POST from the static site's ContactForm, verifies the
 // Cloudflare Turnstile token server-side, then sends the message to
-// admin@coronaryatlas.com via Amazon SES.
+// admin@thecviu.com via Amazon SES.
 //
 // The AWS SDK v3 (@aws-sdk/client-ses) ships inside the Node.js 18.x/20.x
 // managed Lambda runtimes, so there is nothing to bundle. Deploy this single
@@ -10,8 +10,8 @@
 // that URL. SES access comes from the function's IAM role — no keys stored.
 //
 // Environment variables (set on the Lambda; all have safe defaults):
-//   TO_EMAIL          recipient            (default admin@coronaryatlas.com)
-//   FROM_EMAIL        SES-verified sender  (default admin@coronaryatlas.com)
+//   TO_EMAIL          recipient            (default admin@thecviu.com)
+//   FROM_EMAIL        SES-verified sender  (default admin@thecviu.com)
 //   TURNSTILE_SECRET  Cloudflare secret    (default = Cloudflare TEST secret)
 //   ALLOW_ORIGIN      CORS origin          (default https://coronaryatlas.com)
 
@@ -19,8 +19,8 @@ import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 
 const ses = new SESClient({}); // region comes from the Lambda's own region
 
-const TO_EMAIL = process.env.TO_EMAIL || "admin@coronaryatlas.com";
-const FROM_EMAIL = process.env.FROM_EMAIL || "admin@coronaryatlas.com";
+const TO_EMAIL = process.env.TO_EMAIL || "admin@thecviu.com";
+const FROM_EMAIL = process.env.FROM_EMAIL || "admin@thecviu.com";
 // Cloudflare's documented "always passes" TEST secret. Replace in production.
 const TURNSTILE_SECRET = process.env.TURNSTILE_SECRET || "1x0000000000000000000000000000000AA";
 const ALLOW_ORIGIN = process.env.ALLOW_ORIGIN || "https://coronaryatlas.com";

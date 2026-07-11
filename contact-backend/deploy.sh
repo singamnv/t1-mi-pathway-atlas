@@ -16,8 +16,8 @@ set -euo pipefail
 REGION="${AWS_REGION:-us-east-1}"
 FUNC_NAME="${FUNC_NAME:-coronaryatlas-contact}"
 ROLE_NAME="${ROLE_NAME:-coronaryatlas-contact-role}"
-FROM_EMAIL="${FROM_EMAIL:-admin@coronaryatlas.com}"
-TO_EMAIL="${TO_EMAIL:-admin@coronaryatlas.com}"
+FROM_EMAIL="${FROM_EMAIL:-admin@thecviu.com}"
+TO_EMAIL="${TO_EMAIL:-admin@thecviu.com}"
 ALLOW_ORIGIN="${ALLOW_ORIGIN:-https://coronaryatlas.com}"
 # Cloudflare TEST secret by default — set the real one for production.
 TURNSTILE_SECRET="${TURNSTILE_SECRET:-1x0000000000000000000000000000000AA}"
@@ -38,7 +38,7 @@ if ! aws iam get-role --role-name "$ROLE_NAME" >/dev/null 2>&1; then
     --policy-arn arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
   # SES send permission (scoped to the FROM address)
   aws iam put-role-policy --role-name "$ROLE_NAME" --policy-name ses-send \
-    --policy-document "$(sed "s|admin@coronaryatlas.com|${FROM_EMAIL}|g" iam-policy.json)"
+    --policy-document "$(sed "s|admin@thecviu.com|${FROM_EMAIL}|g" iam-policy.json)"
   echo "Waiting 10s for role propagation…"; sleep 10
 else
   echo "IAM role ${ROLE_NAME} exists — reusing."

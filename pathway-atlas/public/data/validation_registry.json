@@ -1,6 +1,6 @@
 {
  "cohort": {
-  "source": "De-identified critical-care cardiology registry",
+  "source": "Single-center medical cardiovascular intensive care unit snapshot over 7 years",
   "n_admissions_total": 1265,
   "n_waves": 7,
   "mi_total": 224,

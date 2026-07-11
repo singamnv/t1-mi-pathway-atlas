@@ -2,7 +2,7 @@ import Header from "@/components/Header";
 import fs from "node:fs";
 import path from "node:path";
 
-export const metadata = { title: "External Validation — Cardiac ICU Registry" };
+export const metadata = { title: "External Validation — Cardiovascular ICU Snapshot" };
 
 type Disc = {
   marker: string; t1_median: number; t2_median: number; unit: string;
@@ -41,19 +41,19 @@ export default function ValidationPage() {
 
   return (
     <>
-      <Header subtitle="External validation · cardiac ICU registry" />
+      <Header subtitle="External validation · cardiovascular ICU snapshot" />
       <main className="container-x" style={{ padding: "24px 24px 60px" }}>
-        <h1 style={{ fontSize: 24, fontWeight: 800, marginBottom: 6 }}>External validation in a cardiac ICU registry</h1>
+        <h1 style={{ fontSize: 24, fontWeight: 800, marginBottom: 6 }}>External validation in a cardiovascular ICU snapshot</h1>
         <p style={{ color: "var(--muted)", fontSize: 13.5, maxWidth: 920, lineHeight: 1.6, marginBottom: 18 }}>
           The atlas is built from literature-mined, molecule-level evidence. This page tests one of its central
           predictions — that a <b>demand / hypoperfusion axis</b> separates <b>Type&nbsp;2 (demand-related) MI</b> from
           <b> Type&nbsp;1 (atherothrombotic) MI</b> — against real patients in an independent, de-identified
-          critical-care cardiology registry. It is an <b>out-of-sample reality check on the feature prior</b>, not a
-          deployable classifier.
+          <b> single-center medical cardiovascular ICU snapshot spanning 7 years</b>. It is an{" "}
+          <b>out-of-sample reality check on the feature prior</b>, not a deployable classifier.
         </p>
 
         <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginBottom: 22 }}>
-          {stat("CICU admissions", v.cohort.n_admissions_total.toLocaleString(), `${v.cohort.n_waves} data-collection waves`)}
+          {stat("CICU admissions", v.cohort.n_admissions_total.toLocaleString(), `over ${v.cohort.n_waves} years`)}
           {stat("MI admissions", v.cohort.mi_total, "pooled primary + secondary dx")}
           {stat("Type 1 / ACS", v.cohort.mi_type1_acs)}
           {stat("Type 2 (demand)", v.cohort.mi_type2)}
@@ -62,12 +62,12 @@ export default function ValidationPage() {
 
         {/* Finding banner */}
         <div style={{ background: "rgba(209,73,91,0.07)", border: "1px solid rgba(209,73,91,0.30)", borderRadius: 12, padding: "14px 18px", maxWidth: 920, marginBottom: 26 }}>
-          <div style={{ fontSize: 13.5, fontWeight: 700, color: "var(--text)", marginBottom: 4 }}>What the registry confirms</div>
+          <div style={{ fontSize: 13.5, fontWeight: 700, color: "var(--text)", marginBottom: 4 }}>What the snapshot confirms</div>
           <p style={{ fontSize: 12.8, color: "var(--text-2)", lineHeight: 1.6, margin: 0 }}>
             Type&nbsp;2 MI carries a <b>multiorgan demand-stress fingerprint</b> — higher <b>lactate</b> (AUC 0.80) and
             <b> creatinine</b> (AUC 0.69) — consistent with supply–demand mismatch from sepsis, hypoxia, or shock. This
             echoes the atlas&apos;s two-axis design. It does <b>not</b> mean Type&nbsp;1 is separable by plaque-rupture
-            markers here: troponin and CK-MB — the atlas&apos;s top two markers — are the exact analytes this ICU registry
+            markers here: troponin and CK-MB — the atlas&apos;s top two markers — are the exact analytes this ICU snapshot
             barely captures (troponin, 8%) or never measures (CK-MB).
           </p>
         </div>
@@ -82,7 +82,7 @@ export default function ValidationPage() {
         <section style={{ marginBottom: 30, maxWidth: 920 }}>
           <h2 style={{ fontSize: 16, fontWeight: 700, marginBottom: 4 }}>2 · What is actually measured</h2>
           <p style={{ fontSize: 12.8, color: "var(--muted)", lineHeight: 1.6, marginBottom: 12 }}>
-            This is a critical-care registry, not a chest-pain workup: labs are recorded for ICU severity scoring, not to
+            This is a critical-care ICU snapshot, not a chest-pain workup: labs are recorded for ICU severity scoring, not to
             work up the index MI. Cardiac-specific markers are the sparsest. Not collected at all:{" "}
             <b>{v.not_collected.join(", ")}</b>.
           </p>
@@ -142,9 +142,9 @@ export default function ValidationPage() {
 
         <div style={{ background: "var(--panel)", border: "1px solid var(--border)", borderRadius: 10, padding: "12px 16px", maxWidth: 920 }}>
           <p style={{ fontSize: 11.8, color: "var(--muted)", lineHeight: 1.55, margin: 0 }}>
-            <b style={{ color: "var(--text)" }}>Provenance &amp; limits.</b> Source registry de-identified; site and dataset
+            <b style={{ color: "var(--text)" }}>Provenance &amp; limits.</b> Source dataset de-identified; site and dataset
             name withheld. &ldquo;ACS&rdquo; is an initial clinical impression, not adjudicated Type&nbsp;1. The
-            lactate/creatinine signal is partly confounded with the shock / mechanical-support waves, so it may track
+            lactate/creatinine signal is partly confounded with the shock / mechanical-support subgroup, so it may track
             illness severity as well as Type&nbsp;2 biology. These results support hypothesis prioritization, not a
             validated clinical instrument. See the{" "}
             <a href="/about" style={{ color: "var(--accent)", fontWeight: 600 }}>Methods</a> page for atlas provenance.

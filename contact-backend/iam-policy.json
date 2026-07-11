@@ -8,7 +8,7 @@
       "Resource": "*",
       "Condition": {
         "StringEquals": {
-          "ses:FromAddress": "admin@coronaryatlas.com"
+          "ses:FromAddress": "admin@thecviu.com"
         }
       }
     }

@@ -9,7 +9,7 @@ const SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || TEST_SITE_KEY;
 // Optional POST endpoint (e.g. a Formspree/Basin form ID URL). If unset, the
 // form falls back to composing a mailto: so it still works on a static host.
 const FORM_ENDPOINT = process.env.NEXT_PUBLIC_CONTACT_ENDPOINT || "";
-const FALLBACK_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "admin@coronaryatlas.com";
+const FALLBACK_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "admin@thecviu.com";
 
 type Kind = "molecule" | "feedback";
 
