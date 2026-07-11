@@ -32,11 +32,27 @@ export default function AboutPage() {
 
         <H>Coverage vs. our own earlier (abandoned) 260-molecule attempt</H>
         <P>
-          The 260-molecule catalog referenced here is <b>not prior work by others</b> — it was <b>our own first attempt</b>,
-          built the day before this project. That earlier build was <b>abandoned</b> because its approach was not leading to
-          the right answer (the analysis had gone down the wrong path), so this project was started fresh with a clean de novo
-          harvest. The comparison below is therefore an internal sanity check against our own discarded draft, <b>not</b> a
-          reuse of external prior art. The code for that abandoned earlier project is archived at{" "}
+          <b>Both projects were created for the Anthropic Life Science Hackathon, and both were started after the hackathon
+          was launched.</b> To avoid any confusion, the exact creation timestamps (from their git histories) are:
+        </P>
+        <ul style={{ margin: "0 0 12px 0", paddingLeft: 20, color: "var(--muted)", fontSize: 14, lineHeight: 1.7 }}>
+          <li>
+            <b>Earlier, abandoned attempt</b> (<a href="https://github.com/singamnv/t1t2-biomarker-miner" target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)", fontWeight: 600 }}>t1t2-biomarker-miner</a>):
+            first commit <b>Tuesday, July 7, 2026 at 2:38 PM EDT</b> (6:38 PM UTC); abandoned the same day
+            (last commit 8:51 PM EDT).
+          </li>
+          <li>
+            <b>This project — CoronaryAtlas</b> (<a href="https://github.com/singamnv/t1-mi-pathway-atlas" target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)", fontWeight: 600 }}>t1-mi-pathway-atlas</a>):
+            first commit <b>Thursday, July 9, 2026 at 9:42 PM EDT</b> (Friday, July 10, 2026 at 1:42 AM UTC).
+          </li>
+        </ul>
+        <P>
+          The 260-molecule catalog referenced here is therefore <b>not prior work by others</b> — it was <b>our own first
+          attempt</b>, built roughly two days before this project during the same hackathon. That earlier build was
+          <b> abandoned</b> because its approach was not leading to the right answer (the analysis had gone down the wrong
+          path), so this project was started fresh with a clean de novo harvest. The comparison below is therefore an
+          internal sanity check against our own discarded draft, <b>not</b> a reuse of external prior art. The code for that
+          abandoned earlier project is archived at{" "}
           <a href="https://github.com/singamnv/t1t2-biomarker-miner" target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)", fontWeight: 600 }}>github.com/singamnv/t1t2-biomarker-miner</a>.
         </P>
         <P>
