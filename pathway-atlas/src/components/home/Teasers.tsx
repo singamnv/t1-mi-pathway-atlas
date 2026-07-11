@@ -51,8 +51,8 @@ export function DiscriminationTeaser({ rows }: { rows: DiscRecord[] }) {
   return (
     <TeaserCard href="/discrimination" cta="Open the T1-vs-T2 table — sortable R / C / A / E sub-scores">
       <div className="mono-kicker" style={{ marginBottom: 10 }}>discrimination sub-scores · top markers</div>
-      <div style={{ overflowX: "auto" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+      <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
+        <table style={{ width: "100%", minWidth: 380, borderCollapse: "collapse" }}>
           <thead>
             <tr><th style={head}>Marker</th><th style={{ ...head, textAlign: "right" }}>R</th><th style={{ ...head, textAlign: "right" }}>C</th><th style={{ ...head, textAlign: "right" }}>A</th><th style={{ ...head, textAlign: "right" }}>E</th><th style={{ ...head, textAlign: "right" }}>T1DI</th></tr>
           </thead>
