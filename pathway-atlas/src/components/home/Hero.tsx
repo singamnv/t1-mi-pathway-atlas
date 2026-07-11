@@ -17,9 +17,9 @@ export default function Hero({ nMolecules }: { nMolecules: number }) {
           className="font-display"
           style={{ fontSize: "clamp(34px, 5vw, 58px)", fontWeight: 700, lineHeight: 1.04, letterSpacing: "-1.4px", margin: "16px 0 18px", color: "var(--text)", maxWidth: 900 }}
         >
-          Every biomarker of a Type&nbsp;1 myocardial infarction, mapped to{" "}
+          The Type&nbsp;I MI biomarker landscape, mapped to{" "}
           <span style={{ background: "var(--accent-grad)", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
-            where it acts
+            its step in the atherothrombotic cascade
           </span>
           .
         </h1>
