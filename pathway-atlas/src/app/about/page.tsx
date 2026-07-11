@@ -36,7 +36,8 @@ export default function AboutPage() {
           built the day before this project. That earlier build was <b>abandoned</b> because its approach was not leading to
           the right answer (the analysis had gone down the wrong path), so this project was started fresh with a clean de novo
           harvest. The comparison below is therefore an internal sanity check against our own discarded draft, <b>not</b> a
-          reuse of external prior art.
+          reuse of external prior art. The code for that abandoned earlier project is archived at{" "}
+          <a href="https://github.com/singamnv/t1t2-biomarker-miner" target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)", fontWeight: 600 }}>github.com/singamnv/t1t2-biomarker-miner</a>.
         </P>
         <P>
           As that cross-check, the de novo catalog ({d.denovo_catalog_size?.toLocaleString()} molecules) was compared to the
@@ -59,6 +60,12 @@ export default function AboutPage() {
           confidence dot (green/amber/grey). Molecule extraction from free-text abstracts is imperfect and can miss or
           mis-name entities. Trial and omics links are title-level string matches and are conservative. The atlas is a
           discovery-oriented map for hypothesis generation, not a clinical decision tool.
+        </P>
+
+        <H>Source code</H>
+        <P>
+          This project — the CoronaryAtlas app, the de novo catalog, scoring and methodology — is open source at{" "}
+          <a href="https://github.com/singamnv/t1-mi-pathway-atlas" target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)", fontWeight: 600 }}>github.com/singamnv/t1-mi-pathway-atlas</a>.
         </P>
 
         <H>Summary figures</H>

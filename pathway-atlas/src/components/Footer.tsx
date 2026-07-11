@@ -52,6 +52,11 @@ export default function Footer() {
             {c.links.map((l) => (
               <Link key={l.href} href={l.href}>{l.label}</Link>
             ))}
+            {c.title === "Project" && (
+              <a href="https://github.com/singamnv/t1-mi-pathway-atlas" target="_blank" rel="noopener noreferrer">
+                GitHub repository ↗
+              </a>
+            )}
           </div>
         ))}
       </div>

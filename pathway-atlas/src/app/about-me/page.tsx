@@ -28,17 +28,24 @@ export default function AboutMePage() {
           </div>
           <div style={{ minWidth: 220, flex: 1 }}>
             <div style={{ fontFamily: "var(--ff-display)", fontSize: 20, fontWeight: 700, color: "var(--text)" }}>
-              The author
+              Narayana Sarma V. Singam, MD, FACC
             </div>
             <div className="mono-kicker" style={{ marginTop: 4 }}>
               Cardiologist · Biomedical engineer · ML / AI
+            </div>
+            <div style={{ marginTop: 8 }}>
+              <a href="https://sarmasingam.com" target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)", fontWeight: 600, fontSize: 14 }}>
+                sarmasingam.com ↗
+              </a>
             </div>
           </div>
         </div>
 
         <P>
-          I am a <b>cardiologist</b> and <b>biomedical engineer</b> with a focus on <b>machine learning and AI</b>, and
-          a strong interest in <b>developing software at the frontiers of medicine</b>.
+          I am <b>Narayana Sarma V. Singam, MD, FACC</b> — a <b>cardiologist</b> and <b>biomedical engineer</b> with a
+          focus on <b>machine learning and AI</b>, and a strong interest in <b>developing software at the frontiers of
+          medicine</b>. More about my work is at{" "}
+          <a href="https://sarmasingam.com" target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)", fontWeight: 600 }}>sarmasingam.com</a>.
         </P>
         <P>
           CoronaryAtlas grew out of that interest: an attempt to map every candidate molecule of a Type&nbsp;1
