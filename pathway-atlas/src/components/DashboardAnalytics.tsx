@@ -108,7 +108,7 @@ export default function DashboardAnalytics({ a }: { a: A }) {
         />
       </Box>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18 }}>
+      <div className="grid-collapse" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18 }}>
         {/* 2. discrimination class by step */}
         <Box title="Discrimination class by pathway step"
           note="How each cascade step's molecules distribute across T1-vs-T2 classes. Hover for counts.">
@@ -190,7 +190,7 @@ export default function DashboardAnalytics({ a }: { a: A }) {
       </div>
 
       {/* 6. specimen tubes */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18 }}>
+      <div className="grid-collapse" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18 }}>
         <Box title="Specimen collection tubes"
           note="Primary blood-collection tube per marker (color-coded phlebotomy standard). K2-EDTA whole-blood entries are the gene-locus/genotyping records.">
           <ResponsiveContainer width="100%" height={300}>

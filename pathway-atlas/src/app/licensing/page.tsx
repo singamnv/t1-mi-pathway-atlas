@@ -8,14 +8,32 @@ export default function LicensingPage() {
       <Header subtitle="Licensing" />
       <main className="container-x" style={{ padding: "26px 24px 70px", maxWidth: 820 }}>
         <h1 style={{ fontSize: 26, fontWeight: 800, marginBottom: 6 }}>Licensing</h1>
-        <p className="mono-kicker" style={{ marginBottom: 22 }}>How the atlas and its underlying data may be used</p>
+        <p className="mono-kicker" style={{ marginBottom: 18 }}>How the atlas and its underlying data may be used</p>
+
+        <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 20 }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <a href="https://github.com/singamnv/t1-mi-pathway-atlas/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">
+            <img src="/badges/mit.svg" alt="Code license: MIT" height={24} style={{ display: "block" }} />
+          </a>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener noreferrer">
+            <img src="/badges/cc-by-nc.svg" alt="Data license: CC BY-NC 4.0" height={24} style={{ display: "block" }} />
+          </a>
+        </div>
+
+        <P>
+          CoronaryAtlas is <b>open source</b>. It is dual-licensed: the software is released under the permissive{" "}
+          <b>MIT License</b>, and the curated dataset under <b>Creative Commons Attribution-NonCommercial 4.0
+          (CC&nbsp;BY-NC&nbsp;4.0)</b>. The full source and license files live in the{" "}
+          <a href="https://github.com/singamnv/t1-mi-pathway-atlas" target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)", fontWeight: 600 }}>GitHub repository</a>.
+        </P>
 
         <H>Content &amp; data</H>
         <P>
           The curated CoronaryAtlas dataset — the molecule catalog, pathway-step placements, confidence and rationale
-          annotations, and derived analytics — is released for <b>non-commercial research and educational use</b>. You
-          are free to explore, download, and reuse it for academic, clinical-research, and teaching purposes with
-          attribution to <b>CoronaryAtlas</b>.
+          annotations, and derived analytics — is released under <b>CC&nbsp;BY-NC&nbsp;4.0</b> for <b>non-commercial
+          research and educational use</b>. You are free to share and adapt it for academic, clinical-research, and
+          teaching purposes with attribution to <b>CoronaryAtlas</b>.
         </P>
         <P>
           Attribution suggestion: “Data from CoronaryAtlas — a de novo molecular atlas of the Type&nbsp;1 myocardial
@@ -33,8 +51,9 @@ export default function LicensingPage() {
 
         <H>Software</H>
         <P>
-          The CoronaryAtlas web application is provided as-is for research and educational use. If a formal open-source
-          license is later attached to the codebase, it will be stated here and in the source repository.
+          The CoronaryAtlas web application and its contact backend are open source under the <b>MIT License</b> — free
+          to use, modify, and redistribute (including commercially) with attribution. The full license text is in the{" "}
+          <a href="https://github.com/singamnv/t1-mi-pathway-atlas/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)", fontWeight: 600 }}>LICENSE file</a> of the source repository.
         </P>
 
         <H>No warranty</H>

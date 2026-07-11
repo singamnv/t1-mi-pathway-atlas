@@ -61,7 +61,9 @@ export default function Footer() {
         ))}
       </div>
       <div className="container-x" style={{ padding: "0 24px 30px", fontSize: 12, color: "var(--muted-2)" }}>
-        © {year} CoronaryAtlas · For research and educational use only.
+        © {year} CoronaryAtlas · Open source — code MIT, data{" "}
+        <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener noreferrer" style={{ color: "inherit", textDecoration: "underline" }}>CC BY-NC 4.0</a>{" "}
+        · For research and educational use only.
       </div>
     </footer>
   );

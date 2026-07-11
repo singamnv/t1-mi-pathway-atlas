@@ -88,7 +88,7 @@ export default function CrossFilter({ mols, stepShort }: { mols: Mol[]; stepShor
           </button>
         )}
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+      <div className="grid-collapse" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
         <div style={panel}><div style={ptitle}>By pathway step</div><MiniBar data={byStep} onPick={(k) => setStep(step === k ? null : k)} active={step} /></div>
         <div style={panel}><div style={ptitle}>By discrimination class</div><MiniBar data={byClass} onPick={(k) => setCls(cls === k ? null : k)} active={cls} /></div>
         <div style={panel}><div style={ptitle}>By molecule type</div><MiniBar data={byType} onPick={(k) => setType(type === k ? null : k)} active={type} /></div>

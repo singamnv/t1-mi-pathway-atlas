@@ -16,16 +16,17 @@ export default function AboutMePage() {
             borderRadius: "var(--r-lg)", padding: 22, boxShadow: "var(--shadow-sm)", marginBottom: 26,
           }}
         >
-          <div
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/author.jpg"
+            alt="Narayana Sarma V. Singam, MD, FACC"
+            width={96}
+            height={96}
             style={{
-              width: 68, height: 68, borderRadius: 18, background: "var(--accent-grad)",
-              display: "grid", placeItems: "center", flex: "0 0 auto",
-              boxShadow: "0 10px 26px -12px rgba(99,102,241,0.8)",
+              width: 96, height: 96, borderRadius: 20, objectFit: "cover", flex: "0 0 auto",
+              border: "1px solid var(--border)", boxShadow: "0 10px 26px -12px rgba(99,102,241,0.8)",
             }}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.svg" alt="" width={46} height={46} style={{ borderRadius: 12, display: "block" }} />
-          </div>
+          />
           <div style={{ minWidth: 220, flex: 1 }}>
             <div style={{ fontFamily: "var(--ff-display)", fontSize: 20, fontWeight: 700, color: "var(--text)" }}>
               Narayana Sarma V. Singam, MD, FACC
@@ -33,9 +34,15 @@ export default function AboutMePage() {
             <div className="mono-kicker" style={{ marginTop: 4 }}>
               Cardiologist · Biomedical engineer · ML / AI
             </div>
-            <div style={{ marginTop: 8 }}>
+            <div style={{ marginTop: 8, display: "flex", gap: 16, flexWrap: "wrap", alignItems: "center" }}>
               <a href="https://sarmasingam.com" target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)", fontWeight: 600, fontSize: 14 }}>
                 sarmasingam.com ↗
+              </a>
+              <a href="https://www.linkedin.com/in/singamnv" target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)", fontWeight: 600, fontSize: 14 }}>
+                LinkedIn ↗
+              </a>
+              <a href="https://x.com/singamnv" target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)", fontWeight: 600, fontSize: 14 }}>
+                X ↗
               </a>
             </div>
           </div>

@@ -84,7 +84,7 @@ export default function DxUtility({ rows }: { rows: DxRecord[] }) {
   const inputStyle: React.CSSProperties = { background: "var(--panel-2)", border: "1px solid var(--border)", color: "var(--text)", borderRadius: 8, padding: "8px 11px", fontSize: 13, outline: "none" };
 
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "340px 1fr", gap: 20, alignItems: "start" }}>
+    <div className="grid-collapse" style={{ display: "grid", gridTemplateColumns: "340px 1fr", gap: 20, alignItems: "start" }}>
       {/* Controls */}
       <div style={{ ...card, position: "sticky", top: 16 }}>
         <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 4 }}>Weight the criteria</div>

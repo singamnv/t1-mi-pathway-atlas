@@ -42,13 +42,14 @@ export default function CascadeExplorer({ steps }: { steps: CascadeStep[] }) {
       <div style={{ position: "relative", padding: "6px 0 4px" }}>
         <div
           aria-hidden
+          className="cascade-flowline"
           style={{
             position: "absolute", left: 26, right: 26, top: 28, height: 3, transform: "translateY(-50%)",
             background: FLOW_GRADIENT, backgroundSize: "200% 100%", animation: "flow 3s linear infinite",
             borderRadius: 3, opacity: 0.55,
           }}
         />
-        <div style={{ position: "relative", display: "flex", justifyContent: "space-between", gap: 6 }}>
+        <div className="cascade-rail" style={{ position: "relative", display: "flex", justifyContent: "space-between", gap: 6 }}>
           {steps.map((st, i) => {
             const active = i === sel;
             return (

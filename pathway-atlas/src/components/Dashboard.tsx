@@ -45,7 +45,7 @@ export default function Dashboard({ stats }: { stats: Stats }) {
   const confColor: Record<string, string> = { high: "#43a047", medium: "#e0a92b", low: "#8b98a9" };
 
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+    <div className="grid-collapse" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
       {/* Step distribution — full width, clickable */}
       <div style={{ ...card, gridColumn: "1 / -1" }}>
         <CardTitle sub="Click a bar to jump to that step. Lighter overlay = druggable targets.">

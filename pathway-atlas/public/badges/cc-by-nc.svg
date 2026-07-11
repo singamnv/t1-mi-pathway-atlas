@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="168" height="24" role="img" aria-label="Data License: CC BY-NC 4.0">
+  <title>Data License: CC BY-NC 4.0</title>
+  <linearGradient id="s" x2="0" y2="100%">
+    <stop offset="0" stop-color="#fff" stop-opacity=".1"/>
+    <stop offset="1" stop-opacity=".1"/>
+  </linearGradient>
+  <clipPath id="r"><rect width="168" height="24" rx="5" fill="#fff"/></clipPath>
+  <g clip-path="url(#r)">
+    <rect width="82" height="24" fill="#334155"/>
+    <rect x="82" width="86" height="24" fill="#6366f1"/>
+    <rect width="168" height="24" fill="url(#s)"/>
+  </g>
+  <g fill="#fff" text-anchor="middle" font-family="IBM Plex Sans,Segoe UI,Helvetica,Arial,sans-serif" font-size="12">
+    <text x="41" y="16" fill="#0b1220" fill-opacity=".25">Data</text>
+    <text x="41" y="15">Data</text>
+    <text x="125" y="16" fill="#1a1c52" fill-opacity=".3">CC BY-NC 4.0</text>
+    <text x="125" y="15">CC BY-NC 4.0</text>
+  </g>
+</svg>

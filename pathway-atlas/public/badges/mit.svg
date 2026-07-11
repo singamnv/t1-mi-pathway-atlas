@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="132" height="24" role="img" aria-label="License: MIT">
+  <title>License: MIT</title>
+  <linearGradient id="s" x2="0" y2="100%">
+    <stop offset="0" stop-color="#fff" stop-opacity=".1"/>
+    <stop offset="1" stop-opacity=".1"/>
+  </linearGradient>
+  <clipPath id="r"><rect width="132" height="24" rx="5" fill="#fff"/></clipPath>
+  <g clip-path="url(#r)">
+    <rect width="83" height="24" fill="#334155"/>
+    <rect x="83" width="49" height="24" fill="#22d3ee"/>
+    <rect width="132" height="24" fill="url(#s)"/>
+  </g>
+  <g fill="#fff" text-anchor="middle" font-family="IBM Plex Sans,Segoe UI,Helvetica,Arial,sans-serif" font-size="12">
+    <text x="42" y="16" fill="#0b1220" fill-opacity=".25">License</text>
+    <text x="42" y="15">License</text>
+    <text x="107" y="16" fill="#06323a" fill-opacity=".3">MIT</text>
+    <text x="107" y="15" fill="#04222a">MIT</text>
+  </g>
+</svg>
