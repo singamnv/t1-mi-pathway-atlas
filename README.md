@@ -46,6 +46,17 @@ repositories — normalized, deduplicated, and assigned to a pathway step:
 | Myocardial injury | 254 |
 | Systemic / off-pathway | 435 |
 
+## Provenance & timeline
+
+**Both projects below were created for the Anthropic *Built with Claude: Life Sciences* Hackathon, and both were started _after_ the hackathon was launched.** Exact creation timestamps are taken from the projects' git histories so there is no ambiguity:
+
+| Project | Repository | First commit | Status |
+|---|---|---|---|
+| Earlier, abandoned attempt | [t1t2-biomarker-miner](https://github.com/singamnv/t1t2-biomarker-miner) | **Tue, Jul 7, 2026 — 2:38 PM EDT** (6:38 PM UTC) | Abandoned the same day (last commit 8:51 PM EDT) |
+| **This project — CoronaryAtlas** | [t1-mi-pathway-atlas](https://github.com/singamnv/t1-mi-pathway-atlas) | **Thu, Jul 9, 2026 — 9:42 PM EDT** (Fri, Jul 10, 1:42 AM UTC) | Active |
+
+The earlier 260-molecule catalog referenced in the atlas is **not prior work by others** — it was our own first attempt during the same hackathon, built roughly two days before this project. It was abandoned because its approach was not converging on the right answer, so this project was restarted from scratch with a clean de novo harvest. Any comparison against that earlier catalog is an internal sanity check against our own discarded draft, not a reuse of external prior art.
+
 ## Scoring framework
 
 Each candidate is scored against a **7-driver Type-II confounder panel** (sepsis, anemia,
