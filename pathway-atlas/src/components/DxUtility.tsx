@@ -2,19 +2,33 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { DxRecord } from "@/lib/data";
+import InfoTip from "@/components/InfoTip";
 
 type DimKey = "feasibility" | "evidence" | "rupture" | "demand_spec" | "direct_t1" | "novelty" | "dx_performance" | "dx_kinetics" | "dx_incremental";
 const DIMS: { key: DimKey; label: string; hint: string; color: string }[] = [
-  { key: "rupture",     label: "Plaque-rupture signal", hint: "Rises with atherothrombotic plaque rupture (Type-I responsiveness)", color: "#4cc9f0" },
-  { key: "demand_spec", label: "Specificity vs demand", hint: "Specificity against Type-II drivers — sepsis, hypotension, bleeding, tachycardia, hypoxemia (inverted confounder score)", color: "#f2854e" },
-  { key: "direct_t1",   label: "Direct T1 > T2 evidence", hint: "Head-to-head studies showing the marker is higher in Type-I than Type-II MI", color: "#43d17a" },
-  { key: "dx_performance", label: "Diagnostic performance", hint: "Reported sensitivity/specificity/AUC for detecting MI (extracted from accuracy studies)", color: "#ff6b9d" },
-  { key: "dx_kinetics", label: "Release kinetics", hint: "How early the marker rises after symptom onset — governs early rule-out / 0-1h algorithms", color: "#c77dff" },
-  { key: "dx_incremental", label: "Incremental vs troponin", hint: "What the marker adds ON TOP of high-sensitivity troponin (added AUC / reclassification)", color: "#ffd166" },
-  { key: "feasibility", label: "Assay feasibility", hint: "How easily measured — specimen, platform, turnaround", color: "#72b7b2" },
-  { key: "evidence",    label: "Evidence strength", hint: "Volume, study design and directness of supporting data", color: "#9d8df1" },
-  { key: "novelty",     label: "Novelty", hint: "Under-explored as a Type-I diagnostic (incumbents like troponin score low)", color: "#e0c04a" },
+  { key: "rupture",     label: "Plaque-rupture signal", hint: "Rises with atherothrombotic plaque rupture — the mechanism that defines a Type-I MI. Higher = more responsive to rupture biology.", color: "#4cc9f0" },
+  { key: "demand_spec", label: "Specificity vs demand", hint: "Specificity against Type-II (supply–demand) drivers such as sepsis, hypotension, bleeding, tachycardia and hypoxemia. This is the confounder score inverted, so higher = less likely to rise from demand ischemia alone.", color: "#f2854e" },
+  { key: "direct_t1",   label: "Direct T1 > T2 evidence", hint: "Strength of head-to-head studies directly comparing the marker in Type-I vs Type-II MI patients. Higher = more direct evidence it is elevated specifically in Type-I.", color: "#43d17a" },
+  { key: "dx_performance", label: "Diagnostic performance", hint: "Reported diagnostic accuracy for detecting MI — sensitivity, specificity and AUC extracted from index-test / accuracy studies. Blank when no accuracy study was found.", color: "#ff6b9d" },
+  { key: "dx_kinetics", label: "Release kinetics", hint: "How early the marker rises after symptom onset — the property that governs early rule-out and 0–1 h triage algorithms. Higher = earlier detectable.", color: "#c77dff" },
+  { key: "dx_incremental", label: "Incremental vs troponin", hint: "What the marker adds on top of high-sensitivity troponin — added AUC or reclassification when combined with troponin. Higher = more complementary information.", color: "#ffd166" },
+  { key: "feasibility", label: "Assay feasibility", hint: "How readily the marker can be measured in practice — specimen type, assay-platform availability and turnaround time. Higher = more deployable.", color: "#72b7b2" },
+  { key: "evidence",    label: "Evidence strength", hint: "Overall strength of the supporting data — volume, study design and how directly it bears on Type-I MI. Higher = better-evidenced.", color: "#9d8df1" },
+  { key: "novelty",     label: "Novelty", hint: "How under-explored the marker is as a Type-I diagnostic. Incumbents already in clinical use (troponin, CK-MB, myoglobin, CRP, BNP, D-dimer …) are capped low so they never score as novel.", color: "#e0c04a" },
 ];
+
+// Compact table headers → the criterion they abbreviate, for header tooltips.
+const HEADER_TIP: Record<string, React.ReactNode> = {
+  Score: "Composite score (0–100): the weighted average of the nine sub-scores using your current slider weights. With “penalize missing data” on, gaps count against the score.",
+  ...Object.fromEntries(DIMS.map((d) => [d.label, d.hint])),
+  Class: "The molecule's Type-I-vs-Type-II discrimination class from the scoring methodology (Type-I-specific, Shared / rises in both, Type-II-associated, and lower-evidence classes).",
+};
+// The table renders short header strings; map each to a full label key above.
+const HEADER_ALIAS: Record<string, string> = {
+  Rupt: "Plaque-rupture signal", "Dem.spec": "Specificity vs demand", "T1>T2": "Direct T1 > T2 evidence",
+  Perf: "Diagnostic performance", Kin: "Release kinetics", Incr: "Incremental vs troponin",
+  Feas: "Assay feasibility", Evid: "Evidence strength", Novel: "Novelty",
+};
 const Z: Record<DimKey, number> = { rupture: 0, demand_spec: 0, direct_t1: 0, dx_performance: 0, dx_kinetics: 0, dx_incremental: 0, feasibility: 0, evidence: 0, novelty: 0 };
 const PRESETS: { name: string; w: Record<DimKey, number>; note: string }[] = [
   { name: "Rule-in Type I", note: "Confirm atherothrombosis over demand ischemia", w: { ...Z, rupture: 90, demand_spec: 100, direct_t1: 90, feasibility: 40, evidence: 50, novelty: 10 } },
@@ -84,7 +98,7 @@ export default function DxUtility({ rows }: { rows: DxRecord[] }) {
         {DIMS.map((d) => (
           <div key={d.key} style={{ marginBottom: 12 }}>
             <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12.5, marginBottom: 3 }}>
-              <span title={d.hint} style={{ color: "var(--text)", borderBottom: "1px dotted var(--border)", cursor: "help" }}>{d.label}</span>
+              <InfoTip text={d.hint} width={260}><span style={{ color: "var(--text)" }}>{d.label}</span></InfoTip>
               <span style={{ color: d.color, fontWeight: 700 }}>{w[d.key]}</span>
             </div>
             <input type="range" min={0} max={100} step={5} value={w[d.key]}
@@ -132,9 +146,16 @@ export default function DxUtility({ rows }: { rows: DxRecord[] }) {
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12.5 }}>
               <thead>
                 <tr style={{ position: "sticky", top: 0, background: "var(--bg)" }}>
-                  {["#", "Marker", "Score", "Rupt", "Dem.spec", "T1>T2", "Perf", "Kin", "Incr", "Feas", "Evid", "Novel", "Class"].map((h) => (
-                    <th key={h} style={{ padding: "8px 9px", textAlign: h === "Marker" || h === "Class" ? "left" : "right", color: "var(--muted)", fontWeight: 600, fontSize: 11.5, borderBottom: "1px solid var(--border)", whiteSpace: "nowrap" }}>{h}</th>
-                  ))}
+                  {["#", "Marker", "Score", "Rupt", "Dem.spec", "T1>T2", "Perf", "Kin", "Incr", "Feas", "Evid", "Novel", "Class"].map((h, hi, arr) => {
+                    const tip = HEADER_TIP[HEADER_ALIAS[h] ?? h];
+                    // last few numeric columns open their bubble to the right edge so it isn't clipped
+                    const alignRight = hi >= arr.length - 4;
+                    return (
+                      <th key={h} style={{ padding: "8px 9px", textAlign: h === "Marker" || h === "Class" ? "left" : "right", color: "var(--muted)", fontWeight: 600, fontSize: 11.5, borderBottom: "1px solid var(--border)", whiteSpace: "nowrap" }}>
+                        {tip ? <InfoTip text={tip} place="below" width={230} align={alignRight ? "right" : "left"}>{h}</InfoTip> : h}
+                      </th>
+                    );
+                  })}
                 </tr>
               </thead>
               <tbody>
