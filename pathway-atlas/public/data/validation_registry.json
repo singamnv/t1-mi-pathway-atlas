@@ -1,0 +1,128 @@
+{
+ "cohort": {
+  "source": "De-identified critical-care cardiology registry",
+  "n_admissions_total": 1265,
+  "n_waves": 7,
+  "mi_total": 224,
+  "mi_type1_acs": 162,
+  "mi_type2": 62,
+  "note": "MI coded via Primary/Secondary presenting cardiac problem. 'Acute coronary syndrome' is the Type-1/plaque-rupture umbrella (not sub-split into STEMI/NSTEMI, not adjudicated); 'Type 2 (Demand-related) MI' is an explicit separate category."
+ },
+ "coverage": [
+  {
+   "analyte": "Glucose",
+   "pct": 100
+  },
+  {
+   "analyte": "Platelets",
+   "pct": 94
+  },
+  {
+   "analyte": "Bilirubin",
+   "pct": 92
+  },
+  {
+   "analyte": "ALT",
+   "pct": 74
+  },
+  {
+   "analyte": "Creatinine",
+   "pct": 58
+  },
+  {
+   "analyte": "Lactate",
+   "pct": 20
+  },
+  {
+   "analyte": "Troponin",
+   "pct": 8
+  },
+  {
+   "analyte": "NT-proBNP",
+   "pct": 0
+  }
+ ],
+ "discriminators": [
+  {
+   "marker": "Lactate",
+   "t1_median": 1.8,
+   "t2_median": 4.2,
+   "unit": "mmol/L",
+   "higher_in": "Type 2",
+   "p": 0.03,
+   "auc": 0.8,
+   "n": 45
+  },
+  {
+   "marker": "Creatinine",
+   "t1_median": 1.46,
+   "t2_median": 2.81,
+   "unit": "mg/dL",
+   "higher_in": "Type 2",
+   "p": 0.003,
+   "auc": 0.69,
+   "n": 129
+  },
+  {
+   "marker": "Bilirubin",
+   "t1_median": 1.2,
+   "t2_median": 1.2,
+   "unit": "mg/dL",
+   "higher_in": "Type 1 (weak)",
+   "p": 0.001,
+   "auc": 0.62,
+   "n": 207
+  },
+  {
+   "marker": "ALT",
+   "t1_median": 200,
+   "t2_median": 200,
+   "unit": "U/L",
+   "higher_in": "Type 1",
+   "p": 0.002,
+   "auc": 0.57,
+   "n": 165
+  },
+  {
+   "marker": "Platelets",
+   "t1_median": 150,
+   "t2_median": 150,
+   "unit": "K/uL",
+   "higher_in": "\u2014",
+   "p": 0.096,
+   "auc": 0.54,
+   "n": 211
+  },
+  {
+   "marker": "Glucose",
+   "t1_median": 156,
+   "t2_median": 160,
+   "unit": "mg/dL",
+   "higher_in": "\u2014",
+   "p": 0.538,
+   "auc": 0.53,
+   "n": 224
+  },
+  {
+   "marker": "Age",
+   "t1_median": 65,
+   "t2_median": 65.5,
+   "unit": "yrs",
+   "higher_in": "\u2014",
+   "p": 0.55,
+   "auc": 0.53,
+   "n": 224
+  }
+ ],
+ "not_collected": [
+  "CK-MB",
+  "CRP",
+  "procalcitonin",
+  "D-dimer",
+  "myoglobin",
+  "hs-CRP",
+  "copeptin"
+ ],
+ "atlas_overlap": "Registry analytes map onto atlas catalog entries: troponin (cTnI/T), natriuretic peptides (BNP/NT-proBNP), LDH, creatinine, bilirubin. The atlas's #1/#2 markers (troponin, CK-MB) are exactly the ones this registry barely captures (troponin, 8%) or omits (CK-MB).",
+ "conclusion": "In this cohort Type 2 MI is separated by the demand/hypoperfusion axis \u2014 higher lactate and creatinine \u2014 consistent with supply-demand mismatch. Troponin is numeric in only 17/224 patients, so it cannot anchor a panel here. The registry validates the demand-axis feature prior but cannot serve as a training set for a deployable Type-1-vs-Type-2 classifier; that needs an ED chest-pain / rule-out cohort with universal serial hs-troponin and adjudicated labels."
+}

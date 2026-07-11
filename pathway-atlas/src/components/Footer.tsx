@@ -8,6 +8,7 @@ const COLS: { title: string; links: { href: string; label: string }[] }[] = [
       { href: "/dashboard", label: "Dashboard" },
       { href: "/discrimination", label: "T1 vs T2" },
       { href: "/diagnostic", label: "Diagnostic" },
+      { href: "/validation", label: "Validation" },
       { href: "/table", label: "Table" },
       { href: "/molecules", label: "Molecules" },
     ],

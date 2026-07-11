@@ -8,6 +8,7 @@ const NAV: { href: string; label: string }[] = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/discrimination", label: "T1 vs T2" },
   { href: "/diagnostic", label: "Diagnostic" },
+  { href: "/validation", label: "Validation" },
   { href: "/table", label: "Table" },
   { href: "/molecules", label: "Molecules" },
   { href: "/about", label: "Methods" },
