@@ -51,11 +51,11 @@ export default function Dashboard({ stats }: { stats: Stats }) {
         <CardTitle sub="Click a bar to jump to that step. Lighter overlay = druggable targets.">
           Molecules per cascade step
         </CardTitle>
-        <ResponsiveContainer width="100%" height={330}>
-          <BarChart data={stepData} margin={{ top: 6, right: 20, bottom: 40, left: 0 }}>
+        <ResponsiveContainer width="100%" height={380}>
+          <BarChart data={stepData} margin={{ top: 6, right: 16, bottom: 96, left: 0 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#26304140" vertical={false} />
-            <XAxis dataKey="name" tick={{ fill: "#8b98a9", fontSize: 11 }} angle={-25} textAnchor="end" interval={0} height={60} />
-            <YAxis tick={{ fill: "#8b98a9", fontSize: 11 }} />
+            <XAxis dataKey="name" tick={{ fill: "#8b98a9", fontSize: 10 }} angle={-40} textAnchor="end" interval={0} height={110} tickMargin={6} />
+            <YAxis tick={{ fill: "#8b98a9", fontSize: 11 }} width={34} />
             <Tooltip contentStyle={tipStyle} cursor={{ fill: "var(--track)" }} />
             <Bar dataKey="molecules" radius={[4, 4, 0, 0]} cursor="pointer"
                  onClick={(d: { step_id?: string }) => d.step_id && router.push(`/step/${d.step_id}`)}>
@@ -79,13 +79,13 @@ export default function Dashboard({ stats }: { stats: Stats }) {
         <CardTitle sub="Count of molecules with each evidence type, per cascade step.">
           Evidence coverage by step
         </CardTitle>
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={evidenceData} margin={{ top: 6, right: 10, bottom: 40, left: 0 }}>
+        <ResponsiveContainer width="100%" height={360}>
+          <BarChart data={evidenceData} margin={{ top: 6, right: 10, bottom: 96, left: 0 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#26304140" vertical={false} />
-            <XAxis dataKey="name" tick={{ fill: "#8b98a9", fontSize: 10 }} angle={-30} textAnchor="end" interval={0} height={64} />
-            <YAxis tick={{ fill: "#8b98a9", fontSize: 11 }} />
+            <XAxis dataKey="name" tick={{ fill: "#8b98a9", fontSize: 10 }} angle={-40} textAnchor="end" interval={0} height={110} tickMargin={6} />
+            <YAxis tick={{ fill: "#8b98a9", fontSize: 11 }} width={34} />
             <Tooltip contentStyle={tipStyle} cursor={{ fill: "var(--track)" }} />
-            <Legend wrapperStyle={{ fontSize: 11 }} />
+            <Legend verticalAlign="top" wrapperStyle={{ fontSize: 11, paddingBottom: 8 }} />
             <Bar dataKey="literature" stackId="a" fill="#4cc9f0" />
             <Bar dataKey="trials" stackId="a" fill="#f2c14e" />
             <Bar dataKey="omics" stackId="a" fill="#b388eb" />
@@ -104,14 +104,21 @@ export default function Dashboard({ stats }: { stats: Stats }) {
         <CardTitle sub={`${stats.n_molecules.toLocaleString()} molecules by biochemical class.`}>
           Molecule types
         </CardTitle>
-        <ResponsiveContainer width="100%" height={300}>
-          <PieChart>
-            <Pie data={typeData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={95} innerRadius={45}
-                 label={(e: { name?: string; value?: number }) => `${e.name} ${e.value}`} labelLine={false}
-                 style={{ fontSize: 10 }}>
+        <ResponsiveContainer width="100%" height={320}>
+          <PieChart margin={{ top: 4, right: 4, bottom: 4, left: 4 }}>
+            <Pie data={typeData} dataKey="value" nameKey="name" cx="50%" cy="45%" outerRadius="72%" innerRadius="38%"
+                 stroke="var(--panel)" strokeWidth={1.5}>
               {typeData.map((d) => <Cell key={d.name} fill={TYPE_COLOR[d.name] ?? "#bab0ac"} />)}
             </Pie>
-            <Tooltip contentStyle={tipStyle} />
+            <Tooltip contentStyle={tipStyle} formatter={(v: number, n: string) => [`${v} molecules`, n]} />
+            <Legend
+              layout="horizontal" align="center" verticalAlign="bottom"
+              wrapperStyle={{ fontSize: 11, lineHeight: "18px", paddingTop: 6 }}
+              formatter={(value: string) => {
+                const item = typeData.find((t) => t.name === value);
+                return `${value} ${item ? item.value : ""}`;
+              }}
+            />
           </PieChart>
         </ResponsiveContainer>
         <ChartHelp

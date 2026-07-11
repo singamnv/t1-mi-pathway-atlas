@@ -93,8 +93,9 @@ export default function MoleculesExplorer({ molecules, steps }: { molecules: Mol
       </div>
 
       <div style={{ border: "1px solid var(--border)", borderRadius: 12, overflow: "hidden", background: "var(--panel)", boxShadow: "0 1px 2px rgba(15,23,42,0.04)" }}>
-        <div style={{ maxHeight: "72vh", overflow: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+        <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
+        <div style={{ maxHeight: "72vh", overflowY: "auto" }}>
+          <table style={{ width: "100%", minWidth: 680, borderCollapse: "collapse", fontSize: 13 }}>
             <thead>
               <tr>
                 {th("name", "Molecule")}
@@ -154,6 +155,7 @@ export default function MoleculesExplorer({ molecules, steps }: { molecules: Mol
               })}
             </tbody>
           </table>
+        </div>
         </div>
       </div>
 

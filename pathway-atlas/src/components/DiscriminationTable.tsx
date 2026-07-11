@@ -103,8 +103,9 @@ export default function DiscriminationTable({ rows }: { rows: DiscRecord[] }) {
       </div>
 
       <div style={{ border: "1px solid var(--border)", borderRadius: 12, overflow: "hidden" }}>
-        <div style={{ maxHeight: "68vh", overflow: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+        <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
+        <div style={{ maxHeight: "68vh", overflowY: "auto" }}>
+          <table style={{ width: "100%", minWidth: 680, borderCollapse: "collapse", fontSize: 13 }}>
             <thead>
               <tr>
                 <th onClick={() => toggleSort("name")} style={{ textAlign: "left", padding: "9px 12px", cursor: "pointer", color: sortKey === "name" ? "var(--text)" : "var(--muted)", fontWeight: 600, fontSize: 12, borderBottom: "1px solid var(--border)", position: "sticky", top: 0, background: "var(--bg)" }}>Marker{sortKey === "name" ? (asc ? " ▲" : " ▼") : ""}</th>
@@ -153,6 +154,7 @@ export default function DiscriminationTable({ rows }: { rows: DiscRecord[] }) {
               ))}
             </tbody>
           </table>
+        </div>
         </div>
       </div>
       {filtered.length > limit && (

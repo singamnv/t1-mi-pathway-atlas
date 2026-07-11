@@ -99,8 +99,8 @@ export default function ValidationPage() {
             <span style={{ color: "#d1495b", fontWeight: 600 }}>red</span> are the two markers that meaningfully
             discriminate.
           </p>
-          <div style={{ overflowX: "auto", maxWidth: 920, marginBottom: 16 }}>
-            <table style={{ borderCollapse: "collapse", width: "100%", fontSize: 12.5 }}>
+          <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch", maxWidth: 920, marginBottom: 16 }}>
+            <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 620, fontSize: 12.5 }}>
               <thead>
                 <tr style={{ textAlign: "left", color: "var(--muted)", borderBottom: "1px solid var(--border)" }}>
                   <th style={{ padding: "7px 10px" }}>Marker</th>

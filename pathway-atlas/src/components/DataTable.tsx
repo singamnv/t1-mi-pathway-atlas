@@ -91,8 +91,9 @@ export default function DataTable({ molecules, steps }: { molecules: MoleculeSli
       </div>
 
       <div style={{ border: "1px solid var(--border)", borderRadius: 12, overflow: "hidden" }}>
-        <div style={{ maxHeight: "70vh", overflow: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+        <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
+        <div style={{ maxHeight: "70vh", overflowY: "auto" }}>
+          <table style={{ width: "100%", minWidth: 680, borderCollapse: "collapse", fontSize: 13 }}>
             <thead>
               <tr>
                 {th("name", "Molecule")}
@@ -134,6 +135,7 @@ export default function DataTable({ molecules, steps }: { molecules: MoleculeSli
               ))}
             </tbody>
           </table>
+        </div>
         </div>
       </div>
 

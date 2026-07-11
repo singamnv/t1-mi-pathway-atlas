@@ -18,7 +18,8 @@ export default function StepMoleculeTable({ molecules }: { molecules: MoleculeSl
 
   return (
     <div style={{ border: "1px solid var(--border)", borderRadius: 10, overflow: "hidden", background: "var(--panel)", boxShadow: "0 1px 2px rgba(15,23,42,0.04)" }}>
-      <div style={{ maxHeight: 380, overflowY: "auto", overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
+      <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
+        <div style={{ maxHeight: 380, overflowY: "auto" }}>
         <table style={{ width: "100%", minWidth: 600, borderCollapse: "collapse", fontSize: 13 }}>
           <thead>
             <tr>
@@ -62,6 +63,7 @@ export default function StepMoleculeTable({ molecules }: { molecules: MoleculeSl
             ))}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   );
