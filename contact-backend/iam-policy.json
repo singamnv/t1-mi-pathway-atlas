@@ -8,7 +8,7 @@
       "Resource": "*",
       "Condition": {
         "StringEquals": {
-          "ses:FromAddress": "admin@thecviu.com"
+          "ses:FromAddress": "admin@myakme.com"
         }
       }
     }

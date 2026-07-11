@@ -8,7 +8,7 @@ This folder is the small backend that closes that gap. It is one AWS Lambda
 that the contact form POSTs to. The Lambda:
 
 1. verifies the Cloudflare Turnstile token **server-side** (secret never leaves AWS),
-2. sends the submission to **admin@thecviu.com** via SES,
+2. sends the submission to **admin@myakme.com** via SES,
 3. returns JSON to the form.
 
 SES access comes from the Lambda's **IAM role** — no long-lived access keys are
@@ -19,7 +19,7 @@ static site (ContactForm)  ──POST JSON──▶  Lambda Function URL
                                               │  verify Turnstile
                                               │  ses:SendEmail
                                               ▼
-                                      admin@thecviu.com
+                                      admin@myakme.com
 ```
 
 ## Files
@@ -40,7 +40,7 @@ addresses too.
 
 ```bash
 # verify the sender/recipient address
-aws ses verify-email-identity --email-address admin@thecviu.com --region us-east-1
+aws ses verify-email-identity --email-address admin@myakme.com --region us-east-1
 # → click the confirmation link AWS emails to that address
 ```
 
@@ -105,7 +105,7 @@ secret before going live.
 ## Cost & security notes
 - Well within the AWS free tier for form-level traffic (Lambda + SES pennies).
 - The Function URL is public but useless without a valid Turnstile token.
-- IAM role can **only** call `ses:SendEmail` from `admin@thecviu.com`.
+- IAM role can **only** call `ses:SendEmail` from `admin@myakme.com`.
 - No AWS keys in the repo, the site, or the browser.
 
 ## Alternative (no AWS at all)
