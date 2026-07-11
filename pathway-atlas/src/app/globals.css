@@ -179,7 +179,7 @@ html, body { overflow-x: hidden; }
 /* Multi-column chart/panel grids stack one-per-row on tablets & phones.
    Uses !important to override the components' inline gridTemplateColumns. */
 @media (max-width: 820px) {
-  .grid-collapse { grid-template-columns: 1fr !important; }
+  .grid-collapse { grid-template-columns: minmax(0, 1fr) !important; }
 }
 
 /* "Tap a step" cascade rail: on phones the 9 nodes overflow, so let the rail
@@ -189,8 +189,9 @@ html, body { overflow-x: hidden; }
     justify-content: flex-start !important;
     gap: 18px !important;
     overflow-x: auto;
+    overflow-y: visible;
     -webkit-overflow-scrolling: touch;
-    padding-bottom: 10px;
+    padding: 12px 2px 10px;
     scrollbar-width: thin;
   }
   .cascade-rail > button { flex: 0 0 auto !important; min-width: 60px; }

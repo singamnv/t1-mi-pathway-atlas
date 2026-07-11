@@ -63,7 +63,7 @@ export default function Home() {
                 <span style={{ color: "#be185d" }}>◆</span> druggable · <span style={{ color: "#15803d" }}>✦</span> genetic
               </span>
             </p>
-            <div style={{ display: "grid", gap: 22, marginTop: 18 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr)", gap: 22, marginTop: 18 }}>
               {cascadeSteps.map((step, i) => {
                 const c = stepColor(step.step_id);
                 return (

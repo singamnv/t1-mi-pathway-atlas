@@ -103,8 +103,7 @@ export default function DiscriminationTable({ rows }: { rows: DiscRecord[] }) {
       </div>
 
       <div style={{ border: "1px solid var(--border)", borderRadius: 12, overflow: "hidden" }}>
-        <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
-        <div style={{ maxHeight: "68vh", overflowY: "auto" }}>
+        <div style={{ maxHeight: "68vh", overflow: "auto", WebkitOverflowScrolling: "touch" }}>
           <table style={{ width: "100%", minWidth: 680, borderCollapse: "collapse", fontSize: 13 }}>
             <thead>
               <tr>
@@ -154,7 +153,6 @@ export default function DiscriminationTable({ rows }: { rows: DiscRecord[] }) {
               ))}
             </tbody>
           </table>
-        </div>
         </div>
       </div>
       {filtered.length > limit && (

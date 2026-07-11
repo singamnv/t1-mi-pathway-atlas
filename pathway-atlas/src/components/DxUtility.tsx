@@ -142,8 +142,7 @@ export default function DxUtility({ rows }: { rows: DxRecord[] }) {
 
         {/* Ranked table */}
         <div style={{ border: "1px solid var(--border)", borderRadius: 12, overflow: "hidden" }}>
-          <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
-          <div style={{ maxHeight: "60vh", overflowY: "auto" }}>
+          <div style={{ maxHeight: "60vh", overflow: "auto", WebkitOverflowScrolling: "touch" }}>
             <table style={{ width: "100%", minWidth: 720, borderCollapse: "collapse", fontSize: 12.5 }}>
               <thead>
                 <tr style={{ position: "sticky", top: 0, background: "var(--bg)" }}>
@@ -184,7 +183,6 @@ export default function DxUtility({ rows }: { rows: DxRecord[] }) {
                 ))}
               </tbody>
             </table>
-          </div>
           </div>
         </div>
         {filtered.length > limit && (
