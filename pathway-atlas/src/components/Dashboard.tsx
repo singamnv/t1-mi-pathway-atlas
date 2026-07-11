@@ -5,6 +5,7 @@ import {
   PieChart, Pie, Legend, CartesianGrid,
 } from "recharts";
 import type { Stats } from "@/lib/types";
+import ChartHelp from "@/components/ChartHelp";
 
 const STEP_COLOR: Record<string, string> = {
   s1_lipid: "#e0a92b", s2_inflammation: "#e05a55", s3_rupture: "#c01a30",
@@ -66,6 +67,11 @@ export default function Dashboard({ stats }: { stats: Stats }) {
             </Bar>
           </BarChart>
         </ResponsiveContainer>
+        <ChartHelp
+          what={<>The number of catalogued molecules assigned to each of the eight atherothrombotic cascade steps (plus a systemic group). The solid bar is the total; the lighter overlay is the subset that is <b>druggable</b> (has a tractable drug target).</>}
+          read={<>Taller bar = more molecules mapped to that step. Compare the lighter overlay to the full bar to gauge what fraction of a step is druggable. Click any bar to open that step&apos;s molecule list.</>}
+          takeaway={<>Shows where biomarker discovery has concentrated across the cascade, and which steps are richest in actionable drug targets versus measurement-only markers.</>}
+        />
       </div>
 
       {/* Evidence coverage per step */}
@@ -86,6 +92,11 @@ export default function Dashboard({ stats }: { stats: Stats }) {
             <Bar dataKey="genetic" stackId="a" fill="#43d17a" />
           </BarChart>
         </ResponsiveContainer>
+        <ChartHelp
+          what={<>For each cascade step, a stacked bar counting how many of its molecules carry each evidence type — <b>literature</b> (PubMed), <b>trials</b> (ClinicalTrials.gov), <b>omics</b> (GEO/PRIDE/ArrayExpress), and <b>genetic</b> (Open Targets / GWAS).</>}
+          read={<>Total bar height = combined evidence entries at that step; each colored segment is one evidence type. A molecule can contribute to several segments, so this counts evidence coverage, not unique molecules.</>}
+          takeaway={<>Steps dominated by the literature segment are supported mostly by observational reports; visible trial and genetic segments flag steps with interventional or causal support.</>}
+        />
       </div>
 
       {/* Molecule type pie */}
@@ -103,6 +114,11 @@ export default function Dashboard({ stats }: { stats: Stats }) {
             <Tooltip contentStyle={tipStyle} />
           </PieChart>
         </ResponsiveContainer>
+        <ChartHelp
+          what={<>The biochemical class of every catalogued molecule — protein, gene, metabolite, RNA, lipid, peptide, lipoprotein, or complex.</>}
+          read={<>Each wedge is one class; the number is its molecule count. Larger wedge = more of the catalog is that class.</>}
+          takeaway={<>Indicates which assay technologies a full panel would require: protein/peptide markers imply immunoassay, metabolites and lipids imply mass-spec / NMR, and RNA implies nucleic-acid assays.</>}
+        />
       </div>
 
       {/* Confidence */}
@@ -120,6 +136,11 @@ export default function Dashboard({ stats }: { stats: Stats }) {
             </Bar>
           </BarChart>
         </ResponsiveContainer>
+        <ChartHelp
+          what={<>How many molecules fall into each confidence level — <b>high</b>, <b>medium</b>, or <b>low</b> — for their assigned cascade step. Confidence reflects the strength and consistency of the harvested evidence behind the placement, not the molecule&apos;s clinical importance.</>}
+          read={<>Longer bar = more molecules at that confidence. Each molecule&apos;s dot on its evidence page uses the same green / amber / grey coding.</>}
+          takeaway={<>Pathway-step placement is an evidence-tagged inference, not curated ground truth. High-confidence assignments are safest to build on; low-confidence ones are candidates to verify before relying on them.</>}
+        />
       </div>
     </div>
   );

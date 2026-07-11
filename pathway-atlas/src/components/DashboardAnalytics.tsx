@@ -5,6 +5,7 @@ import {
   ResponsiveContainer, ScatterChart, Scatter, XAxis, YAxis, ZAxis, CartesianGrid, Tooltip,
   BarChart, Bar, Cell, ReferenceLine, ReferenceArea, Legend, Customized,
 } from "recharts";
+import ChartHelp from "@/components/ChartHelp";
 
 const CLASS_COLOR: Record<string, string> = {
   "Type-I-specific": "#43d17a", "Type-I-leaning (direct)": "#8fe3a8", "Type-II-associated": "#f2854e",
@@ -50,6 +51,21 @@ export default function DashboardAnalytics({ a }: { a: A }) {
 
   return (
     <div>
+      {/* Scoring glossary — defines the vocabulary used by every chart below */}
+      <details style={{ ...card, background: "var(--panel-2)" }}>
+        <summary style={{ cursor: "pointer", fontSize: 13.5, fontWeight: 700, color: "var(--text)", listStyle: "none", display: "flex", alignItems: "center", gap: 8 }}>
+          <span style={{ color: "var(--accent)" }}>ⓘ</span> Scoring glossary — what R, C, D, T1DI and the classes mean
+        </summary>
+        <div style={{ marginTop: 12, fontSize: 12.5, lineHeight: 1.65, color: "var(--text-2)", display: "grid", gap: 8 }}>
+          <div><b style={{ color: "var(--text)" }}>R — Rupture / Type-I responsiveness (0–100).</b> How strongly a marker tracks the plaque-rupture / atherothrombotic process that defines a <b>Type&nbsp;1</b> MI. Higher = more responsive to rupture biology.</div>
+          <div><b style={{ color: "var(--text)" }}>C — Confounder / Type-II responsiveness (0–100).</b> How strongly the same marker also rises with supply–demand mismatch (tachycardia, anemia, sepsis) — the drivers of a <b>Type&nbsp;2</b> MI. Higher = less specific to Type&nbsp;1.</div>
+          <div><b style={{ color: "var(--text)" }}>D — Direct evidence.</b> Whether a marker has been tested in a study that <i>directly</i> compares Type&nbsp;1 vs Type&nbsp;2 patients (as opposed to inferred from mechanism). Only a handful of markers have this.</div>
+          <div><b style={{ color: "var(--text)" }}>T1DI — Type-I Discrimination Index (0–100).</b> A composite that rewards high R, penalizes high C, and up-weights markers with direct evidence. It is the single ranking score for “how cleanly does this separate Type&nbsp;1 from Type&nbsp;2?”</div>
+          <div><b style={{ color: "var(--text)" }}>Tiers.</b> <b>Tier&nbsp;1 (deep-scored)</b> markers were individually reviewed with full R/C/D scoring; the rest carry lighter, mechanism-derived estimates. Filter to Tier&nbsp;1 when you want the most defensible numbers.</div>
+          <div><b style={{ color: "var(--text)" }}>Discrimination classes.</b> <span style={{ color: CLASS_COLOR["Type-I-specific"] }}>Type-I-specific</span> = high R, low C · <span style={{ color: CLASS_COLOR["Shared / rises in both"] }}>Shared</span> = rises in both (e.g. troponin) · <span style={{ color: CLASS_COLOR["Type-II-associated"] }}>Type-II-associated</span> = tracks demand drivers · the greyed classes flag proxy-only or insufficient evidence.</div>
+        </div>
+      </details>
+
       {/* 1. R-vs-C signature scatter */}
       <Box title="Type-I vs Type-II signature map (R vs C)"
         note="Each point is a scored biomarker: x = rupture/Type-I responsiveness (R), y = confounder/Type-II responsiveness (C). Bottom-right = rises with plaque rupture but NOT with demand drivers (ideal Type-I-specific). Top-right = rises with both (e.g. troponin). Color = discrimination class. Click a point to open the molecule.">
@@ -85,6 +101,11 @@ export default function DashboardAnalytics({ a }: { a: A }) {
             <Legend wrapperStyle={{ fontSize: 11, paddingTop: 28 }} />
           </ScatterChart>
         </ResponsiveContainer>
+        <ChartHelp
+          what={<>The core view: every scored biomarker plotted by <b>R</b> (x, rupture / Type-I responsiveness) against <b>C</b> (y, confounder / Type-II responsiveness). Dot size scales with how many PubMed articles support the marker; color is its discrimination class.</>}
+          read={<>Read the quadrants. <b>Bottom-right</b> (high R, low C — shaded green) is the prize: rises with plaque rupture but not with demand drivers, i.e. Type-I-specific. <b>Top-right</b> rises with both (troponin lives here). <b>Left half</b> is weakly rupture-linked. The dashed lines mark the R=50 / C=50 midpoints. Click any dot to open that molecule.</>}
+          takeaway={<>Ideal Type-1 discriminators sit low and to the right. The scarcity of well-supported (large) dots in the bottom-right corner is exactly why Type&nbsp;1 vs Type&nbsp;2 separation is hard. Use the Tier-1 filter to see only deep-scored markers.</>}
+        />
       </Box>
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18 }}>
@@ -100,6 +121,11 @@ export default function DashboardAnalytics({ a }: { a: A }) {
               {CLASS_ORDER.map((c) => <Bar key={c} dataKey={c} stackId="s" fill={CLASS_COLOR[c]} />)}
             </BarChart>
           </ResponsiveContainer>
+          <ChartHelp
+            what={<>For each cascade step, the mix of discrimination classes among its molecules — a horizontal stacked bar broken into Type-I-specific, Shared, Type-II-associated and the lower-evidence classes (see glossary).</>}
+            read={<>Bar length = molecules scored at that step; each colored segment is one class. More green (Type-I-specific / -leaning) means that step contributes more markers that separate Type&nbsp;1 from Type&nbsp;2.</>}
+            takeaway={<>Locates the discriminating biology: steps weighted toward green are the mechanistic origin of Type-1-specific signal; steps dominated by grey/amber are mostly shared or under-evidenced.</>}
+          />
         </Box>
 
         {/* 3. evidence coverage by axis */}
@@ -116,6 +142,11 @@ export default function DashboardAnalytics({ a }: { a: A }) {
               </Bar>
             </BarChart>
           </ResponsiveContainer>
+          <ChartHelp
+            what={<>How many of the {(1969).toLocaleString()} molecules carry each kind of scored evidence — running from broad, easily-available evidence down to the rare direct Type-1-vs-Type-2 (D) studies.</>}
+            read={<>Longer bar = more molecules have that evidence axis. The axes are ordered so you can see the drop-off from abundant evidence at the top to scarce evidence at the bottom.</>}
+            takeaway={<>The steep fall to the <b>direct T1-vs-T2 (D)</b> bar is the central data gap: almost every marker is scored from indirect mechanism, and only a few have head-to-head clinical comparison. This is the honest limitation behind every other chart.</>}
+          />
         </Box>
 
         {/* 4. evidence source by step */}
@@ -131,6 +162,11 @@ export default function DashboardAnalytics({ a }: { a: A }) {
               <Legend wrapperStyle={{ fontSize: 10 }} />
             </BarChart>
           </ResponsiveContainer>
+          <ChartHelp
+            what={<>The same five evidence sources (literature, trials, omics, genetic, druggable) counted <b>per cascade step</b> — grouped bars rather than a single stack, so each source is directly comparable across steps.</>}
+            read={<>Within a step, compare the colored bars to see which evidence type dominates there; across steps, scan one color to see where that evidence concentrates.</>}
+            takeaway={<>Reveals the texture behind each step: some are propped up almost entirely by literature, while steps with visible genetic or trial bars have stronger causal or interventional backing.</>}
+          />
         </Box>
 
         {/* 5. assay method families */}
@@ -145,6 +181,11 @@ export default function DashboardAnalytics({ a }: { a: A }) {
               <Bar dataKey="n" fill="#72b7b2" radius={[0, 4, 4, 0]} label={{ position: "right", fill: "#8b98a9", fontSize: 11 }} />
             </BarChart>
           </ResponsiveContainer>
+          <ChartHelp
+            what={<>The laboratory method each marker would be measured by, tallied across the catalog — immunoassay, mass spectrometry, NMR, clinical chemistry, nucleic-acid assays, and so on.</>}
+            read={<>Longer bar = more markers use that method family. The mix follows directly from the molecule-type composition (proteins → immunoassay, metabolites/lipids → MS/NMR).</>}
+            takeaway={<>A practical read on panel logistics: an immunoassay-dominated panel is the most deployable on existing hospital analyzers, while heavy mass-spec reliance implies specialized reference-lab workflows.</>}
+          />
         </Box>
       </div>
 
@@ -161,6 +202,11 @@ export default function DashboardAnalytics({ a }: { a: A }) {
               <Bar dataKey="n" fill="#c77dff" radius={[0, 4, 4, 0]} label={{ position: "right", fill: "#8b98a9", fontSize: 11 }} />
             </BarChart>
           </ResponsiveContainer>
+          <ChartHelp
+            what={<>The primary blood-collection tube each marker needs, using the standard color-coded phlebotomy convention (e.g. SST/gold for serum, lavender/K2-EDTA for plasma and genotyping).</>}
+            read={<>Longer bar = more markers drawn into that tube type. The K2-EDTA whole-blood entries are the gene-locus / genotyping records rather than circulating analytes.</>}
+            takeaway={<>Shows how few distinct draws a combined panel would actually require — markers sharing a tube can be co-collected, which matters for real-world phlebotomy and assay batching.</>}
+          />
         </Box>
 
         {/* 7. assay validation status */}
@@ -177,6 +223,11 @@ export default function DashboardAnalytics({ a }: { a: A }) {
               </Bar>
             </BarChart>
           </ResponsiveContainer>
+          <ChartHelp
+            what={<>How well-established each marker&apos;s assay profile is: a <b>specific validated</b> clinical assay, a <b>specialized reference</b> method, or a <b>class-level default</b> inferred from the analyte type rather than an actual named assay.</>}
+            read={<>Each bar is one status category; height = number of markers. Taller “validated” bar = more of the catalog is measurable with an off-the-shelf clinical assay today.</>}
+            takeaway={<>A maturity check on measurability: validated markers could be deployed now, while class-default entries are aspirational and would need real assay development before use.</>}
+          />
         </Box>
       </div>
 
@@ -184,6 +235,11 @@ export default function DashboardAnalytics({ a }: { a: A }) {
       <Box title="Evidence-source co-occurrence (UpSet)"
         note="How evidence types stack up per marker. Each row is a combination of sources; the bar is how many molecules have exactly that set. Dots below mark which sources are in each combination.">
         <EvidenceUpset upset={a.upset} setsize={a.setsize} />
+        <ChartHelp
+          what={<>An UpSet plot — the readable alternative to a 5-way Venn diagram. It shows how the five evidence sources <b>combine</b> per marker: each column is one exact combination of sources.</>}
+          read={<>The dots under a column show which sources are in that set; the bar above is how many molecules have <i>exactly</i> that combination (not more, not fewer). The row labels on the left give each source&apos;s total set size.</>}
+          takeaway={<>The largest columns are typically literature-only and literature+druggable, quantifying how many markers rest on a single evidence type versus how few are corroborated across genetics, trials and omics together.</>}
+        />
       </Box>
 
       {/* 7c. Mechanism keyword frequency */}
@@ -198,6 +254,11 @@ export default function DashboardAnalytics({ a }: { a: A }) {
             <Bar dataKey="n" fill="#4cc9f0" radius={[0, 3, 3, 0]} label={{ position: "right", fill: "#8b98a9", fontSize: 10 }} />
           </BarChart>
         </ResponsiveContainer>
+        <ChartHelp
+          what={<>The most frequent mechanistic concepts across all {(1969).toLocaleString()} curated one-line mechanism descriptions — a word/phrase frequency count over the biology the catalog was built on (phrases appearing ≥5 times).</>}
+          read={<>Longer bar = the concept is invoked for more molecules. It reflects how often a mechanism is <i>described</i>, not a formal ontology mapping.</>}
+          takeaway={<>Surfaces the dominant biological themes of the atlas — inflammation, signaling, platelet activation — giving a quick sense of which processes the Type-1 cascade literature centers on.</>}
+        />
       </Box>
 
       {/* 8. T1DI leaderboard */}
@@ -215,6 +276,11 @@ export default function DashboardAnalytics({ a }: { a: A }) {
             <span style={{ width: 150, fontSize: 10.5, color: CLASS_COLOR[d.cls] ?? "#8b98a9", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{d.cls}</span>
           </div>
         ))}
+        <ChartHelp
+          what={<>The Tier-1 (deep-scored) markers ranked by <b>T1DI</b>, the composite Type-I Discrimination Index (see glossary) — the atlas&apos;s single best answer to “which markers most cleanly separate Type&nbsp;1 from Type&nbsp;2?”</>}
+          read={<>Rows are sorted high-to-low; the bar length and the number are the T1DI (0–100), and the bar color is the marker&apos;s discrimination class. Click any row to open that molecule&apos;s evidence page.</>}
+          takeaway={<>This is the shortlist to act on. Because T1DI rewards direct evidence, high-ranking markers are both mechanistically Type-1-leaning and comparatively well-supported — the strongest candidates for a discriminating panel.</>}
+        />
       </Box>
     </div>
   );

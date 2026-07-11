@@ -24,7 +24,7 @@ export default function DashboardPage() {
         </div>
         <p style={{ color: "var(--muted)", fontSize: 13.5, marginBottom: 18 }}>
           Interactive views over the {stats.n_molecules.toLocaleString()}-molecule catalog. Charts are hoverable; the step
-          chart is clickable.
+          chart is clickable. Each panel has a <b>“How to read this”</b> toggle with what it shows, how to read it, and the takeaway.
         </p>
         <Dashboard stats={stats} />
 
