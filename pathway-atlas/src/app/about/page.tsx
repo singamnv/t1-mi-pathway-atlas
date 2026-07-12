@@ -6,6 +6,7 @@ export default function AboutPage() {
   const d = meta.coverage_delta as Record<string, number>;
   const misses = (meta.coverage_delta as Record<string, unknown>).old_only_genuine_misses as string[] ?? [];
   const src = meta.harvest_sources;
+  const dd = (meta as unknown as Record<string, unknown>).dedup as Record<string, number> | undefined;
 
   return (
     <>
@@ -28,7 +29,15 @@ export default function AboutPage() {
           <li><b>Human genetics.</b> {src.opentargets_genes} Open Targets disease-associated genes and {src.gwas_genes} GWAS-catalog MI genes were merged in; genetic-only genes were classified by function.</li>
           <li><b>Druggability.</b> Open Targets tractability and known-drug counts were attached for {src.druggability_records?.toLocaleString()} gene targets.</li>
           <li><b>Pathway placement.</b> Each molecule was assigned a primary cascade step with a confidence and a one-line rationale, synthesized from its harvested roles.</li>
+          <li><b>Consolidation.</b> A curation pass merged entries that are the same analyte harvested at different granularity (free-text mentions vs. gene-anchored records, or gene-symbol aliases) into a single canonical entry, folding their evidence together. Genuinely distinct gene products — e.g. troponin&nbsp;I (TNNI3) vs. troponin&nbsp;T (TNNT2), or glycoprotein&nbsp;Ib subunits — were deliberately kept separate. This reduced the {dd?.raw_harvest_total?.toLocaleString?.() ?? "1,969"} raw harvested entries to <b>{dd?.deduplicated_total?.toLocaleString?.() ?? "1,948"}</b> distinct molecules ({dd?.duplicates_merged ?? 21} duplicates merged).</li>
         </ol>
+        <p style={{ fontSize: 13, color: "var(--muted)", lineHeight: 1.65, margin: "0 0 14px" }}>
+          Counts throughout the site reflect the <b>deduplicated catalog ({dd?.deduplicated_total?.toLocaleString?.() ?? "1,948"} molecules)</b>. The raw
+          harvest recovered {dd?.raw_harvest_total?.toLocaleString?.() ?? "1,969"} entries before consolidation. After deduplication, the markers
+          with any direct head-to-head Type-1-vs-Type-2 study resolve to <b>six distinct analytes</b> (troponin&nbsp;I, CK-MB,
+          copeptin, cardiac myosin-binding protein&nbsp;C, apolipoprotein&nbsp;E and cystatin&nbsp;C) — the earlier &ldquo;nine&rdquo; included
+          redundant troponin/CK stand-ins now folded into their canonical entries.
+        </p>
 
         <H>Coverage vs. our own earlier (abandoned) 260-molecule attempt</H>
         <P>

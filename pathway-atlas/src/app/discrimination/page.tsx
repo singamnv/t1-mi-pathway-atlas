@@ -32,6 +32,11 @@ export default function DiscriminationPage() {
           never as zero. <b>Sort by any column.</b> Click a row for the molecule&apos;s full evidence page.
         </p>
 
+        <div role="note" style={{ display: "flex", gap: 10, alignItems: "flex-start", maxWidth: 900, marginBottom: 20, padding: "10px 14px", background: "rgba(234,179,8,0.08)", border: "1px solid rgba(234,179,8,0.35)", borderRadius: 10, fontSize: 12.5, color: "var(--text)", lineHeight: 1.55 }}>
+          <span aria-hidden style={{ fontSize: 15 }}>⚠️</span>
+          <span><b>Evidence is abstract-level.</b> Scores are mined from PubMed abstracts, so a cited study may be topically relevant to a marker without directly testing the Type-1-vs-Type-2 comparison stated. Treat this as a hypothesis-generating map, not adjudicated diagnostic evidence.</span>
+        </div>
+
         <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginBottom: 22 }}>
           {stat("molecules scored", (meta.total_molecules ?? rows.length).toLocaleString())}
           {stat("deep-scored (Tier 1)", meta.tier1_deep ?? "—", "full abstract extraction")}

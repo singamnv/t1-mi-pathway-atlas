@@ -106,7 +106,7 @@ export default function Home() {
         </Chapter>
 
         {/* 05 · CATALOG */}
-        <Chapter num="05" kicker="Catalog" title="Search all 1,969 molecules"
+        <Chapter num="05" kicker="Catalog" title={`Search all ${meta.n_molecules.toLocaleString()} molecules`}
           subtitle="Filter by cascade step, molecule type and evidence; click any molecule for its full evidence page.">
           <MoleculesTeaser n={meta.n_molecules} chips={chips} />
         </Chapter>

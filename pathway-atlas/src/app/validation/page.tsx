@@ -2,7 +2,7 @@ import Header from "@/components/Header";
 import fs from "node:fs";
 import path from "node:path";
 
-export const metadata = { title: "External Validation — Cardiovascular ICU Snapshot" };
+export const metadata = { title: "Analyte Availability — Cardiovascular ICU Cohort" };
 
 type Disc = {
   marker: string; t1_median: number; t2_median: number; unit: string;
@@ -41,9 +41,12 @@ export default function ValidationPage() {
 
   return (
     <>
-      <Header subtitle="External validation · cardiovascular ICU snapshot" />
+      <Header subtitle="Analyte availability · cardiovascular ICU snapshot" />
       <main className="container-x" style={{ padding: "24px 24px 60px" }}>
-        <h1 style={{ fontSize: 24, fontWeight: 800, marginBottom: 6 }}>External validation in a cardiovascular ICU snapshot</h1>
+        <h1 style={{ fontSize: 24, fontWeight: 800, marginBottom: 6 }}>Analyte availability in a real ICU cohort</h1>
+        <div style={{ fontSize: 12.5, fontWeight: 600, color: "var(--accent)", marginBottom: 8, letterSpacing: 0.2 }}>
+          Coverage &amp; feature-prior check — not a measure of diagnostic discrimination
+        </div>
         <p style={{ color: "var(--muted)", fontSize: 13.5, maxWidth: 920, lineHeight: 1.6, marginBottom: 18 }}>
           The atlas is built from literature-mined, molecule-level evidence. This page tests one of its central
           predictions — that a <b>demand / hypoperfusion axis</b> separates <b>Type&nbsp;2 (demand-related) MI</b> from

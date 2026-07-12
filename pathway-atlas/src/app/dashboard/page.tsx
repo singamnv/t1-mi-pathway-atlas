@@ -26,6 +26,15 @@ export default function DashboardPage() {
           Interactive views over the {stats.n_molecules.toLocaleString()}-molecule catalog. Charts are hoverable; the step
           chart is clickable. Each panel has a <b>“How to read this”</b> toggle with what it shows, how to read it, and the takeaway.
         </p>
+        <p style={{ color: "var(--muted)", fontSize: 12, maxWidth: 900, lineHeight: 1.55, marginBottom: 18, padding: "10px 14px", background: "var(--panel)", border: "1px solid var(--border)", borderRadius: 10 }}>
+          <b style={{ color: "var(--text)" }}>Reading the confidence & step buckets.</b>{" "}
+          {(stats.by_confidence?.low ?? 0).toLocaleString()} of {stats.n_molecules.toLocaleString()} molecules
+          ({Math.round(100 * (stats.by_confidence?.low ?? 0) / stats.n_molecules)}%) carry a <b>low</b> pathway-step
+          confidence — treat their placement as tentative. The <b>“systemic / off-pathway”</b> step
+          ({(stats.steps?.find((s: Any) => s.step_id === "s0_systemic")?.n ?? 0).toLocaleString()} molecules) is a deliberate
+          catch-all for circulating markers of MI risk or injury that do not sit at a specific point in the atherothrombotic
+          cascade (e.g. systemic metabolic markers); it is not one of the eight ordered cascade steps.
+        </p>
         <Dashboard stats={stats} />
 
         <div style={{ margin: "34px 0 16px", borderTop: "1px solid var(--border)", paddingTop: 24 }}>

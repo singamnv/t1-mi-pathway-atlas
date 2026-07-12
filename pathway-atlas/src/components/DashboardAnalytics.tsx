@@ -130,7 +130,7 @@ export default function DashboardAnalytics({ a }: { a: A }) {
 
         {/* 3. evidence coverage by axis */}
         <Box title="Scoring coverage by evidence axis"
-          note="How many of the 1,969 molecules carry each kind of scored evidence. The steep drop to direct T1-vs-T2 studies (D) is the core data gap.">
+          note="How many of the 1,948 molecules carry each kind of scored evidence. The steep drop to direct T1-vs-T2 studies (D) is the core data gap.">
           <ResponsiveContainer width="100%" height={340}>
             <BarChart data={a.coverage_axes} layout="vertical" margin={{ left: 8, right: 30 }}>
               <CartesianGrid stroke="var(--grid)" horizontal={false} />
@@ -143,7 +143,7 @@ export default function DashboardAnalytics({ a }: { a: A }) {
             </BarChart>
           </ResponsiveContainer>
           <ChartHelp
-            what={<>How many of the {(1969).toLocaleString()} molecules carry each kind of scored evidence — running from broad, easily-available evidence down to the rare direct Type-1-vs-Type-2 (D) studies.</>}
+            what={<>How many of the {(1948).toLocaleString()} molecules carry each kind of scored evidence — running from broad, easily-available evidence down to the rare direct Type-1-vs-Type-2 (D) studies.</>}
             read={<>Longer bar = more molecules have that evidence axis. The axes are ordered so you can see the drop-off from abundant evidence at the top to scarce evidence at the bottom.</>}
             takeaway={<>The steep fall to the <b>direct T1-vs-T2 (D)</b> bar is the central data gap: almost every marker is scored from indirect mechanism, and only a few have head-to-head clinical comparison. This is the honest limitation behind every other chart.</>}
           />
@@ -244,7 +244,7 @@ export default function DashboardAnalytics({ a }: { a: A }) {
 
       {/* 7c. Mechanism keyword frequency */}
       <Box title="Mechanism vocabulary frequency"
-        note="How often each mechanistic concept appears across all 1,969 curated mechanism descriptions — the biology the catalog is built on.">
+        note="How often each mechanistic concept appears across all 1,948 curated mechanism descriptions — the biology the catalog is built on.">
         <ResponsiveContainer width="100%" height={Math.max(320, a.mech_kw.length * 16)}>
           <BarChart data={a.mech_kw} layout="vertical" margin={{ left: 8, right: 34 }}>
             <CartesianGrid stroke="var(--grid)" horizontal={false} />
@@ -255,7 +255,7 @@ export default function DashboardAnalytics({ a }: { a: A }) {
           </BarChart>
         </ResponsiveContainer>
         <ChartHelp
-          what={<>The most frequent mechanistic concepts across all {(1969).toLocaleString()} curated one-line mechanism descriptions — a word/phrase frequency count over the biology the catalog was built on (phrases appearing ≥5 times).</>}
+          what={<>The most frequent mechanistic concepts across all {(1948).toLocaleString()} curated one-line mechanism descriptions — a word/phrase frequency count over the biology the catalog was built on (phrases appearing ≥5 times).</>}
           read={<>Longer bar = the concept is invoked for more molecules. It reflects how often a mechanism is <i>described</i>, not a formal ontology mapping.</>}
           takeaway={<>Surfaces the dominant biological themes of the atlas — inflammation, signaling, platelet activation — giving a quick sense of which processes the Type-1 cascade literature centers on.</>}
         />

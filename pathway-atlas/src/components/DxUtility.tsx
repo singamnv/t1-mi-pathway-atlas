@@ -119,7 +119,7 @@ export default function DxUtility({ rows }: { rows: DxRecord[] }) {
           <select value={tier} onChange={(e) => setTier(e.target.value)} style={inputStyle}>
             <option value="scored">Scored markers (evidence-backed)</option>
             <option value="tier1_deep">Tier 1 — deep-scored only</option>
-            <option value="all">All 1,969 (incl. insufficient)</option>
+            <option value="all">All 1,948 (incl. insufficient)</option>
           </select>
           <span style={{ fontSize: 12.5, color: "var(--muted)" }}>{filtered.length} ranked</span>
         </div>
