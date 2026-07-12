@@ -77,6 +77,16 @@ export default function Header({ subtitle }: { subtitle?: string }) {
               </Link>
             );
           })}
+          <a
+            href="https://ascvd.coronaryatlas.com"
+            style={{
+              padding: "6px 11px", borderRadius: 100, transition: "all .2s",
+              fontWeight: 600, color: "var(--accent)", whiteSpace: "nowrap",
+              border: "1px solid rgba(99,102,241,0.35)", marginLeft: 4,
+            }}
+          >
+            ASCVD Atlas ↗
+          </a>
         </nav>
 
         {/* Mobile hamburger */}
@@ -120,6 +130,15 @@ export default function Header({ subtitle }: { subtitle?: string }) {
                 </Link>
               );
             })}
+            <a
+              href="https://ascvd.coronaryatlas.com"
+              style={{
+                padding: "11px 14px", borderRadius: 12, fontSize: 15, fontWeight: 600,
+                color: "var(--accent)", border: "1px solid rgba(99,102,241,0.35)", marginTop: 4,
+              }}
+            >
+              ASCVD Atlas ↗
+            </a>
           </div>
         </nav>
       )}

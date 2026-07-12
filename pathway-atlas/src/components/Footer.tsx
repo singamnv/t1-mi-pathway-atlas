@@ -57,6 +57,11 @@ export default function Footer() {
                 GitHub repository ↗
               </a>
             )}
+            {c.title === "Explore" && (
+              <a href="https://ascvd.coronaryatlas.com" target="_blank" rel="noopener noreferrer">
+                ASCVD Risk Atlas ↗
+              </a>
+            )}
           </div>
         ))}
       </div>

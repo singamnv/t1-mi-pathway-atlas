@@ -87,6 +87,27 @@ export default function AboutPage() {
           discovery-oriented map for hypothesis generation, not a clinical decision tool.
         </P>
 
+        <H>Future directions</H>
+        <P>
+          CoronaryAtlas is a discovery-oriented map, not a finished clinical instrument. To make it accurate and
+          responsible, our roadmap is:
+        </P>
+        <div style={{ background: "linear-gradient(135deg, rgba(99,102,241,0.06), rgba(34,211,238,0.06))", border: "1px solid rgba(99,102,241,0.25)", borderRadius: 12, padding: "16px 18px", margin: "0 0 16px" }}>
+          <ol style={{ paddingLeft: 20, lineHeight: 1.7, fontSize: 14, color: "var(--text)", margin: 0 }}>
+            <li>
+              <b>Companion ASCVD risk-biomarker atlas.</b> A sibling atlas mapping biomarkers of atherosclerotic
+              cardiovascular disease <i>risk</i> — the prediction-and-prevention side of the same biology — now in
+              development at{" "}
+              <a href="https://ascvd.coronaryatlas.com" target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)", fontWeight: 600 }}>ascvd.coronaryatlas.com</a>.
+              Together the two atlases span the arc from long-term risk to the acute Type-1 MI event.
+            </li>
+            <li><b>Quote-grounded, full-text evidence.</b> Move from abstract-level mining to PMC full text, attaching the verbatim supporting sentence to every scored claim so a reviewer can check each one directly.</li>
+            <li><b>Adjudicated, multi-center validation.</b> Validate against a cohort with MI type adjudicated to the Fourth Universal Definition and report real discrimination metrics (AUC, sensitivity/specificity) following STARD, and TRIPOD if a multi-marker model is built.</li>
+            <li><b>Prospective marker panel.</b> Develop and prospectively test a panel (a rupture-axis marker plus a demand/confounder marker), since the atlas shows no single analyte cleanly separates the two MI types.</li>
+            <li><b>Expert curation & a living catalog.</b> Add a cardiologist curation layer for the Tier-1 markers and maintain the catalog as a versioned, periodically re-harvested resource.</li>
+          </ol>
+        </div>
+
         <H>Source code</H>
         <P>
           This project — the CoronaryAtlas app, the de novo catalog, scoring and methodology — is open source at{" "}
