@@ -30,7 +30,7 @@ curated dataset is released under CC BY-NC 4.0. It is deployed at
 
 ## The catalog in brief
 
-1,969 molecules harvested de novo from PubMed (2,716 articles), ClinicalTrials.gov
+1,969 molecules harvested de novo from PubMed (2,645 articles), ClinicalTrials.gov
 (974 trials), Open Targets (177 genes), the GWAS Catalog (209 genes), and omics
 repositories — normalized, deduplicated, and assigned to a pathway step:
 
