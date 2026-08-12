@@ -8,7 +8,7 @@ type SortKey = "name" | "T1DI" | "spec_final" | "R_score" | "C_score" | "D_score
 const CLASS_COLOR: Record<string, string> = {
   "Type-I-specific": "#43d17a",
   "Type-I-leaning (direct)": "#8fe3a8",
-  "Type-II-associated": "#f2854e",
+  "Non-Type-I-associated": "#f2854e",
   "Shared / rises in both": "#e0c04a",
   "Indeterminate": "#8b98a9",
   "Low-confidence (proxy)": "#5a6675",
@@ -37,6 +37,11 @@ export default function DiscriminationTable({ rows }: { rows: DiscRecord[] }) {
   const [limit, setLimit] = useState(60);
 
   const classes = useMemo(() => Array.from(new Set(rows.map((r) => r.disc_class))), [rows]);
+  const tierCounts = useMemo(() => {
+    const c: Record<string, number> = {};
+    for (const r of rows) c[r.tier] = (c[r.tier] ?? 0) + 1;
+    return c;
+  }, [rows]);
 
   const filtered = useMemo(() => {
     const ql = q.trim().toLowerCase();
@@ -87,9 +92,9 @@ export default function DiscriminationTable({ rows }: { rows: DiscRecord[] }) {
                onChange={(e) => { setQ(e.target.value); setLimit(60); }}
                style={{ ...inputStyle, flex: "1 1 200px", minWidth: 170 }} />
         <select value={tier} onChange={(e) => { setTier(e.target.value); setLimit(60); }} style={inputStyle}>
-          <option value="tier1_deep">Tier 1 — deep-scored (335)</option>
-          <option value="tier2_light">Tier 2 — proxy (725)</option>
-          <option value="all">All tiers</option>
+          <option value="tier1_deep">Tier 1 — deep-scored ({tierCounts.tier1_deep ?? 0})</option>
+          <option value="tier2_light">Tier 2 — proxy ({tierCounts.tier2_light ?? 0})</option>
+          <option value="all">All tiers ({rows.length})</option>
         </select>
         <select value={cls} onChange={(e) => { setCls(e.target.value); setLimit(60); }} style={inputStyle}>
           <option value="all">All classes</option>
@@ -97,7 +102,7 @@ export default function DiscriminationTable({ rows }: { rows: DiscRecord[] }) {
         </select>
         <label style={{ fontSize: 13, color: "var(--muted)", display: "flex", alignItems: "center", gap: 6, cursor: "pointer" }}>
           <input type="checkbox" checked={directOnly} onChange={(e) => { setDirectOnly(e.target.checked); setLimit(60); }} />
-          Direct T1-vs-T2 evidence only
+          Direct T1-vs-non-T1 evidence only
         </label>
         <span style={{ fontSize: 13, color: "var(--muted)", marginLeft: "auto" }}>{filtered.length} rows</span>
       </div>
@@ -110,8 +115,8 @@ export default function DiscriminationTable({ rows }: { rows: DiscRecord[] }) {
                 <th onClick={() => toggleSort("name")} style={{ textAlign: "left", padding: "9px 12px", cursor: "pointer", color: sortKey === "name" ? "var(--text)" : "var(--muted)", fontWeight: 600, fontSize: 12, borderBottom: "1px solid var(--border)", position: "sticky", top: 0, background: "var(--bg)" }}>Marker{sortKey === "name" ? (asc ? " ▲" : " ▼") : ""}</th>
                 <th style={{ textAlign: "left", padding: "9px 10px", color: "var(--muted)", fontWeight: 600, fontSize: 12, borderBottom: "1px solid var(--border)", position: "sticky", top: 0, background: "var(--bg)" }}>Class</th>
                 {th("R_score", "R", "Plaque-rupture / Type-I responsiveness (0-100)")}
-                {th("C_score", "C", "Confounder / Type-II responsiveness (0-100, higher=worse)")}
-                {th("D_score", "D", "Direct T1-vs-T2 differential (−3..+3, + = higher in T1)")}
+                {th("C_score", "C", "Non-Type-I responsiveness across the 12-axis UDMI-4 panel (0-100, higher=worse)")}
+                {th("D_score", "D", "Direct T1-vs-non-T1 differential (−3..+3, + = higher in T1)")}
                 {th("spec_final", "spec", "Specificity differential R−C (+direct)")}
                 {th("A_score", "A", "Assay feasibility (0-100)")}
                 {th("E_score", "E", "Evidence strength (0-100)")}

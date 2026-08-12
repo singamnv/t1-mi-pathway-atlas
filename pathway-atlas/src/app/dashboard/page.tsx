@@ -40,7 +40,7 @@ export default function DashboardPage() {
         <div style={{ margin: "34px 0 16px", borderTop: "1px solid var(--border)", paddingTop: 24 }}>
           <h2 style={{ fontSize: 20, fontWeight: 800, marginBottom: 4 }}>Discrimination & diagnostic analytics</h2>
           <p style={{ color: "var(--muted)", fontSize: 13.5, maxWidth: 900, lineHeight: 1.55 }}>
-            Deeper views over the Type-I-vs-Type-II scoring, assay logistics, and evidence coverage. The signature map and
+            Deeper views over the Type-I-vs-non-Type-I scoring, assay logistics, and evidence coverage. The signature map and
             leaderboard are clickable; every chart is hoverable.
           </p>
         </div>

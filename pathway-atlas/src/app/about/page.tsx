@@ -33,11 +33,99 @@ export default function AboutPage() {
         </ol>
         <p style={{ fontSize: 13, color: "var(--muted)", lineHeight: 1.65, margin: "0 0 14px" }}>
           Counts throughout the site reflect the <b>deduplicated catalog ({dd?.deduplicated_total?.toLocaleString?.() ?? "1,948"} molecules)</b>. The raw
-          harvest recovered {dd?.raw_harvest_total?.toLocaleString?.() ?? "1,969"} entries before consolidation. After deduplication, the markers
-          with any direct head-to-head Type-1-vs-Type-2 study resolve to <b>six distinct analytes</b> (troponin&nbsp;I, CK-MB,
-          copeptin, cardiac myosin-binding protein&nbsp;C, apolipoprotein&nbsp;E and cystatin&nbsp;C) — the earlier &ldquo;nine&rdquo; included
-          redundant troponin/CK stand-ins now folded into their canonical entries.
+          harvest recovered {dd?.raw_harvest_total?.toLocaleString?.() ?? "1,969"} entries before consolidation. Under the
+          broadened Type-I-vs-non-Type-I comparator, the markers with any direct head-to-head study resolve to{" "}
+          <b>16 distinct analytes</b> — up from six under the Type-2-only comparator — of which six are flagged
+          weak. Two of the original six were revised on stronger evidence: <b>copeptin</b> reverses direction (a 2024
+          differentiation study with an external validation cohort of 1,390 finds it <i>higher</i> in Type&nbsp;2, not
+          Type&nbsp;1), and cardiac myosin-binding protein&nbsp;C gains a quantitative differential. Apolipoprotein&nbsp;E
+          is retained but flagged weak: the source reports that a comparison was performed without giving group-level values.
         </p>
+
+        <H>The comparator: Type I vs non-Type I MI</H>
+        <P>
+          Discrimination is scored against the <b>full Fourth Universal Definition (UDMI-4) non-Type-1 set</b>, not
+          Type&nbsp;2 alone. A marker earns a high specificity score only if it tracks atherothrombosis and <i>not</i> the
+          other ways myocardium infarcts: supply–demand mismatch (<b>Type&nbsp;2</b>), sudden cardiac death
+          (<b>Type&nbsp;3</b>), PCI-related periprocedural injury (<b>Type&nbsp;4a</b>), stent thrombosis
+          (<b>Type&nbsp;4b</b>), in-stent restenosis (<b>Type&nbsp;4c</b>) and CABG-related injury (<b>Type&nbsp;5</b>).
+        </P>
+        <P>
+          Each Tier-1 molecule carries a <b>12-axis panel</b> — the seven demand/Type-2 axes plus one axis per additional
+          subtype — harvested from PubMed with the supporting PMIDs attached to every call. Coverage is uneven, and the
+          table below reports it as measured rather than as intended:
+        </P>
+        <div style={{ overflowX: "auto", margin: "0 0 14px" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+            <thead>
+              <tr style={{ textAlign: "left", color: "var(--muted)" }}>
+                <th style={{ padding: "7px 10px", borderBottom: "1px solid var(--border)" }}>Axis</th>
+                <th style={{ padding: "7px 10px", borderBottom: "1px solid var(--border)" }}>UDMI</th>
+                <th style={{ padding: "7px 10px", borderBottom: "1px solid var(--border)", textAlign: "right" }}>Scored / 325</th>
+                <th style={{ padding: "7px 10px", borderBottom: "1px solid var(--border)" }}>Evidence base</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                ["7 demand axes (retained)", "2", "72–197 per axis", "anemia thinnest (72); sepsis best-covered (197)"],
+                ["sudden cardiac death", "3", "173 (53.2%)", "127 human, 31 animal — many only via post-mortem biochemistry"],
+                ["PCI-related periprocedural", "4a", "140 (43.1%)", "123 human"],
+                ["stent thrombosis", "4b", "65 (20.0%)", "43 human, 14 mechanistic — thinnest new axis"],
+                ["in-stent restenosis", "4c", "177 (54.5%)", "84 human, 81 animal neointimal models"],
+                ["CABG-related", "5", "182 of 320 queried (56.0%)", "153 human; 5 molecules never queried"],
+              ].map((r) => (
+                <tr key={r[0]} style={{ borderBottom: "1px solid var(--hairline)" }}>
+                  <td style={{ padding: "6px 10px" }}>{r[0]}</td>
+                  <td style={{ padding: "6px 10px", color: "var(--muted)", fontFamily: "ui-monospace, monospace", fontSize: 12 }}>{r[1]}</td>
+                  <td style={{ padding: "6px 10px", textAlign: "right" }}>{r[2]}</td>
+                  <td style={{ padding: "6px 10px", color: "var(--muted)", fontSize: 12.5 }}>{r[3]}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <P>
+          Three consequences of this design deserve to be stated rather than buried:
+        </P>
+        <ul style={{ margin: "0 0 14px 0", paddingLeft: 20, fontSize: 14, lineHeight: 1.7 }}>
+          <li>
+            <b>Type&nbsp;4b penalises atherothrombotic markers, and that is correct.</b> Stent thrombosis shares
+            Type&nbsp;I&apos;s mechanism, so a platelet or coagulation marker that rises in 4b is <i>failing</i> to separate
+            Type&nbsp;I from a non-Type-I subtype. The penalty is captured faithfully rather than corrected away — which is
+            why several platelet and coagulation markers score lower here than they did under the Type-2-only comparator.
+          </li>
+          <li>
+            <b>Sparse axes are a property of the literature, not a search failure.</b> Type&nbsp;3 MI is <i>defined</i> by
+            death before biomarkers could be drawn, so ante-mortem data mostly does not exist; the post-mortem values that
+            do exist are confounded by post-mortem redistribution, cellular lysis and post-mortem interval, and are not
+            equivalent to ante-mortem measurements. Type&nbsp;4c evidence leans heavily on animal neointimal models.
+          </li>
+          <li>
+            <b>Absence of evidence is never zero.</b> An axis nobody has studied renders as{" "}
+            <span style={{ color: "#4b5563" }}>—</span> and is excluded from the specificity denominator. A magnitude of
+            <b> 0</b> — studied in that setting and did not move — is a real result that <i>improves</i> a marker&apos;s
+            score, and is kept distinct from an unstudied axis.
+          </li>
+        </ul>
+        <P>
+          <b>One audit worth disclosing.</b> All 765 scored findings on the new axes were re-read against their own
+          supporting text. Twenty-eight carried a magnitude of 0 while the underlying abstract had only tested a{" "}
+          <i>baseline predictor</i> — a pre-procedural level, a genotype, or a therapeutically administered agent — and
+          never measured the analyte changing in that setting. A spurious zero is doubly harmful here: it enters the
+          specificity denominator <i>and</i> pulls the mean down, inflating apparent Type-I specificity. Those 28 were
+          reverted to &ldquo;not assessed&rdquo;. A further 183 findings with a magnitude of 1 or more read as
+          predictor-only on the same test; they were left untouched, because re-adjudicating an asserted magnitude is
+          re-harvesting rather than rescoring, and they are recorded in the data as a known upper bound on how much the
+          specificity scores may still be inflated.
+        </P>
+        <P>
+          <b>Direct head-to-head evidence remains the binding constraint.</b> Only <b>16 of 325</b> Tier-1 molecules
+          (4.9%) have any study directly comparing the marker between Type&nbsp;I and a non-Type-I group, and six of those
+          are flagged weak. Every one of the 16 compares against <b>Type&nbsp;2 only</b>: dedicated searches for
+          head-to-head comparisons against Types&nbsp;3, 4a, 4b, 4c and 5 returned no admissible level comparison at all.
+          That null is one of the more useful findings on this page — the procedural and sudden-death subtypes are
+          essentially unstudied as biomarker-discrimination problems.
+        </P>
 
         <H>Coverage vs. our own earlier (abandoned) 260-molecule attempt</H>
         <P>
@@ -83,8 +171,10 @@ export default function AboutPage() {
         <P>
           Pathway-step assignment is an evidence-tagged inference, not a curated ground truth; each molecule carries a
           confidence dot (green/amber/grey). Molecule extraction from free-text abstracts is imperfect and can miss or
-          mis-name entities. Trial and omics links are title-level string matches and are conservative. The atlas is a
-          discovery-oriented map for hypothesis generation, not a clinical decision tool.
+          mis-name entities. Trial and omics links are title-level string matches and are conservative. Discrimination
+          scores are mined from abstracts, so a cited study may be topically relevant to a marker without directly testing
+          the comparison stated, and axis coverage varies widely across the non-Type-I subtypes (see the coverage table
+          above). The atlas is a discovery-oriented map for hypothesis generation, not a clinical decision tool.
         </P>
 
         <H>Future directions</H>
@@ -102,8 +192,8 @@ export default function AboutPage() {
               Together the two atlases span the arc from long-term risk to the acute Type-1 MI event.
             </li>
             <li><b>Quote-grounded, full-text evidence.</b> Move from abstract-level mining to PMC full text, attaching the verbatim supporting sentence to every scored claim so a reviewer can check each one directly.</li>
-            <li><b>Adjudicated, multi-center validation.</b> Validate against a cohort with MI type adjudicated to the Fourth Universal Definition and report real discrimination metrics (AUC, sensitivity/specificity) following STARD, and TRIPOD if a multi-marker model is built.</li>
-            <li><b>Prospective marker panel.</b> Develop and prospectively test a panel (a rupture-axis marker plus a demand/confounder marker), since the atlas shows no single analyte cleanly separates the two MI types.</li>
+            <li><b>Adjudicated, multi-center validation.</b> Validate against a cohort with MI type adjudicated to the Fourth Universal Definition — including the procedural and sudden-death subtypes, which the published literature barely addresses — and report real discrimination metrics (AUC, sensitivity/specificity) following STARD, and TRIPOD if a multi-marker model is built.</li>
+            <li><b>Prospective marker panel.</b> Develop and prospectively test a panel (a rupture-axis marker plus one or more non-Type-I confounder markers), since the atlas shows no single analyte cleanly separates Type&nbsp;I from the non-Type-I subtypes.</li>
             <li><b>Expert curation & a living catalog.</b> Add a cardiologist curation layer for the Tier-1 markers and maintain the catalog as a versioned, periodically re-harvested resource.</li>
           </ol>
         </div>
@@ -116,6 +206,8 @@ export default function AboutPage() {
 
         <H>Summary figures</H>
         <P>Static, publication-style summaries of the catalog. Interactive versions are on the <a href="/dashboard" style={{ color: "var(--accent)", fontWeight: 600 }}>dashboard</a>.</P>
+        <Figure src="/figures/axis_coverage.png" caption="Evidence coverage of the 12-axis non-Type-I panel: the fraction of the 325 deep-scored molecules carrying a magnitude call on each axis. Grey = the seven retained Type-2 / demand axes; orange = the five axes added for the UDMI-4 subtypes. Stent thrombosis (4b) is the thinnest at 20%." />
+        <Figure src="/figures/discrimination_classes.png" caption="Discrimination class by cascade step under the non-Type-I comparator. The coagulation/thrombus step is now almost entirely Non-Type-I-associated — its markers rise in stent thrombosis and after CABG as readily as in Type-I MI, so they no longer discriminate." />
         <Figure src="/figures/pathway_distribution.png" caption="Molecules cataloged per atherothrombotic cascade step; hatched overlay marks druggable targets." />
         <Figure src="/figures/evidence_matrix.png" caption="Evidence coverage by step — each cell is a molecule count, colored by the fraction of that step's molecules carrying the evidence type." />
         <Figure src="/figures/type_composition.png" caption="Molecule-type composition within each cascade step." />

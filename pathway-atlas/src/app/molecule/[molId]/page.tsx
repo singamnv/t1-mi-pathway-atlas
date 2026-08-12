@@ -67,7 +67,7 @@ export default async function MoleculePage({ params }: { params: Promise<{ molId
           </Panel>
         </div>
 
-        {/* Type I vs Type II discrimination */}
+        {/* Type I vs non-Type I discrimination */}
         {disc && (disc.R_score != null || disc.C_score != null || disc.D_score != null) && (
           <DiscPanel disc={disc} detail={discDetail} />
         )}
@@ -233,9 +233,22 @@ function AssayPanel({ a }: { a: import("@/lib/data").AssayProfile }) {
     </Section>
   );
 }
-const CONF_ORDER = [
-  "sepsis / systemic inflammation", "anemia / acute blood loss", "hypovolemia / dehydration",
-  "tachyarrhythmia", "hypoxemia / respiratory failure", "hypertensive emergency", "high-demand / peri-operative stress",
+/* The 12-axis non-Type-I panel: the 7 retained Type-2 / demand axes followed by the
+   five UDMI-4 subtypes added in the Type-I-vs-non-Type-I re-analysis. `id` matches the
+   axis id written into each conf_vector record; `udmi` labels the subtype. */
+const CONF_ORDER: { id: string; label: string; udmi: string }[] = [
+  { id: "sepsis_inflammation",     label: "sepsis / systemic inflammation",     udmi: "2" },
+  { id: "anemia_bloodloss",        label: "anemia / acute blood loss",          udmi: "2" },
+  { id: "hypovolemia_dehydration", label: "hypovolemia / dehydration",          udmi: "2" },
+  { id: "tachyarrhythmia",         label: "tachyarrhythmia",                    udmi: "2" },
+  { id: "hypoxemia_respfail",      label: "hypoxemia / respiratory failure",    udmi: "2" },
+  { id: "hypertensive_emergency",  label: "hypertensive emergency",             udmi: "2" },
+  { id: "highdemand_periop",       label: "high-demand / peri-operative stress", udmi: "2" },
+  { id: "sudden_cardiac_death",    label: "sudden cardiac death",               udmi: "3" },
+  { id: "pci_periprocedural",      label: "PCI-related periprocedural",         udmi: "4a" },
+  { id: "stent_thrombosis",        label: "stent thrombosis",                   udmi: "4b" },
+  { id: "in_stent_restenosis",     label: "in-stent restenosis",                udmi: "4c" },
+  { id: "cabg_related",            label: "CABG-related",                       udmi: "5" },
 ];
 /* eslint-disable @typescript-eslint/no-explicit-any */
 function DiscPanel({ disc, detail }: { disc: any; detail: any }) {
@@ -256,7 +269,7 @@ function DiscPanel({ disc, detail }: { disc: any; detail: any }) {
   const cv = (detail?.conf_vector ?? []) as any[];
   const t1 = (disc.D_score ?? 0) > 0;
   return (
-    <Section title="Type I vs Type II discrimination" count={undefined}>
+    <Section title="Type I vs non-Type I discrimination" count={undefined}>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
         <div style={{ background: "var(--panel)", border: "1px solid var(--border)", borderRadius: 12, padding: "14px 16px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
@@ -266,7 +279,7 @@ function DiscPanel({ disc, detail }: { disc: any; detail: any }) {
             </span>
           </div>
           {scoreRow("R — rupture / Type-I", disc.R_score, "#4cc9f0", "Plaque-rupture responsiveness (0-100)")}
-          {scoreRow("C — confounder / Type-II", disc.C_score, "#f2854e", "Confounder responsiveness (0-100, higher=worse)")}
+          {scoreRow("C — non-Type-I", disc.C_score, "#f2854e", "Non-Type-I responsiveness across the 12-axis UDMI-4 panel (0-100, higher=worse)")}
           {scoreRow("A — assay feasibility", disc.A_score, "#72b7b2", "How easily measured (0-100)")}
           {scoreRow("E — evidence strength", disc.E_score, "#9d8df1", "GRADE-like evidence strength (0-100)")}
           <div style={{ borderTop: "1px solid var(--border)", marginTop: 8, paddingTop: 8 }}>
@@ -281,7 +294,7 @@ function DiscPanel({ disc, detail }: { disc: any; detail: any }) {
           {disc.D_score != null && (
             <div style={{ marginTop: 10, padding: "9px 11px", borderRadius: 8, background: (t1 ? "#43d17a" : "#f2854e") + "14", border: `1px solid ${(t1 ? "#43d17a" : "#f2854e")}44` }}>
               <div style={{ fontSize: 12, fontWeight: 700, color: t1 ? "#43d17a" : "#f2854e" }}>
-                Direct evidence: {t1 ? "higher in Type I" : "higher in Type II"} (D={disc.D_score > 0 ? "+" : ""}{disc.D_score})
+                Direct evidence: {t1 ? "higher in Type I" : "higher in non-Type I"} (D={disc.D_score > 0 ? "+" : ""}{disc.D_score})
               </div>
               {disc.D_finding && <div style={{ fontSize: 11.5, color: "var(--muted)", marginTop: 4, lineHeight: 1.4 }}>{disc.D_finding}</div>}
             </div>
@@ -289,19 +302,23 @@ function DiscPanel({ disc, detail }: { disc: any; detail: any }) {
         </div>
 
         <div style={{ background: "var(--panel)", border: "1px solid var(--border)", borderRadius: 12, padding: "14px 16px" }}>
-          <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 8 }}>Confounder panel (Type-II drivers)</div>
+          <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 2 }}>Non-Type-I axis panel</div>
+          <div style={{ fontSize: 11, color: "var(--muted)", marginBottom: 8, lineHeight: 1.45 }}>
+            Does this marker also move in each non-Type-I setting? <b>mag 0–3</b>; higher means less
+            Type-I-specific. <b>n/a</b> = no evidence retrieved, which is not the same as no change.
+          </div>
           {cv.length === 0 ? (
-            <Empty>No confounder evidence retrieved.</Empty>
+            <Empty>No non-Type-I axis evidence retrieved.</Empty>
           ) : (
-            CONF_ORDER.map((name, i) => {
-              const c = cv.find((x: any) => (x.confounder ?? "").startsWith(name.split(" /")[0])) ?? cv[i];
+            CONF_ORDER.map((axis, i) => {
+              const c = cv.find((x: any) => (x.confounder ?? "") === axis.id);
               const mag = c?.magnitude;
               const col = mag == null ? "#3a4550" : mag >= 3 ? "#ef6f6c" : mag === 2 ? "#f2854e" : mag === 1 ? "#f2c14e" : "#5a6675";
               return (
-                <div key={name} style={{ display: "flex", alignItems: "center", gap: 8, padding: "3px 0", fontSize: 12 }}>
-                  <span style={{ width: 16, color: "var(--muted)" }}>{i + 1}</span>
-                  <span style={{ flex: 1, color: "var(--muted)" }}>{name}</span>
-                  <span style={{ display: "inline-block", width: 54, textAlign: "center", fontSize: 11, padding: "1px 0", borderRadius: 5, background: col + "22", color: col, border: `1px solid ${col}44` }}>
+                <div key={axis.id} style={{ display: "flex", alignItems: "center", gap: 8, padding: "3px 0", fontSize: 12 }}>
+                  <span style={{ width: 22, color: "var(--muted)", fontSize: 10.5, fontFamily: "ui-monospace, monospace" }}>{axis.udmi}</span>
+                  <span style={{ flex: 1, color: "var(--muted)" }}>{axis.label}</span>
+                  <span title={c?.finding ?? undefined} style={{ display: "inline-block", width: 54, textAlign: "center", fontSize: 11, padding: "1px 0", borderRadius: 5, background: col + "22", color: col, border: `1px solid ${col}44` }}>
                     {mag == null ? "n/a" : `mag ${mag}`}
                   </span>
                 </div>
@@ -310,7 +327,7 @@ function DiscPanel({ disc, detail }: { disc: any; detail: any }) {
           )}
           {detail?.C_coverage != null && (
             <div style={{ fontSize: 11, color: "var(--muted)", marginTop: 8 }}>
-              Coverage: {Math.round(detail.C_coverage * 7)}/7 confounders with evidence
+              Coverage: {Math.round(detail.C_coverage * CONF_ORDER.length)}/{CONF_ORDER.length} axes with evidence
             </div>
           )}
         </div>

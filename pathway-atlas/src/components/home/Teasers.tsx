@@ -45,11 +45,11 @@ export function DashboardTeaser({ bars }: { bars: { short: string; count: number
   );
 }
 
-/* 03 · T1 vs T2 — R / C / A / E discrimination sub-scores. */
+/* 03 · T1 vs non-T1 — R / C / A / E discrimination sub-scores. */
 export function DiscriminationTeaser({ rows }: { rows: DiscRecord[] }) {
   const fmt = (v: number | null) => (v == null ? "—" : v.toFixed(2));
   return (
-    <TeaserCard href="/discrimination" cta="Open the T1-vs-T2 table — sortable R / C / A / E sub-scores">
+    <TeaserCard href="/discrimination" cta="Open the T1-vs-non-T1 table — sortable R / C / A / E sub-scores">
       <div className="mono-kicker" style={{ marginBottom: 10 }}>discrimination sub-scores · top markers</div>
       <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
         <table style={{ width: "100%", minWidth: 380, borderCollapse: "collapse" }}>
@@ -125,7 +125,7 @@ const BUILD: { n: string; title: string; desc: string }[] = [
   { n: "01", title: "Harvest", desc: "Ground-up sweep of the primary literature — 2,645 abstracts mined." },
   { n: "02", title: "Place", desc: "Each molecule pinned to the cascade step where its role is strongest." },
   { n: "03", title: "Link", desc: "Omics datasets, clinical trials, genetics & druggability attached." },
-  { n: "04", title: "Score", desc: "Type 1-vs-Type 2 discrimination sub-scores (R / C / A / E)." },
+  { n: "04", title: "Score", desc: "Type 1-vs-non-Type 1 discrimination sub-scores (R / C / A / E)." },
   { n: "05", title: "Confidence", desc: "A confidence grade on every step placement." },
 ];
 export function MethodsSection() {

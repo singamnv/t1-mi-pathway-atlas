@@ -7,8 +7,8 @@ import InfoTip from "@/components/InfoTip";
 type DimKey = "feasibility" | "evidence" | "rupture" | "demand_spec" | "direct_t1" | "novelty" | "dx_performance" | "dx_kinetics" | "dx_incremental";
 const DIMS: { key: DimKey; label: string; hint: string; color: string }[] = [
   { key: "rupture",     label: "Plaque-rupture signal", hint: "Rises with atherothrombotic plaque rupture — the mechanism that defines a Type-I MI. Higher = more responsive to rupture biology.", color: "#4cc9f0" },
-  { key: "demand_spec", label: "Specificity vs demand", hint: "Specificity against Type-II (supply–demand) drivers such as sepsis, hypotension, bleeding, tachycardia and hypoxemia. This is the confounder score inverted, so higher = less likely to rise from demand ischemia alone.", color: "#f2854e" },
-  { key: "direct_t1",   label: "Direct T1 > T2 evidence", hint: "Strength of head-to-head studies directly comparing the marker in Type-I vs Type-II MI patients. Higher = more direct evidence it is elevated specifically in Type-I.", color: "#43d17a" },
+  { key: "demand_spec", label: "Specificity vs non-Type-I", hint: "Specificity against the full non-Type-I comparator: Type-II supply–demand drivers (sepsis, hypotension, bleeding, tachycardia, hypoxemia), procedural injury (PCI-related Type 4a, CABG-related Type 5), stent thrombosis (4b), in-stent restenosis (4c) and sudden cardiac death (Type 3). This is the non-Type-I responsiveness score inverted, so higher = less likely to rise from a non-atherothrombotic cause.", color: "#f2854e" },
+  { key: "direct_t1",   label: "Direct T1 > non-T1 evidence", hint: "Strength of head-to-head studies directly comparing the marker in Type-I MI patients versus a non-Type-I comparator group. Higher = more direct evidence it is elevated specifically in Type-I.", color: "#43d17a" },
   { key: "dx_performance", label: "Diagnostic performance", hint: "Reported diagnostic accuracy for detecting MI — sensitivity, specificity and AUC extracted from index-test / accuracy studies. Blank when no accuracy study was found.", color: "#ff6b9d" },
   { key: "dx_kinetics", label: "Release kinetics", hint: "How early the marker rises after symptom onset — the property that governs early rule-out and 0–1 h triage algorithms. Higher = earlier detectable.", color: "#c77dff" },
   { key: "dx_incremental", label: "Incremental vs troponin", hint: "What the marker adds on top of high-sensitivity troponin — added AUC or reclassification when combined with troponin. Higher = more complementary information.", color: "#ffd166" },
@@ -21,17 +21,17 @@ const DIMS: { key: DimKey; label: string; hint: string; color: string }[] = [
 const HEADER_TIP: Record<string, React.ReactNode> = {
   Score: "Composite score (0–100): the weighted average of the nine sub-scores using your current slider weights. With “penalize missing data” on, gaps count against the score.",
   ...Object.fromEntries(DIMS.map((d) => [d.label, d.hint])),
-  Class: "The molecule's Type-I-vs-Type-II discrimination class from the scoring methodology (Type-I-specific, Shared / rises in both, Type-II-associated, and lower-evidence classes).",
+  Class: "The molecule's Type-I-vs-non-Type-I discrimination class from the scoring methodology (Type-I-specific, Shared / rises in both, Non-Type-I-associated, and lower-evidence classes).",
 };
 // The table renders short header strings; map each to a full label key above.
 const HEADER_ALIAS: Record<string, string> = {
-  Rupt: "Plaque-rupture signal", "Dem.spec": "Specificity vs demand", "T1>T2": "Direct T1 > T2 evidence",
+  Rupt: "Plaque-rupture signal", "nT1.spec": "Specificity vs non-Type-I", "T1>nT1": "Direct T1 > non-T1 evidence",
   Perf: "Diagnostic performance", Kin: "Release kinetics", Incr: "Incremental vs troponin",
   Feas: "Assay feasibility", Evid: "Evidence strength", Novel: "Novelty",
 };
 const Z: Record<DimKey, number> = { rupture: 0, demand_spec: 0, direct_t1: 0, dx_performance: 0, dx_kinetics: 0, dx_incremental: 0, feasibility: 0, evidence: 0, novelty: 0 };
 const PRESETS: { name: string; w: Record<DimKey, number>; note: string }[] = [
-  { name: "Rule-in Type I", note: "Confirm atherothrombosis over demand ischemia", w: { ...Z, rupture: 90, demand_spec: 100, direct_t1: 90, feasibility: 40, evidence: 50, novelty: 10 } },
+  { name: "Rule-in Type I", note: "Confirm atherothrombosis over any non-Type-I cause", w: { ...Z, rupture: 90, demand_spec: 100, direct_t1: 90, feasibility: 40, evidence: 50, novelty: 10 } },
   { name: "Deployable today", note: "Bedside-ready, strong evidence", w: { ...Z, rupture: 60, demand_spec: 60, direct_t1: 50, feasibility: 100, evidence: 90, dx_performance: 60 } },
   { name: "Best diagnostic test", note: "Accuracy + early rise + adds to troponin", w: { ...Z, dx_performance: 100, dx_kinetics: 80, dx_incremental: 90, demand_spec: 60, feasibility: 60 } },
   { name: "Novel discovery", note: "Under-explored, mechanism-specific", w: { ...Z, rupture: 80, demand_spec: 80, direct_t1: 40, feasibility: 20, evidence: 20, novelty: 100 } },
@@ -39,7 +39,7 @@ const PRESETS: { name: string; w: Record<DimKey, number>; note: string }[] = [
 ];
 
 const CLASS_COLOR: Record<string, string> = {
-  "Type-I-specific": "#43d17a", "Type-I-leaning (direct)": "#8fe3a8", "Type-II-associated": "#f2854e",
+  "Type-I-specific": "#43d17a", "Type-I-leaning (direct)": "#8fe3a8", "Non-Type-I-associated": "#f2854e",
   "Shared / rises in both": "#e0c04a", "Indeterminate": "#8b98a9", "Low-confidence (proxy)": "#5a6675", "Insufficient evidence": "#3a4550",
 };
 
@@ -146,7 +146,7 @@ export default function DxUtility({ rows }: { rows: DxRecord[] }) {
             <table style={{ width: "100%", minWidth: 720, borderCollapse: "collapse", fontSize: 12.5 }}>
               <thead>
                 <tr style={{ position: "sticky", top: 0, background: "var(--bg)" }}>
-                  {["#", "Marker", "Score", "Rupt", "Dem.spec", "T1>T2", "Perf", "Kin", "Incr", "Feas", "Evid", "Novel", "Class"].map((h, hi, arr) => {
+                  {["#", "Marker", "Score", "Rupt", "nT1.spec", "T1>nT1", "Perf", "Kin", "Incr", "Feas", "Evid", "Novel", "Class"].map((h, hi, arr) => {
                     const tip = HEADER_TIP[HEADER_ALIAS[h] ?? h];
                     // last few numeric columns open their bubble to the right edge so it isn't clipped
                     const alignRight = hi >= arr.length - 4;

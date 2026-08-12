@@ -8,7 +8,7 @@ type Mol = {
   R: number | null; C: number | null; T1DI: number | null; ev: string[];
 };
 const CLASS_COLOR: Record<string, string> = {
-  "Type-I-specific": "#43d17a", "Type-I-leaning (direct)": "#8fe3a8", "Type-II-associated": "#f2854e",
+  "Type-I-specific": "#43d17a", "Type-I-leaning (direct)": "#8fe3a8", "Non-Type-I-associated": "#f2854e",
   "Shared / rises in both": "#e0c04a", "Indeterminate": "#8b98a9", "Low-confidence (proxy)": "#5a6675", "Insufficient evidence": "#3a4550",
 };
 const STEP_COLOR: Record<string, string> = {

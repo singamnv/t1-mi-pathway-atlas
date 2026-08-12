@@ -34,9 +34,12 @@ export default function DiagnosticPage() {
               This explorer scores each biomarker against <b>nine criteria</b>, each normalized to <b>0–100</b> (higher is
               better for a Type-I diagnostic), and combines them into a single composite using weights <i>you</i> set. The
               criteria fall into three groups. <b>Discrimination criteria</b> — <i>plaque-rupture signal</i> (R),{" "}
-              <i>specificity vs demand</i> (the confounder score C, inverted), and <i>direct T1&nbsp;&gt;&nbsp;T2 evidence</i>{" "}
-              (D) — come from the atlas&apos;s Type-I-vs-Type-II scoring and capture whether a marker reflects atherothrombosis
-              rather than the supply–demand mismatch of a Type-II MI. <b>Direct diagnostic criteria</b> —{" "}
+              <i>specificity vs non-Type-I</i> (the non-Type-I responsiveness score C, inverted), and{" "}
+              <i>direct T1&nbsp;&gt;&nbsp;non-T1 evidence</i> (D) — come from the atlas&apos;s Type-I-vs-non-Type-I scoring
+              and capture whether a marker reflects atherothrombosis rather than any of the other ways myocardium
+              infarcts: the supply–demand mismatch of a Type-2 MI, periprocedural injury after PCI (4a) or CABG (5),
+              stent thrombosis (4b), in-stent restenosis (4c), or sudden cardiac death (Type 3).{" "}
+              <b>Direct diagnostic criteria</b> —{" "}
               <i>diagnostic performance</i> (sensitivity/specificity/AUC), <i>release kinetics</i> (how early it rises), and{" "}
               <i>incremental value vs troponin</i> — are extracted from index-test / accuracy studies in the literature;
               only ~11 distinct markers have any of this data, and the rest correctly show <span style={{ color: "#4b5563" }}>—</span>{" "}
@@ -62,16 +65,17 @@ export default function DiagnosticPage() {
               <b>The T1DI composite is an authored heuristic.</b> The sub-score definitions, the 0–100 normalization, and the
               weighting are a reasonable, transparent design choice — but they were specified by us, not learned from data or
               calibrated against patient outcomes. The composite therefore has <b>face validity only</b>; it has not been
-              validated for predictive accuracy against adjudicated Type-1-vs-Type-2 diagnoses. Use it to prioritize candidates
-              for study, not to rank clinical performance.
+              validated for predictive accuracy against adjudicated Type-1-vs-non-Type-1 diagnoses. Use it to prioritize
+              candidates for study, not to rank clinical performance.
             </p>
             <p style={{ margin: 0 }}>
               <b>Futures — how we plan to make this rigorous.</b> To move from a heuristic map to validated evidence we intend to:
               (1) extract evidence from PMC <i>full text</i> and attach the verbatim supporting sentence to every scored claim;
               (2) validate against a multi-center cohort with MI type <b>adjudicated to the Fourth Universal Definition</b> and
               report real discrimination metrics (AUC, sensitivity/specificity) following STARD, and TRIPOD if a multi-marker
-              model is built; (3) develop and prospectively test a <b>marker panel</b> (a rupture-axis marker plus a
-              demand/confounder marker), since the atlas shows no single analyte separates the two types; (4) add an expert
+              model is built; (3) develop and prospectively test a <b>marker panel</b> (a rupture-axis marker plus one or
+              more non-Type-I confounder markers), since the atlas shows no single analyte separates Type&nbsp;I from the
+              non-Type-I subtypes; (4) add an expert
               cardiologist curation layer for the Tier-1 markers; and (5) maintain the catalog as a versioned, periodically
               re-harvested living resource.
             </p>

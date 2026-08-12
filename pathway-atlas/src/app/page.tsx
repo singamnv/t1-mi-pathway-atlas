@@ -93,9 +93,9 @@ export default function Home() {
           <DashboardTeaser bars={bars} />
         </Chapter>
 
-        {/* 03 · T1 vs T2 */}
-        <Chapter num="03" kicker="T1 vs T2" title="Which markers actually separate the two"
-          subtitle="Type 1-vs-Type 2 discrimination scored on four axes — rupture (R), coronary (C), analytic (A) and evidence (E) — into a single T1 discrimination index.">
+        {/* 03 · T1 vs non-T1 */}
+        <Chapter num="03" kicker="T1 vs non-T1" title="Which markers actually separate atherothrombosis"
+          subtitle="Type 1-vs-non-Type 1 discrimination scored on four axes — rupture (R), coronary (C), analytic (A) and evidence (E) — into a single T1 discrimination index.">
           <DiscriminationTeaser rows={discTop} />
         </Chapter>
 

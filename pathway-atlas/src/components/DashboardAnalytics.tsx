@@ -8,10 +8,10 @@ import {
 import ChartHelp from "@/components/ChartHelp";
 
 const CLASS_COLOR: Record<string, string> = {
-  "Type-I-specific": "#43d17a", "Type-I-leaning (direct)": "#8fe3a8", "Type-II-associated": "#f2854e",
+  "Type-I-specific": "#43d17a", "Type-I-leaning (direct)": "#8fe3a8", "Non-Type-I-associated": "#f2854e",
   "Shared / rises in both": "#e0c04a", "Indeterminate": "#8b98a9", "Low-confidence (proxy)": "#5a6675", "Insufficient evidence": "#3a4550",
 };
-const CLASS_ORDER = ["Type-I-specific", "Type-I-leaning (direct)", "Shared / rises in both", "Indeterminate", "Type-II-associated", "Low-confidence (proxy)", "Insufficient evidence"];
+const CLASS_ORDER = ["Type-I-specific", "Type-I-leaning (direct)", "Shared / rises in both", "Indeterminate", "Non-Type-I-associated", "Low-confidence (proxy)", "Insufficient evidence"];
 const EVID_COLOR: Record<string, string> = { Literature: "#4cc9f0", Trials: "#43d17a", Omics: "#9d8df1", Genetic: "#e0c04a", Druggable: "#f2854e" };
 
 const card: React.CSSProperties = { background: "var(--panel)", border: "1px solid var(--border)", borderRadius: 12, padding: "16px 18px", marginBottom: 18 };
@@ -58,17 +58,17 @@ export default function DashboardAnalytics({ a }: { a: A }) {
         </summary>
         <div style={{ marginTop: 12, fontSize: 12.5, lineHeight: 1.65, color: "var(--text-2)", display: "grid", gap: 8 }}>
           <div><b style={{ color: "var(--text)" }}>R — Rupture / Type-I responsiveness (0–100).</b> How strongly a marker tracks the plaque-rupture / atherothrombotic process that defines a <b>Type&nbsp;1</b> MI. Higher = more responsive to rupture biology.</div>
-          <div><b style={{ color: "var(--text)" }}>C — Confounder / Type-II responsiveness (0–100).</b> How strongly the same marker also rises with supply–demand mismatch (tachycardia, anemia, sepsis) — the drivers of a <b>Type&nbsp;2</b> MI. Higher = less specific to Type&nbsp;1.</div>
-          <div><b style={{ color: "var(--text)" }}>D — Direct evidence.</b> Whether a marker has been tested in a study that <i>directly</i> compares Type&nbsp;1 vs Type&nbsp;2 patients (as opposed to inferred from mechanism). Only a handful of markers have this.</div>
-          <div><b style={{ color: "var(--text)" }}>T1DI — Type-I Discrimination Index (0–100).</b> A composite that rewards high R, penalizes high C, and up-weights markers with direct evidence. It is the single ranking score for “how cleanly does this separate Type&nbsp;1 from Type&nbsp;2?”</div>
+          <div><b style={{ color: "var(--text)" }}>C — Non-Type-I responsiveness (0–100).</b> How strongly the same marker also rises in the other ways myocardium infarcts: supply–demand mismatch (tachycardia, anemia, sepsis — <b>Type&nbsp;2</b>), periprocedural injury after PCI (<b>4a</b>) or CABG (<b>5</b>), stent thrombosis (<b>4b</b>), in-stent restenosis (<b>4c</b>) and sudden cardiac death (<b>Type&nbsp;3</b>). Twelve axes in all. Higher = less specific to Type&nbsp;1.</div>
+          <div><b style={{ color: "var(--text)" }}>D — Direct evidence.</b> Whether a marker has been tested in a study that <i>directly</i> compares Type&nbsp;1 patients against a non-Type-I comparator group (as opposed to inferred from mechanism). Only a handful of markers have this.</div>
+          <div><b style={{ color: "var(--text)" }}>T1DI — Type-I Discrimination Index (0–100).</b> A composite that rewards high R, penalizes high C, and up-weights markers with direct evidence. It is the single ranking score for “how cleanly does this separate Type&nbsp;1 from every non-Type-I cause of infarction?”</div>
           <div><b style={{ color: "var(--text)" }}>Tiers.</b> <b>Tier&nbsp;1 (deep-scored)</b> markers were individually reviewed with full R/C/D scoring; the rest carry lighter, mechanism-derived estimates. Filter to Tier&nbsp;1 when you want the most defensible numbers.</div>
-          <div><b style={{ color: "var(--text)" }}>Discrimination classes.</b> <span style={{ color: CLASS_COLOR["Type-I-specific"] }}>Type-I-specific</span> = high R, low C · <span style={{ color: CLASS_COLOR["Shared / rises in both"] }}>Shared</span> = rises in both (e.g. troponin) · <span style={{ color: CLASS_COLOR["Type-II-associated"] }}>Type-II-associated</span> = tracks demand drivers · the greyed classes flag proxy-only or insufficient evidence.</div>
+          <div><b style={{ color: "var(--text)" }}>Discrimination classes.</b> <span style={{ color: CLASS_COLOR["Type-I-specific"] }}>Type-I-specific</span> = high R, low C · <span style={{ color: CLASS_COLOR["Shared / rises in both"] }}>Shared</span> = rises in both (e.g. troponin) · <span style={{ color: CLASS_COLOR["Non-Type-I-associated"] }}>Non-Type-I-associated</span> = tracks non-atherothrombotic drivers · the greyed classes flag proxy-only or insufficient evidence.</div>
         </div>
       </details>
 
       {/* 1. R-vs-C signature scatter */}
-      <Box title="Type-I vs Type-II signature map (R vs C)"
-        note="Each point is a scored biomarker: x = rupture/Type-I responsiveness (R), y = confounder/Type-II responsiveness (C). Bottom-right = rises with plaque rupture but NOT with demand drivers (ideal Type-I-specific). Top-right = rises with both (e.g. troponin). Color = discrimination class. Click a point to open the molecule.">
+      <Box title="Type-I vs non-Type-I signature map (R vs C)"
+        note="Each point is a scored biomarker: x = rupture/Type-I responsiveness (R), y = non-Type-I responsiveness (C) across the 12-axis UDMI-4 panel. Bottom-right = rises with plaque rupture but NOT with non-atherothrombotic drivers (ideal Type-I-specific). Top-right = rises with both (e.g. troponin). Color = discrimination class. Click a point to open the molecule.">
         <div style={{ marginBottom: 8 }}>
           <select value={scTier} onChange={(e) => setScTier(e.target.value)} style={{ background: "var(--panel-2)", border: "1px solid var(--border)", color: "var(--text)", borderRadius: 8, padding: "6px 10px", fontSize: 12.5 }}>
             <option value="all">All scored markers ({a.scatter_RC.length})</option>
@@ -82,7 +82,7 @@ export default function DashboardAnalytics({ a }: { a: A }) {
             <ReferenceLine x={50} stroke="var(--gridline)" strokeDasharray="4 4" />
             <ReferenceLine y={50} stroke="var(--gridline)" strokeDasharray="4 4" />
             <XAxis type="number" dataKey="R" name="Rupture (R)" domain={[0, 100]} tick={{ fontSize: 11, fill: "#8b98a9" }} label={{ value: "Rupture / Type-I responsiveness (R) →", position: "bottom", fill: "#8b98a9", fontSize: 12 }} />
-            <YAxis type="number" dataKey="C" name="Confounder (C)" domain={[0, 100]} tick={{ fontSize: 11, fill: "#8b98a9" }} label={{ value: "Confounder / Type-II responsiveness (C) →", angle: -90, position: "insideLeft", fill: "#8b98a9", fontSize: 12 }} />
+            <YAxis type="number" dataKey="C" name="Confounder (C)" domain={[0, 100]} tick={{ fontSize: 11, fill: "#8b98a9" }} label={{ value: "Non-Type-I responsiveness (C) →", angle: -90, position: "insideLeft", fill: "#8b98a9", fontSize: 12 }} />
             <ZAxis type="number" dataKey="npmids" range={[24, 260]} name="PMIDs" />
             <Tooltip {...tt("")} formatter={(v, n) => [v, n]} labelFormatter={() => ""}
               content={({ payload }) => {
@@ -102,16 +102,16 @@ export default function DashboardAnalytics({ a }: { a: A }) {
           </ScatterChart>
         </ResponsiveContainer>
         <ChartHelp
-          what={<>The core view: every scored biomarker plotted by <b>R</b> (x, rupture / Type-I responsiveness) against <b>C</b> (y, confounder / Type-II responsiveness). Dot size scales with how many PubMed articles support the marker; color is its discrimination class.</>}
-          read={<>Read the quadrants. <b>Bottom-right</b> (high R, low C — shaded green) is the prize: rises with plaque rupture but not with demand drivers, i.e. Type-I-specific. <b>Top-right</b> rises with both (troponin lives here). <b>Left half</b> is weakly rupture-linked. The dashed lines mark the R=50 / C=50 midpoints. Click any dot to open that molecule.</>}
-          takeaway={<>Ideal Type-1 discriminators sit low and to the right. The scarcity of well-supported (large) dots in the bottom-right corner is exactly why Type&nbsp;1 vs Type&nbsp;2 separation is hard. Use the Tier-1 filter to see only deep-scored markers.</>}
+          what={<>The core view: every scored biomarker plotted by <b>R</b> (x, rupture / Type-I responsiveness) against <b>C</b> (y, non-Type-I responsiveness). Dot size scales with how many PubMed articles support the marker; color is its discrimination class.</>}
+          read={<>Read the quadrants. <b>Bottom-right</b> (high R, low C — shaded green) is the prize: rises with plaque rupture but not with any non-atherothrombotic cause, i.e. Type-I-specific. <b>Top-right</b> rises with both (troponin lives here — it also rises after PCI and CABG). <b>Left half</b> is weakly rupture-linked. The dashed lines mark the R=50 / C=50 midpoints. Click any dot to open that molecule.</>}
+          takeaway={<>Ideal Type-1 discriminators sit low and to the right. The scarcity of well-supported (large) dots in the bottom-right corner is exactly why Type&nbsp;1 vs non-Type-I separation is hard. Use the Tier-1 filter to see only deep-scored markers.</>}
         />
       </Box>
 
       <div className="grid-collapse" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18 }}>
         {/* 2. discrimination class by step */}
         <Box title="Discrimination class by pathway step"
-          note="How each cascade step's molecules distribute across T1-vs-T2 classes. Hover for counts.">
+          note="How each cascade step's molecules distribute across T1-vs-non-T1 classes. Hover for counts.">
           <ResponsiveContainer width="100%" height={340}>
             <BarChart data={a.step_class} layout="vertical" margin={{ left: 8, right: 12 }}>
               <CartesianGrid stroke="var(--grid)" horizontal={false} />
@@ -122,15 +122,15 @@ export default function DashboardAnalytics({ a }: { a: A }) {
             </BarChart>
           </ResponsiveContainer>
           <ChartHelp
-            what={<>For each cascade step, the mix of discrimination classes among its molecules — a horizontal stacked bar broken into Type-I-specific, Shared, Type-II-associated and the lower-evidence classes (see glossary).</>}
-            read={<>Bar length = molecules scored at that step; each colored segment is one class. More green (Type-I-specific / -leaning) means that step contributes more markers that separate Type&nbsp;1 from Type&nbsp;2.</>}
+            what={<>For each cascade step, the mix of discrimination classes among its molecules — a horizontal stacked bar broken into Type-I-specific, Shared, Non-Type-I-associated and the lower-evidence classes (see glossary).</>}
+            read={<>Bar length = molecules scored at that step; each colored segment is one class. More green (Type-I-specific / -leaning) means that step contributes more markers that separate Type&nbsp;1 from the non-Type-I subtypes.</>}
             takeaway={<>Locates the discriminating biology: steps weighted toward green are the mechanistic origin of Type-1-specific signal; steps dominated by grey/amber are mostly shared or under-evidenced.</>}
           />
         </Box>
 
         {/* 3. evidence coverage by axis */}
         <Box title="Scoring coverage by evidence axis"
-          note="How many of the 1,948 molecules carry each kind of scored evidence. The steep drop to direct T1-vs-T2 studies (D) is the core data gap.">
+          note="How many of the 1,948 molecules carry each kind of scored evidence. The steep drop to direct T1-vs-non-T1 studies (D) is the core data gap.">
           <ResponsiveContainer width="100%" height={340}>
             <BarChart data={a.coverage_axes} layout="vertical" margin={{ left: 8, right: 30 }}>
               <CartesianGrid stroke="var(--grid)" horizontal={false} />
@@ -145,7 +145,7 @@ export default function DashboardAnalytics({ a }: { a: A }) {
           <ChartHelp
             what={<>How many of the {(1948).toLocaleString()} molecules carry each kind of scored evidence — running from broad, easily-available evidence down to the rare direct Type-1-vs-Type-2 (D) studies.</>}
             read={<>Longer bar = more molecules have that evidence axis. The axes are ordered so you can see the drop-off from abundant evidence at the top to scarce evidence at the bottom.</>}
-            takeaway={<>The steep fall to the <b>direct T1-vs-T2 (D)</b> bar is the central data gap: almost every marker is scored from indirect mechanism, and only a few have head-to-head clinical comparison. This is the honest limitation behind every other chart.</>}
+            takeaway={<>The steep fall to the <b>direct T1-vs-non-T1 (D)</b> bar is the central data gap: almost every marker is scored from indirect mechanism, and only a few have head-to-head clinical comparison. This is the honest limitation behind every other chart.</>}
           />
         </Box>
 
@@ -277,7 +277,7 @@ export default function DashboardAnalytics({ a }: { a: A }) {
           </div>
         ))}
         <ChartHelp
-          what={<>The Tier-1 (deep-scored) markers ranked by <b>T1DI</b>, the composite Type-I Discrimination Index (see glossary) — the atlas&apos;s single best answer to “which markers most cleanly separate Type&nbsp;1 from Type&nbsp;2?”</>}
+          what={<>The Tier-1 (deep-scored) markers ranked by <b>T1DI</b>, the composite Type-I Discrimination Index (see glossary) — the atlas&apos;s single best answer to “which markers most cleanly separate Type&nbsp;1 from every non-Type-I cause?”</>}
           read={<>Rows are sorted high-to-low; the bar length and the number are the T1DI (0–100), and the bar color is the marker&apos;s discrimination class. Click any row to open that molecule&apos;s evidence page.</>}
           takeaway={<>This is the shortlist to act on. Because T1DI rewards direct evidence, high-ranking markers are both mechanistically Type-1-leaning and comparatively well-supported — the strongest candidates for a discriminating panel.</>}
         />

@@ -6,9 +6,8 @@ import { useEffect, useState } from "react";
 const NAV: { href: string; label: string }[] = [
   { href: "/", label: "Pathway" },
   { href: "/dashboard", label: "Dashboard" },
-  { href: "/discrimination", label: "T1 vs T2" },
+  { href: "/discrimination", label: "T1 vs non-T1" },
   { href: "/diagnostic", label: "Diagnostic" },
-  { href: "/validation", label: "Validation" },
   { href: "/table", label: "Table" },
   { href: "/molecules", label: "Molecules" },
   { href: "/about", label: "Methods" },
