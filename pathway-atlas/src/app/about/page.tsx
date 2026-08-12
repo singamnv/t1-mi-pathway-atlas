@@ -72,7 +72,7 @@ export default function AboutPage() {
                 ["PCI-related periprocedural", "4a", "140 (43.1%)", "123 human"],
                 ["stent thrombosis", "4b", "65 (20.0%)", "43 human, 14 mechanistic — thinnest new axis"],
                 ["in-stent restenosis", "4c", "177 (54.5%)", "84 human, 81 animal neointimal models"],
-                ["CABG-related", "5", "182 of 320 queried (56.0%)", "153 human; 5 molecules never queried"],
+                ["CABG-related", "5", "185 (56.9%)", "156 human — best-covered new axis"],
               ].map((r) => (
                 <tr key={r[0]} style={{ borderBottom: "1px solid var(--hairline)" }}>
                   <td style={{ padding: "6px 10px" }}>{r[0]}</td>

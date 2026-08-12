@@ -70,7 +70,7 @@ against a **12-axis non-Type-I panel**:
 | Type 4a (PCI-related) | PCI-related periprocedural | 140 / 325 (43.1%) |
 | Type 4b (stent thrombosis) | stent thrombosis | 65 / 325 (20.0%) |
 | Type 4c (in-stent restenosis) | in-stent restenosis | 177 / 325 (54.5%) |
-| Type 5 (CABG-related) | CABG-related | 182 / 320 queried (56.0%) |
+| Type 5 (CABG-related) | CABG-related | 185 / 325 (56.9%) |
 
 299 of 325 Tier-1 molecules carry at least one axis call, up from 270 on the old 7-axis panel.
 
