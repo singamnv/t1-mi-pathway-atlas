@@ -12,7 +12,7 @@ export default function DiagnosticPage() {
       <main className="container-x" style={{ padding: "24px 24px 60px" }}>
         <h1 style={{ fontSize: 24, fontWeight: 800, marginBottom: 6 }}>Type-I MI diagnostic-utility explorer</h1>
         <p style={{ color: "var(--muted)", fontSize: 13.5, maxWidth: 920, lineHeight: 1.6, marginBottom: 20 }}>
-          Rank every biomarker for its usefulness in diagnosing <b>Type-I (atherothrombotic) MI</b>. Each marker carries six
+          Rank every biomarker for its usefulness in diagnosing <b>Type-I (atherothrombotic) MI</b>. Each marker carries nine
           evidence-anchored sub-scores; <b>you decide how much each one matters</b> using the sliders. The composite and the
           ranking recompute instantly. Start from a preset (rule-in, deployable-today, novel discovery) or set your own weights.
           Scores with no evidence show <span style={{ color: "#4b5563" }}>—</span> and are never invented.

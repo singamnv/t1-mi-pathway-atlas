@@ -38,12 +38,27 @@ type A = {
 
 export default function DashboardAnalytics({ a }: { a: A }) {
   const router = useRouter();
-  const [scTier, setScTier] = useState("all");
+  // Default to Tier 1. The 718 Tier-2 points are mechanism-derived proxies whose R and C
+  // correlate at r=0.41 purely because C is derived from the same text R came from; the
+  // 115 deep-scored points show r=0.03. Showing the proxy cloud by default imposes a
+  // trend the harvested evidence does not support, so it is opt-in.
+  const [scTier, setScTier] = useState("tier1");
   const scatterData = useMemo(() => {
     const rows = scTier === "tier1" ? a.scatter_RC.filter((d) => d.tier === "tier1_deep") : a.scatter_RC;
-    // group by class for colored series
+    // Tier-1 R takes only ~6 distinct values, so exact overplotting hides most points.
+    // Deterministic jitter (hash of mol_id, so it never moves between renders) spreads
+    // co-located markers without inventing precision: ±2.2 units, well inside the
+    // granularity of the underlying score.
+    const jitter = (id: string, salt: number) => {
+      let h = salt;
+      for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) | 0;
+      return ((Math.abs(h) % 1000) / 1000 - 0.5) * 4.4;
+    };
     const byClass: Record<string, typeof rows> = {};
-    for (const r of rows) (byClass[r.cls] ??= []).push(r);
+    for (const r of rows) {
+      const jittered = { ...r, Rj: (r.R ?? 0) + jitter(r.id, 7), Cj: (r.C ?? 0) + jitter(r.id, 13) };
+      (byClass[r.cls] ??= []).push(jittered);
+    }
     return byClass;
   }, [a.scatter_RC, scTier]);
 
@@ -62,7 +77,7 @@ export default function DashboardAnalytics({ a }: { a: A }) {
           <div><b style={{ color: "var(--text)" }}>D — Direct evidence.</b> Whether a marker has been tested in a study that <i>directly</i> compares Type&nbsp;1 patients against a non-Type-I comparator group (as opposed to inferred from mechanism). Only a handful of markers have this.</div>
           <div><b style={{ color: "var(--text)" }}>T1DI — Type-I Discrimination Index (0–100).</b> A composite that rewards high R, penalizes high C, and up-weights markers with direct evidence. It is the single ranking score for “how cleanly does this separate Type&nbsp;1 from every non-Type-I cause of infarction?”</div>
           <div><b style={{ color: "var(--text)" }}>Tiers.</b> <b>Tier&nbsp;1 (deep-scored)</b> markers were individually reviewed with full R/C/D scoring; the rest carry lighter, mechanism-derived estimates. Filter to Tier&nbsp;1 when you want the most defensible numbers.</div>
-          <div><b style={{ color: "var(--text)" }}>Discrimination classes.</b> <span style={{ color: CLASS_COLOR["Type-I-specific"] }}>Type-I-specific</span> = high R, low C · <span style={{ color: CLASS_COLOR["Shared / rises in both"] }}>Shared</span> = rises in both (e.g. troponin) · <span style={{ color: CLASS_COLOR["Non-Type-I-associated"] }}>Non-Type-I-associated</span> = tracks non-atherothrombotic drivers · the greyed classes flag proxy-only or insufficient evidence.</div>
+          <div><b style={{ color: "var(--text)" }}>Discrimination classes.</b> <span style={{ color: CLASS_COLOR["Type-I-specific"] }}>Type-I-specific</span> = high R, low C (<b>currently empty</b> — no molecule reaches it under this comparator) · <span style={{ color: CLASS_COLOR["Shared / rises in both"] }}>Shared</span> = rises in both (e.g. troponin) · <span style={{ color: CLASS_COLOR["Non-Type-I-associated"] }}>Non-Type-I-associated</span> = tracks non-atherothrombotic drivers · the greyed classes flag proxy-only or insufficient evidence.</div>
         </div>
       </details>
 
@@ -71,18 +86,29 @@ export default function DashboardAnalytics({ a }: { a: A }) {
         note="Each point is a scored biomarker: x = rupture/Type-I responsiveness (R), y = non-Type-I responsiveness (C) across the 12-axis UDMI-4 panel. Bottom-right = rises with plaque rupture but NOT with non-atherothrombotic drivers (ideal Type-I-specific). Top-right = rises with both (e.g. troponin). Color = discrimination class. Click a point to open the molecule.">
         <div style={{ marginBottom: 8 }}>
           <select value={scTier} onChange={(e) => setScTier(e.target.value)} style={{ background: "var(--panel-2)", border: "1px solid var(--border)", color: "var(--text)", borderRadius: 8, padding: "6px 10px", fontSize: 12.5 }}>
-            <option value="all">All scored markers ({a.scatter_RC.length})</option>
-            <option value="tier1">Deep-scored (Tier 1) only</option>
+            <option value="tier1">Deep-scored (Tier 1) only — {a.scatter_RC.filter((d) => d.tier === "tier1_deep").length} markers</option>
+            <option value="all">Add Tier-2 proxy estimates ({a.scatter_RC.length} total)</option>
           </select>
+          <span style={{ marginLeft: 10, fontSize: 11.5, color: "var(--muted)" }}>
+            {scTier === "tier1"
+              ? "Harvested per-axis evidence. R and C are independent here (r = 0.03)."
+              : "Tier-2 points are mechanism-derived proxies; their apparent R–C trend (r = 0.41) is an artifact of how C was derived, not evidence."}
+          </span>
         </div>
         <ResponsiveContainer width="100%" height={420}>
           <ScatterChart margin={{ top: 12, right: 20, bottom: 40, left: 10 }}>
             <CartesianGrid stroke="var(--grid)" />
-            <ReferenceArea x1={50} x2={100} y1={0} y2={33} fill="#43d17a" fillOpacity={0.06} />
+            {/* Target region for a Type-I-specific marker (R>=50, C<33). It is EMPTY:
+                the lowest C anywhere in the catalog is 33.3, so nothing reaches it.
+                Labelled as an unmet target rather than left as an unexplained green box. */}
+            <ReferenceArea x1={50} x2={100} y1={0} y2={33} fill="#43d17a" fillOpacity={0.05}
+              stroke="#43d17a" strokeOpacity={0.35} strokeDasharray="5 4"
+              label={{ value: "Type-I-specific target — no molecule reaches it", position: "insideBottomRight",
+                       fill: "#43d17a", fontSize: 10.5, offset: 10 }} />
             <ReferenceLine x={50} stroke="var(--gridline)" strokeDasharray="4 4" />
             <ReferenceLine y={50} stroke="var(--gridline)" strokeDasharray="4 4" />
-            <XAxis type="number" dataKey="R" name="Rupture (R)" domain={[0, 100]} tick={{ fontSize: 11, fill: "#8b98a9" }} label={{ value: "Rupture / Type-I responsiveness (R) →", position: "bottom", fill: "#8b98a9", fontSize: 12 }} />
-            <YAxis type="number" dataKey="C" name="Confounder (C)" domain={[0, 100]} tick={{ fontSize: 11, fill: "#8b98a9" }} label={{ value: "Non-Type-I responsiveness (C) →", angle: -90, position: "insideLeft", fill: "#8b98a9", fontSize: 12 }} />
+            <XAxis type="number" dataKey="Rj" name="Rupture (R)" domain={[0, 100]} tick={{ fontSize: 11, fill: "#8b98a9" }} label={{ value: "Rupture / Type-I responsiveness (R) →", position: "bottom", fill: "#8b98a9", fontSize: 12 }} />
+            <YAxis type="number" dataKey="Cj" name="Confounder (C)" domain={[0, 100]} tick={{ fontSize: 11, fill: "#8b98a9" }} label={{ value: "Non-Type-I responsiveness (C) →", angle: -90, position: "insideLeft", fill: "#8b98a9", fontSize: 12 }} />
             <ZAxis type="number" dataKey="npmids" range={[24, 260]} name="PMIDs" />
             <Tooltip {...tt("")} formatter={(v, n) => [v, n]} labelFormatter={() => ""}
               content={({ payload }) => {
@@ -103,8 +129,8 @@ export default function DashboardAnalytics({ a }: { a: A }) {
         </ResponsiveContainer>
         <ChartHelp
           what={<>The core view: every scored biomarker plotted by <b>R</b> (x, rupture / Type-I responsiveness) against <b>C</b> (y, non-Type-I responsiveness). Dot size scales with how many PubMed articles support the marker; color is its discrimination class.</>}
-          read={<>Read the quadrants. <b>Bottom-right</b> (high R, low C — shaded green) is the prize: rises with plaque rupture but not with any non-atherothrombotic cause, i.e. Type-I-specific. <b>Top-right</b> rises with both (troponin lives here — it also rises after PCI and CABG). <b>Left half</b> is weakly rupture-linked. The dashed lines mark the R=50 / C=50 midpoints. Click any dot to open that molecule.</>}
-          takeaway={<>Ideal Type-1 discriminators sit low and to the right. The scarcity of well-supported (large) dots in the bottom-right corner is exactly why Type&nbsp;1 vs non-Type-I separation is hard. Use the Tier-1 filter to see only deep-scored markers.</>}
+          read={<>Read the quadrants. <b>Bottom-right</b> (high R, low C — the dashed green target) is the prize: rises with plaque rupture but not with any non-atherothrombotic cause. <b>Top-right</b> rises with both (troponin lives here — it also rises after PCI and CABG). <b>Left half</b> is weakly rupture-linked. Dashed lines mark the R=50 / C=50 midpoints. Points carry a small deterministic jitter so co-located markers are visible — hover for exact R and C. Click any dot to open that molecule.</>}
+          takeaway={<>The target region is <b>empty</b>: the lowest non-Type-I responsiveness in the whole catalog is C&nbsp;=&nbsp;33.3, so no molecule qualifies as Type-I-specific under this comparator. Read the map as a picture of an unmet target, not a shortlist. Note also that R is a coarse score — Tier-1 R takes only about six distinct values — so horizontal position separates markers into bands rather than a fine ranking.</>}
         />
       </Box>
 
@@ -118,19 +144,22 @@ export default function DashboardAnalytics({ a }: { a: A }) {
               <XAxis type="number" tick={{ fontSize: 10, fill: "#8b98a9" }} />
               <YAxis type="category" dataKey="step" width={104} tick={{ fontSize: 10, fill: "#8b98a9" }} />
               <Tooltip {...tt("")} />
-              {CLASS_ORDER.map((c) => <Bar key={c} dataKey={c} stackId="s" fill={CLASS_COLOR[c]} />)}
+              {/* Skip classes with no members anywhere (currently Type-I-specific and
+                  Type-I-leaning) so they don't render as invisible zero-width segments. */}
+              {CLASS_ORDER.filter((c) => a.step_class.some((r) => (r[c] as number) > 0))
+                .map((c) => <Bar key={c} dataKey={c} stackId="s" fill={CLASS_COLOR[c]} />)}
             </BarChart>
           </ResponsiveContainer>
           <ChartHelp
-            what={<>For each cascade step, the mix of discrimination classes among its molecules — a horizontal stacked bar broken into Type-I-specific, Shared, Non-Type-I-associated and the lower-evidence classes (see glossary).</>}
-            read={<>Bar length = molecules scored at that step; each colored segment is one class. More green (Type-I-specific / -leaning) means that step contributes more markers that separate Type&nbsp;1 from the non-Type-I subtypes.</>}
-            takeaway={<>Locates the discriminating biology: steps weighted toward green are the mechanistic origin of Type-1-specific signal; steps dominated by grey/amber are mostly shared or under-evidenced.</>}
+            what={<>For each cascade step, the mix of discrimination classes among its molecules — a horizontal stacked bar broken into Shared, Indeterminate, Non-Type-I-associated and the lower-evidence classes (see glossary). The Type-I-specific classes are absent because no molecule currently qualifies.</>}
+            read={<>Bar length = molecules scored at that step; each colored segment is one class. More <span style={{ color: CLASS_COLOR["Non-Type-I-associated"] }}>orange</span> means that step&apos;s markers mostly track non-atherothrombotic causes and so fail to discriminate.</>}
+            takeaway={<>The coagulation/thrombus step is the clearest casualty: almost all of it is Non-Type-I-associated, because stent thrombosis (Type&nbsp;4b) shares Type&nbsp;I&apos;s mechanism, so markers of thrombus cannot separate the two. Platelet activation retains the largest Shared block.</>}
           />
         </Box>
 
         {/* 3. evidence coverage by axis */}
         <Box title="Scoring coverage by evidence axis"
-          note="How many of the 1,948 molecules carry each kind of scored evidence. The steep drop to direct T1-vs-non-T1 studies (D) is the core data gap.">
+          note="How many of the 1,948 catalogued molecules carry each kind of scored evidence. The steep drop to direct T1-vs-non-T1 studies (D) is the core data gap.">
           <ResponsiveContainer width="100%" height={340}>
             <BarChart data={a.coverage_axes} layout="vertical" margin={{ left: 8, right: 30 }}>
               <CartesianGrid stroke="var(--grid)" horizontal={false} />

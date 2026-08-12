@@ -8,10 +8,10 @@ type DimKey = "feasibility" | "evidence" | "rupture" | "demand_spec" | "direct_t
 const DIMS: { key: DimKey; label: string; hint: string; color: string }[] = [
   { key: "rupture",     label: "Plaque-rupture signal", hint: "Rises with atherothrombotic plaque rupture — the mechanism that defines a Type-I MI. Higher = more responsive to rupture biology.", color: "#4cc9f0" },
   { key: "demand_spec", label: "Specificity vs non-Type-I", hint: "Specificity against the full non-Type-I comparator: Type-II supply–demand drivers (sepsis, hypotension, bleeding, tachycardia, hypoxemia), procedural injury (PCI-related Type 4a, CABG-related Type 5), stent thrombosis (4b), in-stent restenosis (4c) and sudden cardiac death (Type 3). This is the non-Type-I responsiveness score inverted, so higher = less likely to rise from a non-atherothrombotic cause.", color: "#f2854e" },
-  { key: "direct_t1",   label: "Direct T1 > non-T1 evidence", hint: "Strength of head-to-head studies directly comparing the marker in Type-I MI patients versus a non-Type-I comparator group. Higher = more direct evidence it is elevated specifically in Type-I.", color: "#43d17a" },
-  { key: "dx_performance", label: "Diagnostic performance", hint: "Reported diagnostic accuracy for detecting MI — sensitivity, specificity and AUC extracted from index-test / accuracy studies. Blank when no accuracy study was found.", color: "#ff6b9d" },
-  { key: "dx_kinetics", label: "Release kinetics", hint: "How early the marker rises after symptom onset — the property that governs early rule-out and 0–1 h triage algorithms. Higher = earlier detectable.", color: "#c77dff" },
-  { key: "dx_incremental", label: "Incremental vs troponin", hint: "What the marker adds on top of high-sensitivity troponin — added AUC or reclassification when combined with troponin. Higher = more complementary information.", color: "#ffd166" },
+  { key: "direct_t1",   label: "Direct T1 > non-T1 evidence", hint: "Strength of head-to-head studies directly comparing the marker in Type-I MI patients versus a non-Type-I comparator group. Higher = more direct evidence it is elevated specifically in Type-I. Only 16 molecules have any direct head-to-head study.", color: "#43d17a" },
+  { key: "dx_performance", label: "Diagnostic performance", hint: "Reported diagnostic accuracy for detecting MI — sensitivity, specificity and AUC extracted from index-test / accuracy studies. Blank when no accuracy study was found. Only 3 of 1,948 molecules have an accuracy study, so weighting this heavily ranks almost entirely on missing data.", color: "#ff6b9d" },
+  { key: "dx_kinetics", label: "Release kinetics", hint: "How early the marker rises after symptom onset — the property that governs early rule-out and 0–1 h triage algorithms. Higher = earlier detectable. Only 5 molecules have kinetics data.", color: "#c77dff" },
+  { key: "dx_incremental", label: "Incremental vs troponin", hint: "What the marker adds on top of high-sensitivity troponin — added AUC or reclassification when combined with troponin. Higher = more complementary information. Only 7 molecules have incremental-value data.", color: "#ffd166" },
   { key: "feasibility", label: "Assay feasibility", hint: "How readily the marker can be measured in practice — specimen type, assay-platform availability and turnaround time. Higher = more deployable.", color: "#72b7b2" },
   { key: "evidence",    label: "Evidence strength", hint: "Overall strength of the supporting data — volume, study design and how directly it bears on Type-I MI. Higher = better-evidenced.", color: "#9d8df1" },
   { key: "novelty",     label: "Novelty", hint: "How under-explored the marker is as a Type-I diagnostic. Incumbents already in clinical use (troponin, CK-MB, myoglobin, CRP, BNP, D-dimer …) are capped low so they never score as novel.", color: "#e0c04a" },
@@ -21,6 +21,7 @@ const DIMS: { key: DimKey; label: string; hint: string; color: string }[] = [
 const HEADER_TIP: Record<string, React.ReactNode> = {
   Score: "Composite score (0–100): the weighted average of the nine sub-scores using your current slider weights. With “penalize missing data” on, gaps count against the score.",
   ...Object.fromEntries(DIMS.map((d) => [d.label, d.hint])),
+  Cov: "Evidence coverage: the share of your active slider weight that this marker actually has data for. A high score at low coverage rests on a few populated criteria — three of the nine criteria have data for fewer than 10 molecules.",
   Class: "The molecule's Type-I-vs-non-Type-I discrimination class from the scoring methodology (Type-I-specific, Shared / rises in both, Non-Type-I-associated, and lower-evidence classes).",
 };
 // The table renders short header strings; map each to a full label key above.
@@ -146,7 +147,7 @@ export default function DxUtility({ rows }: { rows: DxRecord[] }) {
             <table style={{ width: "100%", minWidth: 720, borderCollapse: "collapse", fontSize: 12.5 }}>
               <thead>
                 <tr style={{ position: "sticky", top: 0, background: "var(--bg)" }}>
-                  {["#", "Marker", "Score", "Rupt", "nT1.spec", "T1>nT1", "Perf", "Kin", "Incr", "Feas", "Evid", "Novel", "Class"].map((h, hi, arr) => {
+                  {["#", "Marker", "Score", "Cov", "Rupt", "nT1.spec", "T1>nT1", "Perf", "Kin", "Incr", "Feas", "Evid", "Novel", "Class"].map((h, hi, arr) => {
                     const tip = HEADER_TIP[HEADER_ALIAS[h] ?? h];
                     // last few numeric columns open their bubble to the right edge so it isn't clipped
                     const alignRight = hi >= arr.length - 4;
@@ -167,6 +168,11 @@ export default function DxUtility({ rows }: { rows: DxRecord[] }) {
                     <td style={{ padding: "7px 9px", textAlign: "right", color: "var(--muted)" }}>{i + 1}</td>
                     <td style={{ padding: "7px 9px", fontWeight: 600 }}>{r.name}{r.gene && <span style={{ color: "var(--muted)", fontWeight: 400, fontSize: 11, marginLeft: 5, fontFamily: "ui-monospace,monospace" }}>{r.gene}</span>}</td>
                     <td style={{ padding: "7px 9px", textAlign: "right", fontWeight: 700, color: "#43d17a" }}>{r.score.toFixed(0)}</td>
+                    <td style={{ padding: "7px 9px", textAlign: "right", fontSize: 11.5,
+                        color: r.coverage >= 0.75 ? "var(--muted)" : r.coverage >= 0.4 ? "#e0c04a" : "#ef6f6c" }}
+                        title={`${Math.round(r.coverage * 100)}% of your active weight has data`}>
+                      {Math.round(r.coverage * 100)}%
+                    </td>
                     <td style={{ padding: "7px 9px", textAlign: "right" }}>{cell(r.rupture)}</td>
                     <td style={{ padding: "7px 9px", textAlign: "right" }}>{cell(r.demand_spec)}</td>
                     <td style={{ padding: "7px 9px", textAlign: "right" }}>{cell(r.direct_t1)}</td>
